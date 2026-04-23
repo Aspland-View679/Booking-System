@@ -1,6 +1,6 @@
 # Cancel booking
 
-How far in advance?
+How far in advance? <br />
 Reasons for and against giving refund for booking (and if so)?
 
 
