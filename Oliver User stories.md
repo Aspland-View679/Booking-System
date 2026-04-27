@@ -6,7 +6,7 @@ Any policies in terms of getting 100% back? <br />
 What if other people have booked? Price change
 
 
-Customer: 
+Customer: As a customer I want [what i want] so i can [do x y z]
 
 Developer
 
@@ -18,6 +18,6 @@ When do they need to pay? <br />
 Deposits?
 
 
-Customer: 
+Customer: As a customer I want [what i want] so i can [do x y z]
 
 Developer:
