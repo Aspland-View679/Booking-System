@@ -1,9 +1,9 @@
-** Make New Booking:**
+**Make New Booking:**
 
 **Questions to ask the Client:**
 - What details are required to make a booking?
 - Should users need an account to book?
--** Can users book:**
+-**Can users book:**
     - Immediate trips?
     - Future dates?
 - Should pricing be shown before confirmation?
@@ -19,7 +19,7 @@ todo!();
 **User Story:**
 As a customer, I want to create a booking by entering my trips details so that I can arrange transport to my destination with ease.
 
-** Amend Booking:**
+**Amend Booking:**
 
 **Questions to ask the Client:**
 - What can be changed?
