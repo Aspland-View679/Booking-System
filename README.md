@@ -16,3 +16,5 @@ The repo for both COMP5009 A1 and A2
 ```rust
 let minutes = todo!();
 ```
+## A1
+[Google Docs](https://docs.google.com/document/d/1CJg2Cp3uXrQFli0MiqOV5rqrSwN6lAqj4RjFT7RcueQ/edit?usp=sharing)
