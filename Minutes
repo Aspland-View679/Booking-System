@@ -1,0 +1,37 @@
+#Project Notes
+
+#General ones:
+**3 slides each** for next session (layout managers)
+**Weekly meeting:** Every Tuesday after class
+**Submission:**
+- Oliver is doing his submission but also the group submission
+- Lexi and I will be doing our own submission individually.
+
+#Aims:
+-**Call:** 4th May 11-2 (can be extended or shortened)
+-**Deadline:** 8th May
+
+#Code style for swing
+- Not the best as it more reptitive, bounds are set and link
+- For buttons to work - a hidden class is to override the button function
+- Hard coded and text boxes aren't that big
+- wikipedia have examples for Java and swing
+- A function over class is weird
+- Each button = New function
+- Make a function to Abstract it for it to work
+- However at a glance, it is hard to know.
+- Extends Jframe from main class
+- Thread = new frame example so you write it once and forget it
+- It is similar to the warehouse assignment we had for FOOP
+- There are nine maganment layouts that we can look at and research
+
+#Research for A2
+-**Lexi:** BoarderLayout, BoxLayout and GridLayout
+-**Oliver:** CardLayout, GroupLayout and JTabbedPane (Class)
+-**Rosie:** Springlayout, GridBagLayout and FlowLayout
+- Can be researched and need to do the strengths and drawbacks and make them into slides
+
+#Organisation:
+- Use a Kanban Board (there is one built into gitlab) for Organisation
+
+#This can be updated by anyone at anytime :)
