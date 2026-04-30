@@ -2,20 +2,22 @@
 
 **General ones:**
 
-**3 slides each** for next session (layout managers)
+- **3 slides each** for next session (layout managers)
 
-**Weekly meeting:** Every Tuesday after class
+- **Weekly meeting:** Every Tuesday after class
 
 **Submission:**
+
 - Oliver is doing his submission but also the group submission
 - Lexi and I will be doing our own submission individually.
 
 **Aims:**
 
--**Call:** 4th May 11-2 (can be extended or shortened)
--**Deadline:** 8th May
+- **Call:** 4th May 11-2 (can be extended or shortened)
+- **Deadline:** 8th May
 
 **Code style for swing**
+
 - Not the best as it more reptitive, bounds are set and link
 - For buttons to work - a hidden class is to override the button function
 - Hard coded and text boxes aren't that big
@@ -31,15 +33,16 @@
 
 **Research for A2**
 
--**Lexi:** BoarderLayout, BoxLayout and GridLayout
+- **Lexi:** BoarderLayout, BoxLayout and GridLayout
 
--**Oliver:** CardLayout, GroupLayout and JTabbedPane (Class)
+- **Oliver:** CardLayout, GroupLayout and JTabbedPane (Class)
 
--**Rosie:** Springlayout, GridBagLayout and FlowLayout
+- **Rosie:** Springlayout, GridBagLayout and FlowLayout
 
 - Can be researched and need to do the strengths and drawbacks and make them into slides
 
 **Organisation:**
+
 - Use a Kanban Board (there is one built into gitlab) for Organisation
 
 **This can be updated by anyone at anytime :)**
