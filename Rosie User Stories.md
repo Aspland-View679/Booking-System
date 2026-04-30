@@ -47,7 +47,7 @@
 
 
 **User Story:**
-As a registered customer, I want to be able to book a trip by entering my personal, travel and payment details at least 2 weeks or more in advance, so I am able to secure transport in time for my trip while also being able to receive the relevant refunds if I cancel due to unseen circumstances. While having the reassurance before payment confirmation, that I can edit my booking details to ensure everything is correct and no errors, while having all taxes and fees added in as my total for transparency purposes.
+As a registered customer, they want to be able to book a trip by entering their personal, travel and payment details at least 2 weeks or more in advance, so they’re able to secure transport in time for their trip while also being able to receive the relevant refunds if their cancel due to unseen circumstances. While having the reassurance before payment confirmation, that they can edit my booking details to ensure everything is correct and no errors, while having all taxes and fees added in as their total for transparency purposes.
 
 **Amend Booking:**
 
@@ -82,5 +82,5 @@ As a registered customer, I want to be able to book a trip by entering my person
 
 
 **User Story:**
-As a customer, I want to amend specific booking details on my booking such as passenger numbers, vehicle requirements, destination and even travel time within the one week notice period, so that I can accurately update my trip there are sudden changes while also complying with the company's booking policies (such as one amendment within 24 hours to ensure the system prevents excessive changes), to ensure I can get the amendments I need to put in and ensure that there is time for approval. It is also ideal but not needed, to have access to a chatbot for support when amending my booking, even basic guidance so I don't waste the time with the company.
+As a customer, they want to amend specific booking details on their booking such as passenger numbers, vehicle requirements, destination and even travel time within the one week notice period, so that they can accurately update their trip there are sudden changes while also complying with the company's booking policies (such as one amendment within 24 hours to ensure the system prevents excessive changes), to ensure they can get the amendments they need to put in and ensure that there is time for approval. It is also ideal but not needed, to have access to a chatbot for support when amending their booking, even basic guidance so they don't waste the time with the company.
 
