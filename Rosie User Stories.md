@@ -1,11 +1,15 @@
 **Make New Booking:**
 
 **Questions to ask the Client:**
+
 - What details are required to make a booking?
 - Should users need an account to book?
+
 -**Can users book:**
+
     - Immediate trips?
     - Future dates?
+
 - Should pricing be shown before confirmation?
 - Can users edit details before finalising?
 
@@ -83,5 +87,6 @@ As a registered customer, we want to be able to book a trip by entering our deta
 
 
 **User Story:**
+
 As a customer, we want to amend specific booking details on our booking within the one week notice period, so that we can accurately update our trip if there are sudden changes.
 
