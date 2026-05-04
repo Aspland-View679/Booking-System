@@ -87,5 +87,4 @@ As a registered customer, we want to be able to book a trip by entering our deta
 
 
 **User Story:**
-
-As a registered customer, we want to be able to book a trip by entering our details at least 2 weeks in advance, so we're able to secure transport in time for the trip while also being able to receive the relevant refunds if we cancel due to unseen circumstances.
+As a customer, we want to amend specific booking details on our booking within the one week notice period, so that we can accurately update our trip if there are sudden changes.
