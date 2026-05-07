@@ -9,7 +9,13 @@ public class PayBooking {
 	private String[] acceptedCardTypes = {"Visa", "Mastercard"};
 	
 	
-	public Boolean checkCardType(String inputCard) {
+	/**
+	 * checkCardType - ensures that a valid card is entered into the field
+	 * @param inputCard
+	 * @return a boolean of whether the card is accepted or rejected
+	 */
+	
+	public Boolean isCardAcceptable (String inputCard) {
 		
 		for (int i = 0; i <= acceptedCardTypes.length; i++) {
 			if (acceptedCardTypes[i] == inputCard) {
