@@ -10,7 +10,7 @@ public class PayBooking {
 	
 	
 	/**
-	 * checkCardType - ensures that a valid card is entered into the field
+	 * isCardAcceptable - ensures that a valid card is entered into the field
 	 * @param inputCard
 	 * @return a boolean of whether the card is accepted or rejected
 	 */
