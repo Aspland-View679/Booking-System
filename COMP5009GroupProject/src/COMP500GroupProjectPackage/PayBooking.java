@@ -1,4 +1,5 @@
 package COMP500GroupProjectPackage;
+import java.time.*;
 
 public class PayBooking {
 	
@@ -7,6 +8,8 @@ public class PayBooking {
 	private String bank;
 	private int CVV;
 	private String[] acceptedCardTypes = {"Visa", "Mastercard"};
+	private int ExpiryYear;
+	private Integer ExpiryMonth; 
 	
 	
 	/**
@@ -40,6 +43,42 @@ public class PayBooking {
 		} else {
 			return false;
 		}
+		
+	}
+	
+	/**
+	 * isExpiryDateValid - ensures date is correct
+	 * @param inputMonth
+	 * @param inputYear
+	 * @return a boolean stating if the date is valid or not
+	 */
+	
+	
+	public Boolean isExpiryDateValid(Integer inputMonth, int inputYear) {
+		
+		LocalDate today = LocalDate.now();
+	    Integer month = today.getMonthValue();
+		
+	    String month2 = inputMonth.toString();
+	    
+	    
+	    //month returns a value between 1 and 12, however user might input 01,02,03... so need to align format with
+	     //the following code
+	    
+	    if (month2.startsWith("0")) {
+	    	month2 = month2.replaceFirst("0", "");
+	    	inputMonth = Integer.parseInt(month2);
+	    }
+		
+		int year = today.getYear();
+		
+		
+		if ((month > inputMonth) && (year > inputYear)) {
+			return false;
+		} else {
+			return true;
+		}
+
 		
 	}
 	
