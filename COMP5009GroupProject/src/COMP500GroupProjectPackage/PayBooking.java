@@ -8,8 +8,9 @@ public class PayBooking {
 	private String bank;
 	private int CVV;
 	private String[] acceptedCardTypes = {"Visa", "Mastercard"};
-	private int ExpiryYear;
-	private Integer ExpiryMonth; 
+	private int expiryYear;
+	private Integer expiryMonth; 
+	private MakeBooking bookingPaymentIsBeingMadeFor;
 	
 	
 	/**
