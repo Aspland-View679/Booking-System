@@ -82,4 +82,20 @@ public class PayBooking {
 		
 	}
 	
+	/**
+	 * isCardNumberValid - ensures that the card number is the right length
+	 * @param cardNumber 
+	 * @return a boolean if cardNumber is within reasonable length (standard is 16-19)
+	 */
+	
+	public Boolean isCardNumberValid() {
+		
+		if ((cardNumber >= 16) && (cardNumber <= 19)) {
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
+	
 }
