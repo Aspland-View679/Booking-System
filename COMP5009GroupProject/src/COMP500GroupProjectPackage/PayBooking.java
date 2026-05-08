@@ -26,4 +26,21 @@ public class PayBooking {
 		return false;
 		
 	}
+	
+	/**
+	 * isCVVAcceptable - ensures the CVV is the right format
+	 * @param inputCVV
+	 * @return a true/false value if CVV is right format (standard is 3-4 digits)
+	 */
+	
+	public Boolean isCVVAcceptable(int inputCVV) {
+		
+		if ((inputCVV >= 100) || (inputCVV <= 9999)) {
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
+	
 }
