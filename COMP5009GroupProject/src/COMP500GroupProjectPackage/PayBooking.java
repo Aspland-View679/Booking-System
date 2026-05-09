@@ -5,6 +5,8 @@ public class PayBooking {
 	
 	private int cardNumber;
 	private String cardName;
+	private String cardType;
+	
 	private String bank;
 	private int CVV;
 	private String[] acceptedCardTypes = {"Visa", "Mastercard"};
@@ -12,7 +14,153 @@ public class PayBooking {
 	private Integer expiryMonth; 
 	private MakeBooking bookingPaymentIsBeingMadeFor;
 	
+	/**
+	 * getCardType - returns card type
+	 * @return cardType
+	 */
 	
+	public String getCardType() {
+		return cardType;
+	}
+	
+	/**
+	 * setCardType - checks cardType is acceptable, and if so sets it
+	 * @param cardType
+	 */
+
+	public void setCardType(String cardType) {
+		if (isCardAcceptable(cardType)) {
+			this.cardType = cardType;
+		}
+	}
+
+	/**
+	 * getCardNumber - returns card number
+	 * @return card number
+	 */
+	
+	public int getCardNumber() {
+		return cardNumber;
+	}
+	
+	/**
+	 * setCardNumber - assigns card number
+	 * @param cardNumber
+	 */
+
+	public void setCardNumber(int cardNumber) {
+		this.cardNumber = cardNumber;
+	}
+	
+	/**
+	 * getCardName - returns name of the holder of the card
+	 * @return cardName
+	 */
+
+	public String getCardName() {
+		return cardName;
+	}
+	
+	/**
+	 * setCardName - sets name of card owner
+	 * @param cardName
+	 */
+
+	public void setCardName(String cardName) {
+		this.cardName = cardName;
+	}
+	
+	/**
+	 * getBank - returns name of card's bank
+	 * @return the bank the card belongs to
+	 */
+
+	public String getBank() {
+		return bank;
+	}
+
+	/**
+	 * setBank - assigns bank name
+	 * @param the bank name
+	 */
+	
+	public void setBank(String bank) {
+		this.bank = bank;
+	}
+
+	
+	/**
+	 * getCVV - returns card CVV
+	 * @return the card CVV
+	 */
+	
+	public int getCVV() {
+		return CVV;
+	}
+	
+	/**
+	 * setCVV - assigns CVV if valid
+	 * @param cVV
+	 */
+
+	public void setCVV(int cVV) {
+		
+		if (isCVVAcceptable(cVV)) {
+			CVV = cVV;
+		}
+	}
+
+	
+	/**
+	 * returns card expiry year
+	 * @return the expiry year of the card
+	 */
+	
+	public int getExpiryYear() {
+		return expiryYear;
+	}
+
+
+	/**
+	 * returns card expiry month
+	 * @return the expiry month of the card
+	 */
+	
+	public Integer getExpiryMonth() {
+		return expiryMonth;
+	}
+	
+	/**
+	 * setExpiryMonthAndYear - checks if the expiry date is valid and if so assigns it
+	 * @param expiryMonth
+	 * @param expiryYear
+	 */
+
+	public void setExpiryMonthAndYear(Integer expiryMonth, int expiryYear) {
+		if (isExpiryDateValid(expiryMonth, expiryYear)) {
+		this.expiryMonth = expiryMonth;
+		this.expiryYear = expiryYear;
+		}
+	}
+	
+	/**
+	 * getBookingPaymentIsBeingMadeFor - returns the booking payment is linked to
+	 * @return the booking linked to the payment
+	 */
+
+	public MakeBooking getBookingPaymentIsBeingMadeFor() {
+		return bookingPaymentIsBeingMadeFor;
+	}
+	
+	/**
+	 * setBookingPaymentIsBeingMadeFor - links payment to the booking
+	 * @param bookingPaymentIsBeingMadeFor
+	 */
+
+	public void setBookingPaymentIsBeingMadeFor(MakeBooking bookingPaymentIsBeingMadeFor) {
+		this.bookingPaymentIsBeingMadeFor = bookingPaymentIsBeingMadeFor;
+	}
+
 	/**
 	 * isCardAcceptable - ensures that a valid card is entered
 	 * @param inputCard
