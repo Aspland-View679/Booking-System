@@ -8,6 +8,10 @@ class PayBookingTest {
 
 	PayBooking myPayBooking = new PayBooking();
 	
+	/*
+	 * tests card type function
+	 */
+	
 	@Test
 	void testCardType() {
 		
