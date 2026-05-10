@@ -13,6 +13,25 @@ public class PayBooking {
 	private int expiryYear;
 	private Integer expiryMonth; 
 	private MakeBooking bookingPaymentIsBeingMadeFor;
+	private String billingAddress;	
+	/**
+	 * getBillingAddress - returns address relating to car
+	 * @return billingAddress
+	 */
+	
+	public String getBillingAddress() {
+		return billingAddress;
+	}
+	
+	/**
+	 * setBillingAdress - assigns billing address
+	 * @param billingAddressToSet
+	 */
+	
+	public void setBillingAddress(String billingAddressToSet) {
+		billingAddress = billingAddressToSet;
+	}
+	
 	
 	/**
 	 * getCardType - returns card type
