@@ -24,5 +24,25 @@ class PayBookingTest {
 		assertEquals(false, result3);
 		
 	}
+	
+	@Test
+	void testCVV() {
+		
+		
+		boolean result = myPayBooking.isCVVAcceptable(0);
+		boolean result2 = myPayBooking.isCVVAcceptable(100);
+		boolean result3 = myPayBooking.isCVVAcceptable(9999);
+		boolean result4 = myPayBooking.isCVVAcceptable(1654);
+		boolean result5 = myPayBooking.isCVVAcceptable(99);
+		boolean result6 = myPayBooking.isCVVAcceptable(10000);
+		
+		assertEquals(false, result);
+		assertEquals(true, result2);
+		assertEquals(true, result3);
+		assertEquals(true, result4);
+		assertEquals(false, result5);
+		assertEquals(false, result6);
+		
+	}
 
 }
