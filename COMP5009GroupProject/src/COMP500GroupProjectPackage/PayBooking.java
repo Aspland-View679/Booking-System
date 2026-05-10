@@ -3,10 +3,9 @@ import java.time.*;
 
 public class PayBooking {
 	
-	private int cardNumber;
+	private Long cardNumber;
 	private String cardName;
 	private String cardType;
-	
 	private String bank;
 	private int CVV;
 	private String[] acceptedCardTypes = {"Visa", "Mastercard"};
@@ -256,9 +255,9 @@ public class PayBooking {
 	 * @return a boolean if cardNumber is within reasonable length (standard is 16-19)
 	 */
 	
-	public Boolean isCardNumberValid() {
+	public Boolean isCardNumberValid(Long cardNum) {
 		
-		if ((cardNumber >= 16) && (cardNumber <= 19)) {
+		if ((cardNum.toString().length() >= 16) && (cardNum.toString().length() <= 19)) {
 			return true;
 		} else {
 			return false;
