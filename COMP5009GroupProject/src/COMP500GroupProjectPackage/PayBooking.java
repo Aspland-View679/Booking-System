@@ -11,7 +11,7 @@ public class PayBooking {
 	private String[] acceptedCardTypes = {"Visa", "Mastercard"};
 	private int expiryYear;
 	private Integer expiryMonth; 
-	private MakeBooking bookingPaymentIsBeingMadeFor;
+	private Order orderMade;
 	private String billingAddress;	
 	/**
 	 * getBillingAddress - returns address relating to car
@@ -162,21 +162,21 @@ public class PayBooking {
 	}
 	
 	/**
-	 * getBookingPaymentIsBeingMadeFor - returns the booking payment is linked to
+	 * getOrderBeingMade - returns the order payment is linked to
 	 * @return the booking linked to the payment
 	 */
 
-	public MakeBooking getBookingPaymentIsBeingMadeFor() {
-		return bookingPaymentIsBeingMadeFor;
+	public Order getOrderBeingMade() {
+		return orderMade;
 	}
 	
 	/**
-	 * setBookingPaymentIsBeingMadeFor - links payment to the booking
+	 * setOrderPaymentIsBeingMadeFor - links payment to the booking
 	 * @param bookingPaymentIsBeingMadeFor
 	 */
 
-	public void setBookingPaymentIsBeingMadeFor(MakeBooking bookingPaymentIsBeingMadeFor) {
-		this.bookingPaymentIsBeingMadeFor = bookingPaymentIsBeingMadeFor;
+	public void setOrderPaymentIsBeingMadeFor(Order orderBeingMade) {
+		this.orderMade = orderBeingMade;
 	}
 
 	/**
