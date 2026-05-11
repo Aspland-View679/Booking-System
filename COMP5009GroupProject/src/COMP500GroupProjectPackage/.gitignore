@@ -5,3 +5,10 @@
 /MakeBooking.class
 /PayBooking.class
 /PayBookingTest.class
+/DemandPeriod.class
+/ConfirmationMessage.class
+/Order.class
+/OrderItem.class
+/DiscountCode.class
+/UserAccount.class
+/GuestAccount.class
