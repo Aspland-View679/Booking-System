@@ -9,61 +9,99 @@ class PayBookingTest {
 
 	PayBooking myPayBooking = new PayBooking();
 	
-	/*
-	 * tests card type function
-	 */
+	@Test
+	void acceptMastercard() {
+		
+		boolean result1 = myPayBooking.isCardAcceptable("Mastercard");\
+		assertEquals(true, result1)
+	}
 	
 	@Test
-	void testCardType() {
+	void acceptVisa() {
 		
-		boolean result1 = myPayBooking.isCardAcceptable("Mastercard");
 		boolean result2 = myPayBooking.isCardAcceptable("Visa");
-		boolean result3 = myPayBooking.isCardAcceptable("HSBC");
-		
-		assertEquals(true, result1);
 		assertEquals(true, result2);
+
+		
+	}
+	
+	@Test
+	void rejectHSBC() {
+		boolean result3 = myPayBooking.isCardAcceptable("HSBC");
 		assertEquals(false, result3);
 		
 	}
 	
 	@Test
-	void testCVV() {
-		
+	void rejectCVV0() {
 		
 		boolean result = myPayBooking.isCVVAcceptable(0);
-		boolean result2 = myPayBooking.isCVVAcceptable(100);
-		boolean result3 = myPayBooking.isCVVAcceptable(9999);
-		boolean result4 = myPayBooking.isCVVAcceptable(1654);
-		boolean result5 = myPayBooking.isCVVAcceptable(99);
-		boolean result6 = myPayBooking.isCVVAcceptable(10000);
-		
 		assertEquals(false, result);
-		assertEquals(true, result2);
-		assertEquals(true, result3);
-		assertEquals(true, result4);
-		assertEquals(false, result5);
-		assertEquals(false, result6);
-		
-
 	}
 	
 	@Test
-	void testExpiryDate() {
+	void acceptCVV100() {
+		boolean result2 = myPayBooking.isCVVAcceptable(100);
+		assertEquals(true, result2);
+	}
+	
+	@Test
+	void acceptCVV9999() {
+		boolean result3 = myPayBooking.isCVVAcceptable(9999);
+		assertEquals(true, result3);
+	}
+	
+	@Test
+	void acceptCVV1654() {
+		boolean result4 = myPayBooking.isCVVAcceptable(1654);
+		assertEquals(true, result4);
+	}
+	@Test
+	void rejectCVV99() {
+		boolean result5 = myPayBooking.isCVVAcceptable(99);
+		assertEquals(false, result5);
+	
+	}
+	
+	@Test
+	void rejectCVV10000() {
+		boolean result6 = myPayBooking.isCVVAcceptable(10000);
+		assertEquals(false, result6);
+	}
+
+	LocalDate today = LocalDate.now();
+	Integer month = today.getMonthValue();
+	Integer year = today.getYear();
+	
+	@Test
+	void acceptCurrentDateAsExpiryDate() {
 		
-		LocalDate today = LocalDate.now();
-		Integer month = today.getMonthValue();
-		Integer year = today.getYear();
 		
 		boolean result = myPayBooking.isExpiryDateValid(month,year);
-		boolean result2 = myPayBooking.isExpiryDateValid(month+1, year);
-		boolean result3 = myPayBooking.isExpiryDateValid(month, year+1);
-		boolean result4 = myPayBooking.isExpiryDateValid(month-1, year);
-		boolean result5 = myPayBooking.isExpiryDateValid(month, year-1);
-	
 		assertEquals(true, result);
-		assertEquals(false, result2);
+	}
+	
+	@Test
+	void acceptMonthFutureExpiryDate() {
+		boolean result2 = myPayBooking.isExpiryDateValid(month+1, year);
+		assertEquals(true, result2);
+	}
+
+	@Test
+	void acceptYearFutureExpiryDate() {
+		boolean result3 = myPayBooking.isExpiryDateValid(month, year+1);
 		assertEquals(false, result3);
+	}
+	
+	@Test
+	void rejectMonthPastExpiryDate() {
+		boolean result4 = myPayBooking.isExpiryDateValid(month-1, year);
 		assertEquals(true, result4);
+	}
+	
+	@Test
+	void rejectYearPastExpiryDate() {
+		boolean result5 = myPayBooking.isExpiryDateValid(month, year-1);
 		assertEquals(true, result5);
 	
 	}
