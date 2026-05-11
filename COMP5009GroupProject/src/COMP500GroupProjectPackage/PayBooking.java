@@ -57,7 +57,7 @@ public class PayBooking {
 	 * @return card number
 	 */
 	
-	public int getCardNumber() {
+	public long getCardNumber() {
 		return cardNumber;
 	}
 	
@@ -66,7 +66,7 @@ public class PayBooking {
 	 * @param cardNumber
 	 */
 
-	public void setCardNumber(int cardNumber) {
+	public void setCardNumber(long cardNumber) {
 		this.cardNumber = cardNumber;
 	}
 	
