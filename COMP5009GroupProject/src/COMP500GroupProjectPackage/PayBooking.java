@@ -19,6 +19,7 @@ public class PayBooking {
 	private Integer expiryMonth; 
 	private Order orderMade;
 	private String billingAddress;	
+	private int bookingFee
 	
 	public PayBooking(Order orderToSet) {
 		
@@ -62,6 +63,15 @@ public class PayBooking {
 		mainPayFrame.add(expiryMonth);
 		
 	}
+	/**
+	 * getBookingFee - returns address relating to car
+	 * @return bookingFee
+	 */
+	
+	public String getBookingFee() {
+		return bookingFee;
+	}
+	
 	
 	/**
 	 * getBillingAddress - returns address relating to car
@@ -295,5 +305,33 @@ public class PayBooking {
 		}
 		
 	}
+	
+	/**
+	 * setBookingFee - generates the additional booking fee for the order
+	 * @param timeDay - the time of day booking was made
+	 * @param distance - travelling distance
+	 * @param numPeople - number of people the booking is made for
+	 */
+	
+	public void setBookingFee(int timeDay, double distance, int numPeople) {
+		
+		int bookingFeeToAssign = 0;
+		const feePerPerson = 0.5;
+		bookingFeeToAssign = bookingFeeToAssign + (feePerPerson * numPeople);
+		if (timeDay >= 9 && timeDay <= 17) {
+			bookingFeeToAssign+= 10;
+		} else {
+			bookingFeeToAssign += 5;
+		}
+		if (distance <= 100) {
+			bookingFeeToAssign += 5;
+		} else {
+			bookingFeeToAssign = (Math.round(distance))/100 * 5; 
+		}
+		
+		this.bookingFee = bookingFeeToAssign;
+		
+	}
+	
 	
 }
