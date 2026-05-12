@@ -1,3 +1,5 @@
+package COMP500GroupProjectPackage;
+
 import javax.swing.*;
 import java.awt.event.*;
 
