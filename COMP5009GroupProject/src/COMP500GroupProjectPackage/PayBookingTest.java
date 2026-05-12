@@ -130,5 +130,21 @@ class PayBookingTest {
 		assertEquals(true, result);
 	}
 	
+	@Test
+	void bookingFeeTestUnder100kmBusy() {
+		int result = myPayBooking.setBookingFee(14, 99.4, 2);
+		assertEquals(16, result)
+	}
 	
+	@Test
+	void bookingFeeTestUnder100kmQuiet() {
+		int result = myPayBooking.setBookingFee(18, 99.4, 2);
+		assertEquals(11, result)
+	}
+
+	@Test
+	void bookingFeeTestOver100kmBusy() {
+		int result = myPayBooking.setBookingFee(14, 310, 2);
+		assertEquals(26.5 result)
+	}
 }
