@@ -106,4 +106,29 @@ class PayBookingTest {
 	
 	}
 	
+	@Test
+	void acceptCardNumber16Digits() {
+		boolean result = myPayBooking.isCardNumberValid(1234567891011121);
+		assertEquals(true, result);
+	}
+	
+	@Test
+	void acceptCardNumber19Digits() {
+		boolean result = myPayBooking.isCardNumberValid(1234567891011121674);
+		assertEquals(true, result);
+	}
+	
+	@Test
+	void rejectCardNumber20Digits() {
+		boolean result = myPayBooking.isCardNumberValid(12345678910111216741);
+		assertEquals(true, result);
+	}
+	
+	@Test
+	void rejectCardNumber15Digits() {
+		boolean result = myPayBooking.isCardNumberValid(123456789101112);
+		assertEquals(true, result);
+	}
+	
+	
 }
