@@ -68,7 +68,7 @@ public class PayBooking {
 	 * @return bookingFee
 	 */
 	
-	public String getBookingFee() {
+	public int getBookingFee() {
 		return bookingFee;
 	}
 	
