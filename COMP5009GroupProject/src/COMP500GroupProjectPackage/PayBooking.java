@@ -1,18 +1,68 @@
 package COMP500GroupProjectPackage;
 import java.time.*;
 
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JTextField;
+
+import java.swing.*;
+
 public class PayBooking {
 	
 	private Long cardNumber;
 	private String cardName;
 	private String cardType;
-	private String bank;
 	private int CVV;
-	private String[] acceptedCardTypes = {"Visa", "Mastercard"};
+	private String[] acceptedCardTypes = {"Visa", "Mastercard", "Visa Debit"};
 	private int expiryYear;
 	private Integer expiryMonth; 
 	private Order orderMade;
 	private String billingAddress;	
+	
+	public PayBooking(Order orderToSet) {
+		
+		this.orderMade = orderToSet;
+		
+		JFrame mainPayFrame = new JFrame();
+		
+		mainPayFrame.setSize(500, 500);
+		
+		mainPayFrame.setVisible(true);
+		
+		JTextField payersName = new JTextField();
+		
+		payersName.setBounds(230, 230, 30, 30);
+		mainPayFrame.add(payersName);
+		
+		JLabel labelForName = new JLabel();
+		labelForName.setBounds(190, 230, 30, 15);
+		labelForName.setText("Enter your name here: ");
+		mainPayFrame.add(labelForName);
+		
+		JTextField cardNumberInput = new JTextField();
+		cardNumberInput.setBounds(230, 240, 60, 60);
+		mainPayFrame.add(cardNumberInput);
+		
+		JLabel labelForCardNumber = new JLabel();
+		labelForCardNumber.setBounds(210, 240, 60, 15);
+		labelForCardNumber.setText("Enter your card number here");
+		mainPayFrame.add(labelForCardNumber);
+		
+		JList<> cardTypeInput = new JList(acceptedCardTypes);
+		mainPayFrame.add(cardTypeInput);
+		
+		JTextField expiryMonth = new JTextField();
+		expiryMonth.setBounds(230, 250, 10, 10);
+
+		JTextField expiryYear = new JTextField();
+		expiryYear.setBounds(245, 250, 15, 15);
+		
+		mainPayFrame.add(expiryYear);
+		mainPayFrame.add(expiryMonth);
+		
+	}
+	
 	/**
 	 * getBillingAddress - returns address relating to car
 	 * @return billingAddress
@@ -87,25 +137,6 @@ public class PayBooking {
 	public void setCardName(String cardName) {
 		this.cardName = cardName;
 	}
-	
-	/**
-	 * getBank - returns name of card's bank
-	 * @return the bank the card belongs to
-	 */
-
-	public String getBank() {
-		return bank;
-	}
-
-	/**
-	 * setBank - assigns bank name
-	 * @param the bank name
-	 */
-	
-	public void setBank(String bank) {
-		this.bank = bank;
-	}
-
 	
 	/**
 	 * getCVV - returns card CVV
