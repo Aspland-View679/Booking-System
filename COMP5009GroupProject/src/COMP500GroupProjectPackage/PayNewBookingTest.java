@@ -5,9 +5,9 @@ import java.time.*;
 
 import org.junit.jupiter.api.Test;
 
-class PayBookingTest {
+class PayNewBookingTest {
 
-	PayBooking myPayBooking = new PayBooking();
+	PayNewBooking myPayBooking = new PayBooking();
 	
 	@Test
 	void acceptMastercard() {
@@ -20,16 +20,13 @@ class PayBookingTest {
 	void acceptVisa() {
 		
 		boolean result2 = myPayBooking.isCardAcceptable("Visa");
-		assertEquals(true, result2);
-
-		
+		assertEquals(true, result2);	
 	}
 	
 	@Test
 	void rejectHSBC() {
 		boolean result3 = myPayBooking.isCardAcceptable("HSBC");
 		assertEquals(false, result3);
-		
 	}
 	
 	@Test

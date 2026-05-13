@@ -9,7 +9,7 @@ import javax.swing.JTextField;
 
 import java.swing.*;
 
-public class PayBooking {
+public class PayNewBooking {
 	
 	private Long cardNumber;
 	private String cardName;
@@ -68,6 +68,7 @@ public class PayBooking {
 		payButton.setText("Click to pay");
 		
 	}
+	
 	/**
 	 * getBookingFee - returns address relating to car
 	 * @return bookingFee
