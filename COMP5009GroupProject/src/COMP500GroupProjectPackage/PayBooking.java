@@ -1,6 +1,7 @@
 package COMP500GroupProjectPackage;
 import java.time.*;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -61,6 +62,10 @@ public class PayBooking {
 		
 		mainPayFrame.add(expiryYear);
 		mainPayFrame.add(expiryMonth);
+		
+		JButton payButton = new JButton():
+		payButton.setBounds(250, 260, 50, 50);
+		payButton.setText("Click to pay");
 		
 	}
 	/**
