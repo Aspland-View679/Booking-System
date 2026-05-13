@@ -20,7 +20,7 @@ public class PayNewBooking {
 	private Integer expiryMonth; 
 	private Order orderMade;
 	private String billingAddress;	
-	private int bookingFee
+	private int bookingFee;
 	
 	public PayBooking(Order orderToSet) {
 		
