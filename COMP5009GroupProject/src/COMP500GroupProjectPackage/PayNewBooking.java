@@ -23,7 +23,7 @@ public class PayNewBooking extends JFrame {
 	private double bookingFee;
 	
 
-	public PayBooking(Order orderToSet) {
+	public PayNewBooking(Order orderToSet) {
 		
 		this.orderMade = orderToSet;
 		
