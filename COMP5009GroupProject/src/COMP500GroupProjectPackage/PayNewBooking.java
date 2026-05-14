@@ -9,7 +9,7 @@ import javax.swing.JTextField;
 
 import java.swing.*;
 
-public class PayNewBooking {
+public class PayNewBooking extends JFrame {
 	
 	private Long cardNumber;
 	private String cardName;
@@ -22,6 +22,7 @@ public class PayNewBooking {
 	private String billingAddress;	
 	private double bookingFee;
 	
+
 	public PayBooking(Order orderToSet) {
 		
 		this.orderMade = orderToSet;
