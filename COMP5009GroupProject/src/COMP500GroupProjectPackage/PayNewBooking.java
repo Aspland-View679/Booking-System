@@ -7,7 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JTextField;
 
-import java.swing.*;
+import javax.swing.*;
 
 public class PayNewBooking extends JFrame {
 	
@@ -23,6 +23,10 @@ public class PayNewBooking extends JFrame {
 	private double bookingFee;
 	
 
+	public static void main(String[] args) {
+		PayNewBooking pay = new PayNewBooking(null);
+	}
+	
 	public PayNewBooking(Order orderToSet) {
 		
 		this.orderMade = orderToSet;
@@ -52,7 +56,7 @@ public class PayNewBooking extends JFrame {
 		labelForCardNumber.setText("Enter your card number here");
 		mainPayFrame.add(labelForCardNumber);
 		
-		JList<> cardTypeInput = new JList(acceptedCardTypes);
+		JList<String> cardTypeInput = new JList(acceptedCardTypes);
 		mainPayFrame.add(cardTypeInput);
 		
 		JTextField expiryMonth = new JTextField();
@@ -64,7 +68,7 @@ public class PayNewBooking extends JFrame {
 		mainPayFrame.add(expiryYear);
 		mainPayFrame.add(expiryMonth);
 		
-		JButton payButton = new JButton():
+		JButton payButton = new JButton();
 		payButton.setBounds(250, 260, 50, 50);
 		payButton.setText("Click to pay");
 		
@@ -75,7 +79,7 @@ public class PayNewBooking extends JFrame {
 	 * @return bookingFee
 	 */
 	
-	public int getBookingFee() {
+	public double getBookingFee() {
 		return bookingFee;
 	}
 	
