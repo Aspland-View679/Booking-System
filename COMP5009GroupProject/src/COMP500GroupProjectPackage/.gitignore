@@ -12,3 +12,7 @@
 /DiscountCode.class
 /UserAccount.class
 /GuestAccount.class
+/Home.class
+/NewBooking.class
+/PayNewBooking.class
+/PayNewBookingTest.class
