@@ -20,7 +20,7 @@ public class PayNewBooking {
 	private Integer expiryMonth; 
 	private Order orderMade;
 	private String billingAddress;	
-	private int bookingFee;
+	private double bookingFee;
 	
 	public PayBooking(Order orderToSet) {
 		
@@ -321,8 +321,8 @@ public class PayNewBooking {
 	
 	public void setBookingFee(int timeDay, double distance, int numPeople) {
 		
-		int bookingFeeToAssign = 0;
-		const feePerPerson = 0.5;
+		double bookingFeeToAssign = 0;
+		double feePerPerson = 0.5;
 		bookingFeeToAssign = bookingFeeToAssign + (feePerPerson * numPeople);
 		if (timeDay >= 9 && timeDay <= 17) {
 			bookingFeeToAssign+= 10;
