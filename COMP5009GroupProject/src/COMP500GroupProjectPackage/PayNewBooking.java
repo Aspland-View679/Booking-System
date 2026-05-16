@@ -16,7 +16,7 @@ public class PayNewBooking extends JFrame {
 	private String cardName;
 	private String cardType;
 	private int CVV;
-	private String[] acceptedCardTypes = {"Visa", "Mastercard", "Visa Debit"};
+	private String[] acceptedCardTypes = {"Visa", "Mastercard", "Visa Debit", "Apple card"};
 	private int expiryYear;
 	private Integer expiryMonth; 
 	private Order orderMade;
