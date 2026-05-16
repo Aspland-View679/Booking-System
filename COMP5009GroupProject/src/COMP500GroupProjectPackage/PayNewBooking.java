@@ -1,4 +1,5 @@
 package COMP500GroupProjectPackage;
+import java.awt.Color;
 import java.time.*;
 
 import javax.swing.JButton;
@@ -33,46 +34,62 @@ public class PayNewBooking extends JFrame {
 		
 		JFrame mainPayFrame = new JFrame();
 		
-		mainPayFrame.setSize(500, 500);
+		mainPayFrame.setSize(1000, 1000);
 		
 		mainPayFrame.setVisible(true);
 		
 		JTextField payersName = new JTextField();
 		
-		payersName.setBounds(230, 230, 30, 30);
+		payersName.setBounds(240, 100, 130, 30);
 		mainPayFrame.add(payersName);
 		
 		JLabel labelForName = new JLabel();
-		labelForName.setBounds(190, 230, 30, 15);
+		labelForName.setBounds(90, 100, 150, 30);
 		labelForName.setText("Enter your name here: ");
 		mainPayFrame.add(labelForName);
 		
 		JTextField cardNumberInput = new JTextField();
-		cardNumberInput.setBounds(230, 240, 60, 60);
+		cardNumberInput.setBounds(240, 150, 130, 30);
 		mainPayFrame.add(cardNumberInput);
 		
 		JLabel labelForCardNumber = new JLabel();
-		labelForCardNumber.setBounds(210, 240, 60, 15);
-		labelForCardNumber.setText("Enter your card number here");
+		labelForCardNumber.setBounds(90, 150, 160, 30);
+		labelForCardNumber.setText("Enter your card number: ");
 		mainPayFrame.add(labelForCardNumber);
 		
-		JList<String> cardTypeInput = new JList(acceptedCardTypes);
+		JComboBox<String> cardTypeInput = new JComboBox(acceptedCardTypes);
+		cardTypeInput.setBounds(240, 190, 120, 30);
 		mainPayFrame.add(cardTypeInput);
 		
+		JLabel cardTypeLabel = new JLabel();
+		cardTypeLabel.setBounds(90, 190, 130, 30);
+		cardTypeLabel.setText("Choose card type: ");
+		mainPayFrame.add(cardTypeLabel);
+		
 		JTextField expiryMonth = new JTextField();
-		expiryMonth.setBounds(230, 250, 10, 10);
+		expiryMonth.setBounds(240, 230, 50, 30);
+		mainPayFrame.add(expiryMonth);
 
 		JTextField expiryYear = new JTextField();
-		expiryYear.setBounds(245, 250, 15, 15);
+		expiryYear.setBounds(290, 230, 60, 30);
 		
 		mainPayFrame.add(expiryYear);
-		mainPayFrame.add(expiryMonth);
+		
+		JLabel expiryDateLabel = new JLabel();
+		expiryDateLabel.setBounds(50, 230, 230, 30);
+		expiryDateLabel.setText("Enter expiry month, then date: ");
+		mainPayFrame.add(expiryDateLabel);
+
 		
 		JButton payButton = new JButton();
-		payButton.setBounds(250, 260, 50, 50);
+		payButton.setBounds(250, 240, 50, 50);
 		payButton.setText("Click to pay");
+		payButton.setBackground(Color.pink);
+		mainPayFrame.add(payButton);
 		
-	}
+		
+		
+		}
 	
 	/**
 	 * getBookingFee - returns address relating to car
