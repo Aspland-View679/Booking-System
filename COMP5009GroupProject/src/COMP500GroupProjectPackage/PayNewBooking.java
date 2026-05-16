@@ -1,5 +1,7 @@
 package COMP500GroupProjectPackage;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.time.*;
 
 import javax.swing.JButton;
@@ -10,7 +12,7 @@ import javax.swing.JTextField;
 
 import javax.swing.*;
 
-public class PayNewBooking extends JFrame {
+public class PayNewBooking extends JFrame implements ActionListener {
 	
 	private Long cardNumber;
 	private String cardName;
@@ -35,9 +37,7 @@ public class PayNewBooking extends JFrame {
 		JFrame mainPayFrame = new JFrame();
 		
 		mainPayFrame.setSize(1000, 1000);
-		
-		mainPayFrame.setVisible(true);
-		
+				
 		JTextField payersName = new JTextField();
 		
 		payersName.setBounds(240, 100, 130, 30);
@@ -80,15 +80,58 @@ public class PayNewBooking extends JFrame {
 		expiryDateLabel.setText("Enter expiry month, then date: ");
 		mainPayFrame.add(expiryDateLabel);
 
+		JTextField cvv = new JTextField();
+		cvv.setBounds(240, 270, 100, 30);
+		mainPayFrame.add(cvv);
+		
+		JLabel cvvLabel = new JLabel();
+		cvvLabel.setBounds(140, 255, 100, 60);
+		cvvLabel.setText("Enter CVV here: ");
+		mainPayFrame.add(cvvLabel);
 		
 		JButton payButton = new JButton();
-		payButton.setBounds(250, 240, 50, 50);
+		payButton.setBounds(250, 300, 50, 50);
 		payButton.setText("Click to pay");
 		payButton.setBackground(Color.pink);
 		mainPayFrame.add(payButton);
 		
+		mainPayFrame.setVisible(true);
+
+		payButton.addActionListener(new ActionListener() {
+			
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				mainLogic(cardTypeInput, cardNumberInput, payersName, expiryMonth, expiryYear, cvv, orderToSet);				
+			}
+			
+			
+		});		
+		
+		}
+	
+	public void mainLogic(JComboBox<String> cardType, JTextField cardNumber, JTextField cardName, JTextField expiryMonthInput, JTextField expiryYearInput, JTextField cvv, Order order) {
+		String cardTypeToSet = cardType.getSelectedItem().toString();
+		setCardType(cardTypeToSet);
+		setCardNumber(cardNumber.getText());
+		setCardName(cardName.getText());
+		setExpiryMonthAndYear(Integer.parseInt(expiryMonthInput.getText()), Integer.parseInt(expiryYearInput.getText()));
+		setCVV(Integer.parseInt(cvv.getText()));
+		setOrderPaymentIsBeingMadeFor(order);
+		setBookingFee(1, 1.00, 1);
+		
+		if (isCVVAcceptable(getCVV()) && isExpiryDateValid(getExpiryMonth(), getExpiryYear()) && isCardNumberValid(getCardNumber())) {
+			System.out.println("Success");
+		} else {
+			System.out.println("Fail");
+		}
 		
 		
+	}
+	
+	public String[] getAcceptedCardTypes() {
+		return acceptedCardTypes;
 		}
 	
 	/**
@@ -134,10 +177,8 @@ public class PayNewBooking extends JFrame {
 	 * @param cardType
 	 */
 
-	public void setCardType(String cardType) {
-		if (isCardAcceptable(cardType)) {
-			this.cardType = cardType;
-		}
+	public void setCardType(String cardTypeInput) {
+			cardType = cardTypeInput;
 	}
 
 	/**
@@ -154,8 +195,8 @@ public class PayNewBooking extends JFrame {
 	 * @param cardNumber
 	 */
 
-	public void setCardNumber(long cardNumber) {
-		this.cardNumber = cardNumber;
+	public void setCardNumber(String cardNumber) {
+		cardNumber = Long.parseLong(cardNumber);
 	}
 	
 	/**
@@ -248,23 +289,6 @@ public class PayNewBooking extends JFrame {
 		this.orderMade = orderBeingMade;
 	}
 
-	/**
-	 * isCardAcceptable - ensures that a valid card is entered
-	 * @param inputCard
-	 * @return a boolean of whether the card is accepted or rejected
-	 */
-	
-	public Boolean isCardAcceptable (String inputCard) {
-		
-		for (int i = 0; i <= acceptedCardTypes.length; i++) {
-			if (acceptedCardTypes[i] == inputCard) {
-				return true;
-			}
-		}
-		
-		return false;
-		
-	}
 	
 	/**
 	 * isCVVAcceptable - ensures the CVV is the right format
