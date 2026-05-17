@@ -109,7 +109,7 @@ public class PayNewBooking extends JFrame implements ActionListener {
 				
 				if (mainLogic(cardTypeInput, cardNumberInput, payersName, expiryMonth, expiryYear, cvv, orderToSet)) {
 					mainPayFrame.setVisible(false);
-					ConfirmationMessage confirm = new ConfirmationMessage();
+					ConfirmationMessage confirm = new ConfirmationMessage(this);
 				}
 			}
 			
