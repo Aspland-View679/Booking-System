@@ -90,10 +90,13 @@ public class PayNewBooking extends JFrame implements ActionListener {
 		mainPayFrame.add(cvvLabel);
 		
 		JButton payButton = new JButton();
-		payButton.setBounds(250, 300, 50, 50);
+		payButton.setBounds(250, 300, 100, 50);
 		payButton.setText("Click to pay");
 		payButton.setBackground(Color.pink);
 		mainPayFrame.add(payButton);
+		
+		JTextField test = new JTextField();
+		mainPayFrame.add(test);
 		
 		mainPayFrame.setVisible(true);
 
@@ -196,7 +199,7 @@ public class PayNewBooking extends JFrame implements ActionListener {
 	 */
 
 	public void setCardNumber(String cardNumber) {
-		cardNumber = Long.parseLong(cardNumber);
+		this.cardNumber = Long.parseLong(cardNumber);
 	}
 	
 	/**
