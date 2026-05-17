@@ -92,7 +92,8 @@ class PayNewBookingTest {
 	
 	@Test
 	void acceptCardNumber19Digits() {
-		boolean result = myPayBooking.isCardNumberValid(1234567891011121674L);
+		myPayBooking.setCardNumber("0123456789010123456");
+		boolean result = myPayBooking.isCardNumberValid(myPayBooking.getCardNumber());
 		assertEquals(true, result);
 	}
 	
