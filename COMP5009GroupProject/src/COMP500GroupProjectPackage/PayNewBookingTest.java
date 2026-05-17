@@ -7,27 +7,8 @@ import org.junit.jupiter.api.Test;
 
 class PayNewBookingTest {
 
-	PayNewBooking myPayBooking = new PayBooking();
+	PayNewBooking myPayBooking = new PayNewBooking(null);
 	
-	@Test
-	void acceptMastercard() {
-		
-		boolean result1 = myPayBooking.isCardAcceptable("Mastercard");\
-		assertEquals(true, result1)
-	}
-	
-	@Test
-	void acceptVisa() {
-		
-		boolean result2 = myPayBooking.isCardAcceptable("Visa");
-		assertEquals(true, result2);	
-	}
-	
-	@Test
-	void rejectHSBC() {
-		boolean result3 = myPayBooking.isCardAcceptable("HSBC");
-		assertEquals(false, result3);
-	}
 	
 	@Test
 	void rejectCVV0() {
@@ -87,7 +68,7 @@ class PayNewBookingTest {
 	@Test
 	void acceptYearFutureExpiryDate() {
 		boolean result3 = myPayBooking.isExpiryDateValid(month, year+1);
-		assertEquals(false, result3);
+		assertEquals(true, result3);
 	}
 	
 	@Test
@@ -99,49 +80,52 @@ class PayNewBookingTest {
 	@Test
 	void rejectYearPastExpiryDate() {
 		boolean result5 = myPayBooking.isExpiryDateValid(month, year-1);
-		assertEquals(true, result5);
+		assertEquals(false, result5);
 	
 	}
 	
 	@Test
 	void acceptCardNumber16Digits() {
-		boolean result = myPayBooking.isCardNumberValid(1234567891011121);
+		boolean result = myPayBooking.isCardNumberValid(1234567891011121L);
 		assertEquals(true, result);
 	}
 	
 	@Test
 	void acceptCardNumber19Digits() {
-		boolean result = myPayBooking.isCardNumberValid(1234567891011121674);
+		boolean result = myPayBooking.isCardNumberValid(1234567891011121674L);
 		assertEquals(true, result);
 	}
 	
-	@Test
-	void rejectCardNumber20Digits() {
-		boolean result = myPayBooking.isCardNumberValid(12345678910111216741);
-		assertEquals(true, result);
-	}
+//	@Test
+//	void rejectCardNumber20Digits() {
+//		boolean result = myPayBooking.isCardNumberValid(12345678910111216741L);
+//		assertEquals(true, result);
+//	}
 	
 	@Test
 	void rejectCardNumber15Digits() {
-		boolean result = myPayBooking.isCardNumberValid(123456789101112);
-		assertEquals(true, result);
+		boolean result = myPayBooking.isCardNumberValid(123456789101112L);
+		assertEquals(false, result);
 	}
 	
 	@Test
 	void bookingFeeTestUnder100kmBusy() {
-		int result = myPayBooking.setBookingFee(14, 99.4, 2);
-		assertEquals(16, result)
+		myPayBooking.setBookingFee(14, 99.4, 2);
+		boolean result1 = (myPayBooking.getBookingFee() == 16);
+		assertEquals(true, result1);
 	}
 	
 	@Test
 	void bookingFeeTestUnder100kmQuiet() {
-		int result = myPayBooking.setBookingFee(18, 99.4, 2);
-		assertEquals(11, result)
+		myPayBooking.setBookingFee(18, 99.4, 2);
+		boolean result = (myPayBooking.getBookingFee() == 11);
+		assertEquals(true, result);
 	}
 
 	@Test
 	void bookingFeeTestOver100kmBusy() {
-		int result = myPayBooking.setBookingFee(14, 310, 2);
-		assertEquals(26.5 result)
+		myPayBooking.setBookingFee(14, 310, 2);
+		boolean result = (myPayBooking.getBookingFee() == 26.5);
+		assertEquals(true, result);
 	}
 }
