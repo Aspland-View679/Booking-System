@@ -58,7 +58,7 @@ public class PayNewBooking extends JFrame implements ActionListener {
 		labelForCardNumber.setText("Enter your card number: ");
 		mainPayFrame.add(labelForCardNumber);
 		
-		JComboBox<String> cardTypeInput = new JComboBox(acceptedCardTypes);
+		JComboBox<String> cardTypeInput = new JComboBox(acceptedCardTypes);	//This automatically populates the picklist from the field acceptedCardTypes
 		cardTypeInput.setBounds(240, 190, 120, 30);
 		mainPayFrame.add(cardTypeInput);
 		
@@ -109,7 +109,7 @@ public class PayNewBooking extends JFrame implements ActionListener {
 				
 				if (mainLogic(mainPayFrame, cardTypeInput, cardNumberInput, payersName, expiryMonth, expiryYear, cvv, orderToSet)) {
 					mainPayFrame.setVisible(false);
-			ConfirmationMessage confirm = new ConfirmationMessage(this);
+			ConfirmationMessage confirm = new ConfirmationMessage(this);		//Here the confirmation GUI should be created for the next step in the confirmation constructor
 				} else {
 					System.out.println("ERROR");
 			}
@@ -325,7 +325,7 @@ public class PayNewBooking extends JFrame implements ActionListener {
 	
 	public Boolean isCVVAcceptable(int inputCVV) {
 		
-		if ((inputCVV >= 100) && (inputCVV <= 9999)) {
+		if ((inputCVV >= 100) && (inputCVV <= 9999)) {			//This is not checking the actual value, but a checker for the length of CVV 
 			return true;
 		} else {
 			return false;
@@ -346,7 +346,7 @@ public class PayNewBooking extends JFrame implements ActionListener {
 		LocalDate today = LocalDate.now();
 	    Integer month = today.getMonthValue();
 		
-	    String month2 = inputMonth.toString();
+	    String month2 = inputMonth.toString();		//Conversion needed for manipulation - see below for more
 	    
 	    
 	    //month returns a value between 1 and 12, however user might input 01,02,03... so need to align format with
@@ -372,12 +372,12 @@ public class PayNewBooking extends JFrame implements ActionListener {
 	/**
 	 * isCardNumberValid - ensures that the card number is the right length
 	 * @param cardNumber 
-	 * @return a boolean if cardNumber is within reasonable length (standard is 16-19)
+	 * @return a boolean if cardNumber is within reasonable length
 	 */
 	
 	public Boolean isCardNumberValid(Long cardNum) {
 		
-		if ((cardNum.toString().length() >= 16) && (cardNum.toString().length() <= 19)) {
+		if ((cardNum.toString().length() >= 16) && (cardNum.toString().length() <= 19)) {		//16-19 digits is a standard length
 			return true;
 		} else {
 			return false;
@@ -397,9 +397,9 @@ public class PayNewBooking extends JFrame implements ActionListener {
 		double bookingFeeToAssign = 0;
 		double feePerPerson = 0.5;
 		bookingFeeToAssign = bookingFeeToAssign + (feePerPerson * numPeople);
-		if (timeDay >= 9 && timeDay <= 17) {
+		if (timeDay >= 9 && timeDay <= 17) {		//Peak-time being normal 9-5 shift
 			bookingFeeToAssign+= 10;
-		} else {
+		} else {									//Off-peak times
 			bookingFeeToAssign += 5;
 		}
 		if (distance <= 100) {
@@ -423,7 +423,7 @@ public class PayNewBooking extends JFrame implements ActionListener {
 	public void setEncryptedCardNumber() {
 		
 		String getCardNum = Long.toString(getCardNumber());		
-		String last4digits = getCardNum.substring(getCardNum.length() - 4, getCardNum.length());
+		String last4digits = getCardNum.substring(getCardNum.length() - 4, getCardNum.length());	//This gets the last 4 digits
 		String stars = "*********";
 		String encCardNumber = stars + last4digits;
 		this.encryptedCardNumber = encCardNumber;
