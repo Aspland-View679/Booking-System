@@ -223,7 +223,7 @@ public class PayNewBooking extends JFrame implements ActionListener {
 	 */
 
 	public void setCardNumber(String cardNumber) {
-		this.cardNumber = Long.parseLong(cardNumber + "L");
+		this.cardNumber = Long.parseLong(cardNumber);
 	}
 	
 	/**
@@ -423,7 +423,7 @@ public class PayNewBooking extends JFrame implements ActionListener {
 	public void setEncryptedCardNumber() {
 		
 		String getCardNum = Long.toString(getCardNumber());		
-		String last4digits = getCardNum.substring(getCardNum.length() - 5, getCardNum.length() - 1);
+		String last4digits = getCardNum.substring(getCardNum.length() - 4, getCardNum.length());
 		String stars = "*********";
 		String encCardNumber = stars + last4digits;
 		this.encryptedCardNumber = encCardNumber;

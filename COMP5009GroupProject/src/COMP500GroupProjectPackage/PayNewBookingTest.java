@@ -127,4 +127,17 @@ class PayNewBookingTest {
 		myPayBooking.setBookingFee(14, 310, 2);
 		assertEquals(26, myPayBooking.getBookingFee());
 	}
+	
+	@Test
+	void encryptCardNumber() {
+		myPayBooking.setCardNumber("0123456789101234");
+		myPayBooking.setEncryptedCardNumber();
+		assertEquals("*********1234", myPayBooking.getEncryptedCardNumber());
+	}
+	
+	void encryptCardNumber2() {
+		myPayBooking.setCardNumber("01234567891012345");
+		myPayBooking.setEncryptedCardNumber();
+		assertEquals("*********2345", myPayBooking.getEncryptedCardNumber());
+	}
 }
