@@ -107,12 +107,13 @@ public class PayNewBooking extends JFrame implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				if (mainLogic(cardTypeInput, cardNumberInput, payersName, expiryMonth, expiryYear, cvv, orderToSet)) {
+				if (mainLogic(mainPayFrame, cardTypeInput, cardNumberInput, payersName, expiryMonth, expiryYear, cvv, orderToSet)) {
 					mainPayFrame.setVisible(false);
-					ConfirmationMessage confirm = new ConfirmationMessage(this);
-				}
+			ConfirmationMessage confirm = new ConfirmationMessage(this);
+				} else {
+					System.out.println("ERROR");
 			}
-			
+			}
 			
 		});		
 		
@@ -130,13 +131,20 @@ public class PayNewBooking extends JFrame implements ActionListener {
 	 * @return whether checks passed
 	 */
 	
-	public boolean mainLogic(JComboBox<String> cardType, JTextField cardNumber, JTextField cardName, JTextField expiryMonthInput, JTextField expiryYearInput, JTextField cvv, Order order) {
+	public boolean mainLogic(JFrame mainPayFrame, JComboBox<String> cardType, JTextField cardNumber, JTextField cardName, JTextField expiryMonthInput, JTextField expiryYearInput, JTextField cvv, Order order) {
 		String cardTypeToSet = cardType.getSelectedItem().toString();
 		setCardType(cardTypeToSet);
-		setCardNumber(cardNumber.getText());
 		setCardName(cardName.getText());
-		setExpiryMonthAndYear(Integer.parseInt(expiryMonthInput.getText()), Integer.parseInt(expiryYearInput.getText()));
-		setCVV(Integer.parseInt(cvv.getText()));
+		try {
+			setExpiryMonthAndYear(Integer.parseInt(expiryMonthInput.getText()), Integer.parseInt(expiryYearInput.getText()));
+			setCVV(Integer.parseInt(cvv.getText()));
+			setCardNumber(cardNumber.getText());
+		} catch (Exception ex) {
+			JTextField showError = new JTextField();
+			showError.setBounds(250, 350, 300, 30);
+			showError.setText("error");
+			mainPayFrame.add(showError);
+		}
 		setOrderPaymentIsBeingMadeFor(order);
 		setBookingFee(1, 1.00, 1);
 		
@@ -317,7 +325,7 @@ public class PayNewBooking extends JFrame implements ActionListener {
 	
 	public Boolean isCVVAcceptable(int inputCVV) {
 		
-		if ((inputCVV >= 100) || (inputCVV <= 9999)) {
+		if ((inputCVV >= 100) && (inputCVV <= 9999)) {
 			return true;
 		} else {
 			return false;
@@ -397,7 +405,7 @@ public class PayNewBooking extends JFrame implements ActionListener {
 		if (distance <= 100) {
 			bookingFeeToAssign += 5;
 		} else {
-			bookingFeeToAssign = (Math.round(distance))/100 * 5; 
+			bookingFeeToAssign += (Math.round(distance)/100) * 5; 
 		}
 		
 		this.bookingFee = bookingFeeToAssign;
