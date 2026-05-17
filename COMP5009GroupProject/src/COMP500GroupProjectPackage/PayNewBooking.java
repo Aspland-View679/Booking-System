@@ -139,6 +139,7 @@ public class PayNewBooking extends JFrame implements ActionListener {
 			setExpiryMonthAndYear(Integer.parseInt(expiryMonthInput.getText()), Integer.parseInt(expiryYearInput.getText()));
 			setCVV(Integer.parseInt(cvv.getText()));
 			setCardNumber(cardNumber.getText());
+			setEncryptedCardNumber();
 		} catch (Exception ex) {
 			JTextField showError = new JTextField();
 			showError.setBounds(250, 350, 300, 30);
