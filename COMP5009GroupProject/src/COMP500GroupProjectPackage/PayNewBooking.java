@@ -24,6 +24,7 @@ public class PayNewBooking extends JFrame implements ActionListener {
 	private Order orderMade;
 	private String billingAddress;	
 	private double bookingFee;
+	private String encryptedCardNumber;
 	
 
 	public static void main(String[] args) {
@@ -106,7 +107,10 @@ public class PayNewBooking extends JFrame implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				mainLogic(cardTypeInput, cardNumberInput, payersName, expiryMonth, expiryYear, cvv, orderToSet);				
+				if (mainLogic(cardTypeInput, cardNumberInput, payersName, expiryMonth, expiryYear, cvv, orderToSet)) {
+					mainPayFrame.setVisible(false);
+					ConfirmationMessage confirm = new ConfirmationMessage();
+				}
 			}
 			
 			
@@ -114,7 +118,19 @@ public class PayNewBooking extends JFrame implements ActionListener {
 		
 		}
 	
-	public void mainLogic(JComboBox<String> cardType, JTextField cardNumber, JTextField cardName, JTextField expiryMonthInput, JTextField expiryYearInput, JTextField cvv, Order order) {
+	/**
+	 * mainLogic - does all assignments and checks
+	 * @param cardType
+	 * @param cardNumber
+	 * @param cardName
+	 * @param expiryMonthInput
+	 * @param expiryYearInput
+	 * @param cvv
+	 * @param order
+	 * @return whether checks passed
+	 */
+	
+	public boolean mainLogic(JComboBox<String> cardType, JTextField cardNumber, JTextField cardName, JTextField expiryMonthInput, JTextField expiryYearInput, JTextField cvv, Order order) {
 		String cardTypeToSet = cardType.getSelectedItem().toString();
 		setCardType(cardTypeToSet);
 		setCardNumber(cardNumber.getText());
@@ -125,9 +141,9 @@ public class PayNewBooking extends JFrame implements ActionListener {
 		setBookingFee(1, 1.00, 1);
 		
 		if (isCVVAcceptable(getCVV()) && isExpiryDateValid(getExpiryMonth(), getExpiryYear()) && isCardNumberValid(getCardNumber())) {
-			System.out.println("Success");
+			return true;
 		} else {
-			System.out.println("Fail");
+			return false;
 		}
 		
 		
@@ -386,6 +402,23 @@ public class PayNewBooking extends JFrame implements ActionListener {
 		
 		this.bookingFee = bookingFeeToAssign;
 		
+	}
+	
+	/**
+	 * getEncryptedCardNumber - returns ** followed by last 4 card digits
+	 * @return encryptedCardNumber
+	 */
+	public String getEncryptedCardNumber() {
+		return encryptedCardNumber;
+	}
+	
+	public void setEncryptedCardNumber() {
+		
+		String getCardNum = Long.toString(getCardNumber());		
+		String last4digits = getCardNum.substring(getCardNum.length() - 5, getCardNum.length() - 1);
+		String stars = "*********";
+		String encCardNumber = stars + last4digits;
+		this.encryptedCardNumber = encCardNumber;
 	}
 	
 	
