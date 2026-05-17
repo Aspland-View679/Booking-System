@@ -360,7 +360,7 @@ public class PayNewBooking extends JFrame implements ActionListener {
 		int year = today.getYear();
 		
 		
-		if ((month > inputMonth) && (year > inputYear)) {
+		if ((month >= inputMonth) && (year >= inputYear)) {
 			return false;
 		} else {
 			return true;

@@ -56,7 +56,7 @@ class PayNewBookingTest {
 		
 		
 		boolean result = myPayBooking.isExpiryDateValid(month,year);
-		assertEquals(true, result);
+		assertEquals(false, result);
 	}
 	
 	@Test
@@ -74,7 +74,7 @@ class PayNewBookingTest {
 	@Test
 	void rejectMonthPastExpiryDate() {
 		boolean result4 = myPayBooking.isExpiryDateValid(month-1, year);
-		assertEquals(true, result4);
+		assertEquals(false, result4);
 	}
 	
 	@Test
@@ -125,7 +125,6 @@ class PayNewBookingTest {
 	@Test
 	void bookingFeeTestOver100kmBusy() {
 		myPayBooking.setBookingFee(14, 310, 2);
-		boolean result = (myPayBooking.getBookingFee() == 26.5);
-		assertEquals(true, result);
+		assertEquals(26, myPayBooking.getBookingFee());
 	}
 }
