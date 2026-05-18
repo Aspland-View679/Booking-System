@@ -79,6 +79,8 @@ public class Home extends JFrame {
      
     }
 
+    //need to do comments and junit tests
+
     public static void main(String[] args) {
 
         new Home();
