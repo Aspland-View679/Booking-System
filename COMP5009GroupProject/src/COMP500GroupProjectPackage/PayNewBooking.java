@@ -21,7 +21,7 @@ public class PayNewBooking extends JFrame implements ActionListener {
 	private String[] acceptedCardTypes = {"Visa", "Mastercard", "Visa Debit", "Apple card"};
 	private int expiryYear;
 	private Integer expiryMonth; 
-	private Order orderMade;
+	private NewBooking booking;
 	private String billingAddress;	
 	private double bookingFee;
 	private String encryptedCardNumber;
@@ -31,9 +31,9 @@ public class PayNewBooking extends JFrame implements ActionListener {
 		PayNewBooking pay = new PayNewBooking(null);
 	}
 	
-	public PayNewBooking(Order orderToSet) {
+	public PayNewBooking(NewBooking bookingToSet) {
 		
-		this.orderMade = orderToSet;
+		this.booking = bookingToSet;
 		
 		JFrame mainPayFrame = new JFrame();
 		
@@ -107,7 +107,7 @@ public class PayNewBooking extends JFrame implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				if (mainLogic(mainPayFrame, cardTypeInput, cardNumberInput, payersName, expiryMonth, expiryYear, cvv, orderToSet)) {
+				if (mainLogic(mainPayFrame, cardTypeInput, cardNumberInput, payersName, expiryMonth, expiryYear, cvv, bookingToSet)) {
 					mainPayFrame.setVisible(false);
 			ConfirmationMessage confirm = new ConfirmationMessage(this);		//Here the confirmation GUI should be created for the next step in the confirmation constructor
 				} else {
@@ -131,7 +131,7 @@ public class PayNewBooking extends JFrame implements ActionListener {
 	 * @return whether checks passed
 	 */
 	
-	public boolean mainLogic(JFrame mainPayFrame, JComboBox<String> cardType, JTextField cardNumber, JTextField cardName, JTextField expiryMonthInput, JTextField expiryYearInput, JTextField cvv, Order order) {
+	public boolean mainLogic(JFrame mainPayFrame, JComboBox<String> cardType, JTextField cardNumber, JTextField cardName, JTextField expiryMonthInput, JTextField expiryYearInput, JTextField cvv, NewBooking booking) {
 		String cardTypeToSet = cardType.getSelectedItem().toString();
 		setCardType(cardTypeToSet);
 		setCardName(cardName.getText());
@@ -146,7 +146,7 @@ public class PayNewBooking extends JFrame implements ActionListener {
 			showError.setText("error");
 			mainPayFrame.add(showError);
 		}
-		setOrderPaymentIsBeingMadeFor(order);
+		setNewBookingPaymentIsBeingMadeFor(booking);
 		setBookingFee(1, 1.00, 1);
 		
 		if (isCVVAcceptable(getCVV()) && isExpiryDateValid(getExpiryMonth(), getExpiryYear()) && isCardNumberValid(getCardNumber())) {
@@ -300,21 +300,21 @@ public class PayNewBooking extends JFrame implements ActionListener {
 	}
 	
 	/**
-	 * getOrderBeingMade - returns the order payment is linked to
+	 * getBooking - returns the booking payment is linked to
 	 * @return the booking linked to the payment
 	 */
 
-	public Order getOrderBeingMade() {
-		return orderMade;
+	public NewBooking getBooking() {
+		return booking;
 	}
 	
 	/**
-	 * setOrderPaymentIsBeingMadeFor - links payment to the booking
-	 * @param bookingPaymentIsBeingMadeFor
+	 * setNewBookingPaymentIsBeingMadeFor - links payment to the booking
+	 * @param booking
 	 */
 
-	public void setOrderPaymentIsBeingMadeFor(Order orderBeingMade) {
-		this.orderMade = orderBeingMade;
+	public void setNewBookingPaymentIsBeingMadeFor(NewBooking booking) {
+		this.booking = booking;
 	}
 
 	
