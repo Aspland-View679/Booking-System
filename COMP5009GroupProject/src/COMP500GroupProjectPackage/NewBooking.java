@@ -168,6 +168,7 @@ public class NewBooking extends JFrame {
     setVisible(true);
     
     }
+    // need to do comments and Junit tests
     
  
 }
