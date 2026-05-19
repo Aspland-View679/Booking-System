@@ -20,7 +20,7 @@ public class PayNewBooking extends JFrame implements ActionListener {
 	private int CVV;
 	private String[] acceptedCardTypes = {"Visa", "Mastercard", "Visa Debit", "Apple card"};
 	private int expiryYear;
-	private Integer expiryMonth; 
+	private int expiryMonth; 
 	private NewBooking booking;
 	private String billingAddress;	
 	private double bookingFee;
@@ -109,7 +109,7 @@ public class PayNewBooking extends JFrame implements ActionListener {
 				
 				if (mainLogic(mainPayFrame, cardTypeInput, cardNumberInput, payersName, expiryMonth, expiryYear, cvv, bookingToSet)) {
 					mainPayFrame.setVisible(false);
-			ConfirmationMessage confirm = new ConfirmationMessage(this);		//Here the confirmation GUI should be created for the next step in the confirmation constructor
+		//	ConfirmationMessage confirm = new ConfirmationMessage(this);		//Here the confirmation GUI should be created for the next step in the confirmation constructor
 				} else {
 					System.out.println("ERROR");
 			}
@@ -136,15 +136,23 @@ public class PayNewBooking extends JFrame implements ActionListener {
 		setCardType(cardTypeToSet);
 		setCardName(cardName.getText());
 		try {
-			setExpiryMonthAndYear(Integer.parseInt(expiryMonthInput.getText()), Integer.parseInt(expiryYearInput.getText()));
+			System.out.println(expiryMonthInput.getText());
+			String formattedMonth = formatMonth(expiryMonthInput.getText());
+			setExpiryMonthAndYear(Integer.parseInt(formattedMonth), Integer.parseInt(expiryYearInput.getText()));
 			setCVV(Integer.parseInt(cvv.getText()));
 			setCardNumber(cardNumber.getText());
 			setEncryptedCardNumber();
 		} catch (Exception ex) {
+			System.out.println("Error");
 			JTextField showError = new JTextField();
 			showError.setBounds(250, 350, 300, 30);
 			showError.setText("error");
 			mainPayFrame.add(showError);
+			JTextField showError2 = new JTextField();
+			showError2.setBounds(250, 360, 300, 30);
+			showError2.setText("Please check you've enter numbers for card number, cvv and expiry dates");
+			mainPayFrame.add(showError);
+		
 		}
 		setNewBookingPaymentIsBeingMadeFor(booking);
 		setBookingFee(1, 1.00, 1);
@@ -335,6 +343,22 @@ public class PayNewBooking extends JFrame implements ActionListener {
 	}
 	
 	/**
+	 * formatMonth - gets rid of 0 if month style is 01,02...09
+	 * @param inputMonth
+	 * @return the correct implemented month (without 0)
+	 */
+	
+	public String formatMonth(String inputMonth) {
+		   
+	  
+	    if (inputMonth.startsWith("0")) {
+	    	inputMonth = inputMonth.replaceFirst("0", "");
+	    }
+	    return inputMonth;
+	    
+	}
+	
+	/**
 	 * isExpiryDateValid - ensures date is correct
 	 * @param inputMonth
 	 * @param inputYear
@@ -342,24 +366,12 @@ public class PayNewBooking extends JFrame implements ActionListener {
 	 */
 	
 	
-	public Boolean isExpiryDateValid(Integer inputMonth, int inputYear) {
+	public Boolean isExpiryDateValid(int inputMonth, int inputYear) {
 		
 		LocalDate today = LocalDate.now();
-	    Integer month = today.getMonthValue();
-		
-	    String month2 = inputMonth.toString();		//Conversion needed for manipulation - see below for more
-	    
-	    
-	    //month returns a value between 1 and 12, however user might input 01,02,03... so need to align format with
-	     //the following code
-	    
-	    if (month2.startsWith("0")) {
-	    	month2 = month2.replaceFirst("0", "");
-	    	inputMonth = Integer.parseInt(month2);
-	    }
+	    Integer month = today.getMonthValue();	 
 		
 		int year = today.getYear();
-		
 		
 		if ((month >= inputMonth) && (year >= inputYear)) {
 			return false;
