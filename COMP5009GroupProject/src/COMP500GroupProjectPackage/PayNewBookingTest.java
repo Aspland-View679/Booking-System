@@ -97,11 +97,7 @@ class PayNewBookingTest {
 		assertEquals(true, result);
 	}
 	
-//	@Test
-//	void rejectCardNumber20Digits() {
-//		boolean result = myPayBooking.isCardNumberValid(12345678910111216741L);
-//		assertEquals(true, result);
-//	}
+	//Longs cannot be more than 19 digits so we cannot test a card number longer than 19 digits
 	
 	@Test
 	void rejectCardNumber15Digits() {
