@@ -136,9 +136,26 @@ class PayNewBookingTest {
 		assertEquals("*********1234", myPayBooking.getEncryptedCardNumber());
 	}
 	
+	@Test
 	void encryptCardNumber2() {
 		myPayBooking.setCardNumber("01234567891012345");
 		myPayBooking.setEncryptedCardNumber();
 		assertEquals("*********2345", myPayBooking.getEncryptedCardNumber());
 	}
+	
+	@Test
+	void checkMonthFormatVal7() {
+		assertEquals("7", myPayBooking.formatMonth("07"));
+	}
+	
+	@Test
+	void checkMonthFormatVal10() {
+		assertEquals("10", myPayBooking.formatMonth("10"));
+	}
+	
+	@Test
+	void checkMonthFormatSingle() {
+		assertEquals("8", myPayBooking.formatMonth("8"));
+	}
+	
 }
