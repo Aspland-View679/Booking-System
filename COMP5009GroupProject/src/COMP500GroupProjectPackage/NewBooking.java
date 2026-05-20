@@ -3,7 +3,39 @@ package COMP500GroupProjectPackage;
 import javax.swing.*;
 
 public class NewBooking extends JFrame {
+	
+	private int timeDay;
+	private int luggageAmount;
+	private int estimationOfDuration;
+	private String pickup;
+	private String selectedAirport;
+	private String bookingDate;
+	
+	public int getTimeDay() {
+		return timeDay;
+	}
+	
+	public int getluggageAmount() {
+		return luggageAmount;
+	}
+	
+	public int getestimationOfDuration() {
+		return estimationOfDuration;
+	}
+	
+	public String getpickup() {
+		return pickup;
+	}
+	
+	public String getselectedAirport() {
+		return selectedAirport;
+	}
+	
+	public String getbookingDate() {
+		return bookingDate;
+	}
 
+	
     public NewBooking() {
 
         setTitle("Booking Page");
@@ -47,8 +79,13 @@ public class NewBooking extends JFrame {
         JLabel luggageLabel = new JLabel("Luggage:");
         luggageLabel.setBounds(50, 100, 100, 30);
 
-        JTextField luggageField = new JTextField();
-        luggageField.setBounds(150, 100, 250, 30);
+        SpinnerNumberModel luggageModel =
+                new SpinnerNumberModel(0, 0, 10, 1);
+
+        JSpinner luggageSpinner =
+                new JSpinner(luggageModel);
+
+        luggageSpinner.setBounds(150, 100, 250, 30);
 
         JLabel pickupLabel = new JLabel("Pickup Location:");
         pickupLabel.setBounds(50, 150, 120, 30);
@@ -59,11 +96,24 @@ public class NewBooking extends JFrame {
         JLabel dateLabel = new JLabel("Date:");
         dateLabel.setBounds(50, 200, 100, 30);
         
-        JTextField dateField = new JTextField();
-        dateField.setBounds(150, 200, 250, 30);
+        SpinnerDateModel dateModel =
+                new SpinnerDateModel();
+
+        JSpinner dateSpinner =
+                new JSpinner(dateModel);
+
+        JSpinner.DateEditor dateEditor =
+                new JSpinner.DateEditor(
+                        dateSpinner,
+                        "dd/MM/yyyy"
+                );
+
+        dateSpinner.setEditor(dateEditor);
+
+        dateSpinner.setBounds(150, 200, 250, 30);
         
         add(dateLabel);
-        add(dateField);
+        add(dateSpinner);
         
         JLabel timeHint = new JLabel("Use 24 hour format");
         timeHint.setBounds(410, 250, 150, 30);
@@ -82,17 +132,30 @@ public class NewBooking extends JFrame {
         JLabel timeLabel = new JLabel("Time:");
         timeLabel.setBounds(50, 250, 100, 30);
         
-        JTextField timeField = new JTextField();
-        timeField.setBounds(150, 250, 250, 30);
+        SpinnerDateModel timeModel =
+                new SpinnerDateModel();
+
+        JSpinner timeSpinner =
+                new JSpinner(timeModel);
+
+        JSpinner.DateEditor timeEditor =
+                new JSpinner.DateEditor(
+                        timeSpinner,
+                        "HH:mm"
+                );
+
+        timeSpinner.setEditor(timeEditor);
+
+        timeSpinner.setBounds(150, 250, 250, 30);
         
         add(timeLabel);
-        add(timeField);
+        add(timeSpinner);
 
         JButton bookButton = new JButton("Book Your Flight");
         bookButton.setBounds(150, 320, 180, 40);
 
         add(luggageLabel);
-        add(luggageField);
+        add(luggageSpinner);
 
         add(pickupLabel);
         add(pickupField);
@@ -109,25 +172,43 @@ public class NewBooking extends JFrame {
         
         
         bookButton.addActionListener(e -> {
+        	if (pickupField.getText().trim().isEmpty()) {
+
+        	    JOptionPane.showMessageDialog(
+        	            null,
+        	            "Please enter a pickup location"
+        	    );
+
+        	    return;
+        	}
         	
-        	int estimationOfDuration = 30;
-        	int timeOfDay = Integer.parseInt(timeField.getText());
+        	estimationOfDuration = 30;
+        	String timeText =
+        	        timeEditor.getFormat()
+        	        .format(timeSpinner.getValue());
+
+        	timeDay = Integer.parseInt(
+        	        timeText.substring(0, 2)
+        	);
         	
-        	if (timeOfDay >= 7 && timeOfDay <= 9) {
+        	if (timeDay >= 7 && timeDay <= 9) {
         		estimationOfDuration += 20;
         	}
-        	else if (timeOfDay >= 16 && timeOfDay <=18) {
+        	else if (timeDay >= 16 && timeDay <=18) {
         		estimationOfDuration += 20;
         	}
         	else {
         		estimationOfDuration += 10;
         	}
         	
-        	int luggageAmount = Integer.parseInt(luggageField.getText());
+        	bookingDate = dateEditor.getFormat()
+        	        .format(dateSpinner.getValue());
+        	
+        	luggageAmount = (Integer) luggageSpinner.getValue();
         	
         	estimationOfDuration += luggageAmount * 5;
         	
-        	String pickup = pickupField.getText().toLowerCase();
+        	pickup = pickupField.getText().toLowerCase();
         	
         	if (pickup.contains("ashford")) {
         		estimationOfDuration += 10;
@@ -139,7 +220,7 @@ public class NewBooking extends JFrame {
         		estimationOfDuration += 30;
         	}
         	
-        	String selectedAirport = airportBox.getSelectedItem().toString().toLowerCase();
+        	 selectedAirport = airportBox.getSelectedItem().toString().toLowerCase();
         	
         	if (selectedAirport.contains("london")) {
         		estimationOfDuration += 25;
@@ -161,13 +242,16 @@ public class NewBooking extends JFrame {
 
         setVisible(false);
         
-        // PaymentPage payment = new payNewPage();
-    });
+        PayNewBooking payment = new PayNewBooking(this, null, null);
+        });
         
     
     setVisible(true);
     
     }
+    
+ 
+}
     
  
 }

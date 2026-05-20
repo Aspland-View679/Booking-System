@@ -20,18 +20,20 @@ public class PayNewBooking extends JFrame implements ActionListener {
 	private int CVV;
 	private String[] acceptedCardTypes = {"Visa", "Mastercard", "Visa Debit", "Apple card"};
 	private int expiryYear;
-	private Integer expiryMonth; 
+	private int expiryMonth; 
 	private NewBooking booking;
 	private String billingAddress;	
 	private double bookingFee;
 	private String encryptedCardNumber;
+	private AmendBooking amendBooking;
+	private CancelBooking cancelBooking;
 	
 
 	public static void main(String[] args) {
-		PayNewBooking pay = new PayNewBooking(null);
+		PayNewBooking pay = new PayNewBooking(null, null, null);
 	}
 	
-	public PayNewBooking(NewBooking bookingToSet) {
+	public PayNewBooking(NewBooking bookingToSet, AmendBooking amendBookingToSet, CancelBooking cancelBookingToSet) {
 		
 		this.booking = bookingToSet;
 		
@@ -107,9 +109,9 @@ public class PayNewBooking extends JFrame implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				if (mainLogic(mainPayFrame, cardTypeInput, cardNumberInput, payersName, expiryMonth, expiryYear, cvv, bookingToSet)) {
+				if (mainLogic(mainPayFrame, cardTypeInput, cardNumberInput, payersName, expiryMonth, expiryYear, cvv, bookingToSet, amendBookingToSet, cancelBookingToSet)) {
 					mainPayFrame.setVisible(false);
-			ConfirmationMessage confirm = new ConfirmationMessage(this);		//Here the confirmation GUI should be created for the next step in the confirmation constructor
+					sendConfirmation();
 				} else {
 					System.out.println("ERROR");
 			}
@@ -131,23 +133,39 @@ public class PayNewBooking extends JFrame implements ActionListener {
 	 * @return whether checks passed
 	 */
 	
-	public boolean mainLogic(JFrame mainPayFrame, JComboBox<String> cardType, JTextField cardNumber, JTextField cardName, JTextField expiryMonthInput, JTextField expiryYearInput, JTextField cvv, NewBooking booking) {
+	public boolean mainLogic(JFrame mainPayFrame, JComboBox<String> cardType, JTextField cardNumber, JTextField cardName, JTextField expiryMonthInput, JTextField expiryYearInput, JTextField cvv, NewBooking booking, AmendBooking amend, CancelBooking cancel) {
 		String cardTypeToSet = cardType.getSelectedItem().toString();
 		setCardType(cardTypeToSet);
 		setCardName(cardName.getText());
+		
+		if (booking != null) {
+			setNewBookingPaymentIsBeingMadeFor(booking);
+		} else if (cancel != null) {
+			setCancelBooking(cancel);
+		} else if (amend != null) {
+			setAmendBooking(amend);
+		}
 		try {
-			setExpiryMonthAndYear(Integer.parseInt(expiryMonthInput.getText()), Integer.parseInt(expiryYearInput.getText()));
+			System.out.println(expiryMonthInput.getText());
+			String formattedMonth = formatMonth(expiryMonthInput.getText());
+			setExpiryMonthAndYear(Integer.parseInt(formattedMonth), Integer.parseInt(expiryYearInput.getText()));
 			setCVV(Integer.parseInt(cvv.getText()));
 			setCardNumber(cardNumber.getText());
 			setEncryptedCardNumber();
 		} catch (Exception ex) {
+			System.out.println("Error");
 			JTextField showError = new JTextField();
 			showError.setBounds(250, 350, 300, 30);
 			showError.setText("error");
 			mainPayFrame.add(showError);
+			JTextField showError2 = new JTextField();
+			showError2.setBounds(250, 360, 300, 30);
+			showError2.setText("Please check you've enter numbers for card number, cvv and expiry dates");
+			mainPayFrame.add(showError);
+		
 		}
 		setNewBookingPaymentIsBeingMadeFor(booking);
-		setBookingFee(1, 1.00, 1);
+		setBookingFee(booking.getTimeDay(), booking.getluggageAmount(), booking.getestimationOfDuration());
 		
 		if (isCVVAcceptable(getCVV()) && isExpiryDateValid(getExpiryMonth(), getExpiryYear()) && isCardNumberValid(getCardNumber())) {
 			return true;
@@ -171,6 +189,43 @@ public class PayNewBooking extends JFrame implements ActionListener {
 		return bookingFee;
 	}
 	
+	/**
+	 * returns amendBooking class
+	 * @return amendBooking
+	 */
+
+	public AmendBooking getAmendBooking() {
+		return amendBooking;
+	}
+	
+	/**
+	 * sets amendBooking class
+	 * @param amendBooking
+	 */
+
+	public void setAmendBooking(AmendBooking amendBooking) {
+		this.amendBooking = amendBooking;
+	}
+
+	/**
+	 * gets cancelBooking class 
+	 * @return cancelBooking class
+	 */
+	
+	public CancelBooking getCancelBooking() {
+		return cancelBooking;
+	}
+	
+	/**
+	 * sets cancelBooking class 
+	 * @param cancelBooking
+	 */
+	
+
+	public void setCancelBooking(CancelBooking cancelBooking) {
+		this.cancelBooking = cancelBooking;
+	}
+
 	
 	/**
 	 * getBillingAddress - returns address relating to car
@@ -300,11 +355,11 @@ public class PayNewBooking extends JFrame implements ActionListener {
 	}
 	
 	/**
-	 * getBooking - returns the booking payment is linked to
+	 * getNewBooking - returns the booking payment is linked to
 	 * @return the booking linked to the payment
 	 */
 
-	public NewBooking getBooking() {
+	public NewBooking getNewBooking() {
 		return booking;
 	}
 	
@@ -335,6 +390,22 @@ public class PayNewBooking extends JFrame implements ActionListener {
 	}
 	
 	/**
+	 * formatMonth - gets rid of 0 if month style is 01,02...09
+	 * @param inputMonth
+	 * @return the correct implemented month (without 0)
+	 */
+	
+	public String formatMonth(String inputMonth) {
+		   
+	  
+	    if (inputMonth.startsWith("0")) {
+	    	inputMonth = inputMonth.replaceFirst("0", "");
+	    }
+	    return inputMonth;
+	    
+	}
+	
+	/**
 	 * isExpiryDateValid - ensures date is correct
 	 * @param inputMonth
 	 * @param inputYear
@@ -342,24 +413,12 @@ public class PayNewBooking extends JFrame implements ActionListener {
 	 */
 	
 	
-	public Boolean isExpiryDateValid(Integer inputMonth, int inputYear) {
+	public Boolean isExpiryDateValid(int inputMonth, int inputYear) {
 		
 		LocalDate today = LocalDate.now();
-	    Integer month = today.getMonthValue();
-		
-	    String month2 = inputMonth.toString();		//Conversion needed for manipulation - see below for more
-	    
-	    
-	    //month returns a value between 1 and 12, however user might input 01,02,03... so need to align format with
-	     //the following code
-	    
-	    if (month2.startsWith("0")) {
-	    	month2 = month2.replaceFirst("0", "");
-	    	inputMonth = Integer.parseInt(month2);
-	    }
+	    Integer month = today.getMonthValue();	 
 		
 		int year = today.getYear();
-		
 		
 		if ((month >= inputMonth) && (year >= inputYear)) {
 			return false;
@@ -393,20 +452,20 @@ public class PayNewBooking extends JFrame implements ActionListener {
 	 * @param numPeople - number of people the booking is made for
 	 */
 	
-	public void setBookingFee(int timeDay, double distance, int numPeople) {
+	public void setBookingFee(int timeDay, int numLuggage, int estimateDuration) {
 		
 		double bookingFeeToAssign = 0;
-		double feePerPerson = 0.5;
-		bookingFeeToAssign = bookingFeeToAssign + (feePerPerson * numPeople);
+		double feePerLuggage = 0.5;
+		bookingFeeToAssign = bookingFeeToAssign + (feePerLuggage * numLuggage);
 		if (timeDay >= 9 && timeDay <= 17) {		//Peak-time being normal 9-5 shift
 			bookingFeeToAssign+= 10;
 		} else {									//Off-peak times
 			bookingFeeToAssign += 5;
 		}
-		if (distance <= 100) {
+		if (estimateDuration <= 60) {
 			bookingFeeToAssign += 5;
 		} else {
-			bookingFeeToAssign += (Math.round(distance)/100) * 5; 
+			bookingFeeToAssign += (Math.round(estimateDuration)/60) * 5;  //Checks against 60mins
 		}
 		
 		this.bookingFee = bookingFeeToAssign;
@@ -430,7 +489,19 @@ public class PayNewBooking extends JFrame implements ActionListener {
 		this.encryptedCardNumber = encCardNumber;
 	}
 
+	/**
+	 * sendConfirmation() fires confirmation screen
+	 */
 
-	
-	
+	public void sendConfirmation() {
+		if (getNewBooking() != null) {
+			ConfirmationMessage confirmNew = new ConfirmationMessage(this, getNewBooking(), null, null);		
+	} else if (getAmendBooking() != null) {
+		ConfirmationMessage confirmAmend = new ConfirmationMessage(this, null, getAmendBooking(), null);	
+	} else if (getCancelBooking() != null) {
+		ConfirmationMessage confirmCancel = new ConfirmationMessage(this, null, null, getCancelBooking());
+	}
+	}
 }
+
+
