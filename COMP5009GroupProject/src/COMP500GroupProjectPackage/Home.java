@@ -11,6 +11,7 @@ public class Home extends JFrame {
     JButton payNewButton;
     JButton confirmationButton;
     JButton discountButton;
+    JButton bookingSummaryButton;
 
     public Home() {
         setTitle("Airport Booking System");
@@ -36,6 +37,9 @@ public class Home extends JFrame {
         discountButton = new JButton("Offer Discount");
         discountButton.setBounds(100, 300, 200, 40);
         
+        bookingSummaryButton = new JButton("Booking Summary");
+        bookingSummaryButton.setBounds(100, 350, 200, 40);
+        
         
         add(bookingButton);
         add(amendButton);
@@ -43,6 +47,7 @@ public class Home extends JFrame {
         add(payNewButton);
         add(confirmationButton);
         add(discountButton);
+        add(bookingSummaryButton);
 
         bookingButton.addActionListener(new ActionListener() {
 
@@ -54,7 +59,20 @@ public class Home extends JFrame {
             	new NewBooking();
             }
         });
+            
+            bookingSummaryButton.addActionListener(new ActionListener() {
 
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Please create a booking first"
+                    	    );
+
+                }
+            });
+            
         // amendButton.addActionListener( e - {
         // new amendBooking();
         // });
@@ -79,11 +97,6 @@ public class Home extends JFrame {
      
     }
 
-    public static void main(String[] args) {
-
-        new Home();
-    }
-}
     public static void main(String[] args) {
 
         new Home();
