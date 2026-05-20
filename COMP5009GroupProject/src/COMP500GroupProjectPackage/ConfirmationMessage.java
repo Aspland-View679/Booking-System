@@ -1,5 +1,9 @@
 package COMP500GroupProjectPackage;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
@@ -8,7 +12,7 @@ import javax.swing.JLabel;
  * @author <a href="mailto:njw38@kent.ac.uk">Alexis Williams</a>
  * @version 2026-05-11
  */
-public class ConfirmationMessage extends JFrame {
+public class ConfirmationMessage extends JFrame implements ActionListener {
 	private Order order;
 	private boolean confirmed;
 
@@ -34,6 +38,20 @@ public class ConfirmationMessage extends JFrame {
 		
 		confirmationMessage.add(showPaymentDetails);
 		confirmationMessage.add(showDetails);
+		
+		JButton home = new JButton();
+		home.setBounds(250,310, 50, 50);
+		home.setText("Home");
+		confirmationMessage.add(home);
+		
+		home.addActionListener(new ActionListener() {
+			
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Home goHome = new Home();
+			}
+		});
 		
 		confirmationMessage.setVisible(true);
 	}
