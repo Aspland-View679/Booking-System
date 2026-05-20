@@ -25,13 +25,15 @@ public class PayNewBooking extends JFrame implements ActionListener {
 	private String billingAddress;	
 	private double bookingFee;
 	private String encryptedCardNumber;
+	private AmendBooking amendBooking;
+	private CancelBooking cancelBooking;
 	
 
 	public static void main(String[] args) {
-		PayNewBooking pay = new PayNewBooking(null);
+		PayNewBooking pay = new PayNewBooking(null, null, null);
 	}
 	
-	public PayNewBooking(NewBooking bookingToSet) {
+	public PayNewBooking(NewBooking bookingToSet, AmendBooking amendBookingToSet, CancelBooking cancelBookingToSet) {
 		
 		this.booking = bookingToSet;
 		
@@ -107,9 +109,9 @@ public class PayNewBooking extends JFrame implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				if (mainLogic(mainPayFrame, cardTypeInput, cardNumberInput, payersName, expiryMonth, expiryYear, cvv, bookingToSet)) {
+				if (mainLogic(mainPayFrame, cardTypeInput, cardNumberInput, payersName, expiryMonth, expiryYear, cvv, bookingToSet, amendBookingToSet, cancelBookingToSet)) {
 					mainPayFrame.setVisible(false);
-		//	ConfirmationMessage confirm = new ConfirmationMessage(this);		//Here the confirmation GUI should be created for the next step in the confirmation constructor
+					sendConfirmation();
 				} else {
 					System.out.println("ERROR");
 			}
@@ -131,10 +133,18 @@ public class PayNewBooking extends JFrame implements ActionListener {
 	 * @return whether checks passed
 	 */
 	
-	public boolean mainLogic(JFrame mainPayFrame, JComboBox<String> cardType, JTextField cardNumber, JTextField cardName, JTextField expiryMonthInput, JTextField expiryYearInput, JTextField cvv, NewBooking booking) {
+	public boolean mainLogic(JFrame mainPayFrame, JComboBox<String> cardType, JTextField cardNumber, JTextField cardName, JTextField expiryMonthInput, JTextField expiryYearInput, JTextField cvv, NewBooking booking, AmendBooking amend, CancelBooking cancel) {
 		String cardTypeToSet = cardType.getSelectedItem().toString();
 		setCardType(cardTypeToSet);
 		setCardName(cardName.getText());
+		
+		if (booking != null) {
+			setNewBookingPaymentIsBeingMadeFor(booking);
+		} else if (cancel != null) {
+			setCancelBooking(cancel);
+		} else if (amend != null) {
+			setAmendBooking(amend);
+		}
 		try {
 			System.out.println(expiryMonthInput.getText());
 			String formattedMonth = formatMonth(expiryMonthInput.getText());
@@ -179,6 +189,43 @@ public class PayNewBooking extends JFrame implements ActionListener {
 		return bookingFee;
 	}
 	
+	/**
+	 * returns amendBooking class
+	 * @return amendBooking
+	 */
+
+	public AmendBooking getAmendBooking() {
+		return amendBooking;
+	}
+	
+	/**
+	 * sets amendBooking class
+	 * @param amendBooking
+	 */
+
+	public void setAmendBooking(AmendBooking amendBooking) {
+		this.amendBooking = amendBooking;
+	}
+
+	/**
+	 * gets cancelBooking class 
+	 * @return cancelBooking class
+	 */
+	
+	public CancelBooking getCancelBooking() {
+		return cancelBooking;
+	}
+	
+	/**
+	 * sets cancelBooking class 
+	 * @param cancelBooking
+	 */
+	
+
+	public void setCancelBooking(CancelBooking cancelBooking) {
+		this.cancelBooking = cancelBooking;
+	}
+
 	
 	/**
 	 * getBillingAddress - returns address relating to car
@@ -308,11 +355,11 @@ public class PayNewBooking extends JFrame implements ActionListener {
 	}
 	
 	/**
-	 * getBooking - returns the booking payment is linked to
+	 * getNewBooking - returns the booking payment is linked to
 	 * @return the booking linked to the payment
 	 */
 
-	public NewBooking getBooking() {
+	public NewBooking getNewBooking() {
 		return booking;
 	}
 	
@@ -442,7 +489,19 @@ public class PayNewBooking extends JFrame implements ActionListener {
 		this.encryptedCardNumber = encCardNumber;
 	}
 
+	/**
+	 * sendConfirmation() fires confirmation screen
+	 */
 
-	
-	
+	public void sendConfirmation() {
+		if (getNewBooking() != null) {
+			ConfirmationMessage confirmNew = new ConfirmationMessage(this, getNewBooking(), null, null);		
+	} else if (getAmendBooking() != null) {
+		ConfirmationMessage confirmAmend = new ConfirmationMessage(this, null, getAmendBooking(), null);	
+	} else if (getCancelBooking() != null) {
+		ConfirmationMessage confirmCancel = new ConfirmationMessage(this, null, null, getCancelBooking());
+	}
+	}
 }
+
+

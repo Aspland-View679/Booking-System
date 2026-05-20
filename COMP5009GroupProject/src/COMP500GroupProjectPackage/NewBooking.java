@@ -242,7 +242,7 @@ public class NewBooking extends JFrame {
 
         setVisible(false);
         
-        PayNewBooking payment = new PayNewBooking(this);
+        PayNewBooking payment = new PayNewBooking(this, null, null);
         });
         
     
