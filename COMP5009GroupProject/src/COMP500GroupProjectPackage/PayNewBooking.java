@@ -455,8 +455,8 @@ public class PayNewBooking extends JFrame implements ActionListener {
 	public void setBookingFee(int timeDay, int numLuggage, int estimateDuration) {
 		
 		double bookingFeeToAssign = 0;
-		double feePerPerson = 0.5;
-		bookingFeeToAssign = bookingFeeToAssign + (feePerPerson * numLuggage);
+		double feePerLuggage = 0.5;
+		bookingFeeToAssign = bookingFeeToAssign + (feePerLuggage * numLuggage);
 		if (timeDay >= 9 && timeDay <= 17) {		//Peak-time being normal 9-5 shift
 			bookingFeeToAssign+= 10;
 		} else {									//Off-peak times
@@ -465,7 +465,7 @@ public class PayNewBooking extends JFrame implements ActionListener {
 		if (estimateDuration <= 60) {
 			bookingFeeToAssign += 5;
 		} else {
-			bookingFeeToAssign += (Math.round(estimateDuration)/100) * 5; 
+			bookingFeeToAssign += (Math.round(estimateDuration)/60) * 5;  //Checks against 60mins
 		}
 		
 		this.bookingFee = bookingFeeToAssign;

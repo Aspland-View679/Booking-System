@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 class PayNewBookingTest {
 
-	PayNewBooking myPayBooking = new PayNewBooking(null);
+	PayNewBooking myPayBooking = new PayNewBooking(null, null, null);
 	
 	
 	@Test
@@ -106,23 +106,23 @@ class PayNewBookingTest {
 	}
 	
 	@Test
-	void bookingFeeTestUnder100kmBusy() {
-		myPayBooking.setBookingFee(14, 99.4, 2);
+	void bookingFeeTestUnder60minsBusy() {
+		myPayBooking.setBookingFee(14, 2, 45);
 		boolean result1 = (myPayBooking.getBookingFee() == 16);
 		assertEquals(true, result1);
 	}
 	
 	@Test
-	void bookingFeeTestUnder100kmQuiet() {
-		myPayBooking.setBookingFee(18, 99.4, 2);
-		boolean result = (myPayBooking.getBookingFee() == 11);
+	void bookingFeeTestUnder60minsQuiet() {
+		myPayBooking.setBookingFee(18, 3, 45);
+		boolean result = (myPayBooking.getBookingFee() == 11.5);
 		assertEquals(true, result);
 	}
 
 	@Test
-	void bookingFeeTestOver100kmBusy() {
-		myPayBooking.setBookingFee(14, 310, 2);
-		assertEquals(26, myPayBooking.getBookingFee());
+	void bookingFeeTestOver60minsBusy() {
+		myPayBooking.setBookingFee(14, 4, 70);
+		assertEquals(17.0, myPayBooking.getBookingFee());
 	}
 	
 	@Test
