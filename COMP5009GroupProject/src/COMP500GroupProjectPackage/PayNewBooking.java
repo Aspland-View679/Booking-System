@@ -155,7 +155,7 @@ public class PayNewBooking extends JFrame implements ActionListener {
 		
 		}
 		setNewBookingPaymentIsBeingMadeFor(booking);
-		setBookingFee(1, 1.00, 1);
+		setBookingFee(booking.getTimeDay(), booking.getluggageAmount(), booking.getestimationOfDuration());
 		
 		if (isCVVAcceptable(getCVV()) && isExpiryDateValid(getExpiryMonth(), getExpiryYear()) && isCardNumberValid(getCardNumber())) {
 			return true;
@@ -405,20 +405,20 @@ public class PayNewBooking extends JFrame implements ActionListener {
 	 * @param numPeople - number of people the booking is made for
 	 */
 	
-	public void setBookingFee(int timeDay, double distance, int numPeople) {
+	public void setBookingFee(int timeDay, int numLuggage, int estimateDuration) {
 		
 		double bookingFeeToAssign = 0;
 		double feePerPerson = 0.5;
-		bookingFeeToAssign = bookingFeeToAssign + (feePerPerson * numPeople);
+		bookingFeeToAssign = bookingFeeToAssign + (feePerPerson * numLuggage);
 		if (timeDay >= 9 && timeDay <= 17) {		//Peak-time being normal 9-5 shift
 			bookingFeeToAssign+= 10;
 		} else {									//Off-peak times
 			bookingFeeToAssign += 5;
 		}
-		if (distance <= 100) {
+		if (estimateDuration <= 60) {
 			bookingFeeToAssign += 5;
 		} else {
-			bookingFeeToAssign += (Math.round(distance)/100) * 5; 
+			bookingFeeToAssign += (Math.round(estimateDuration)/100) * 5; 
 		}
 		
 		this.bookingFee = bookingFeeToAssign;

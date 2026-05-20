@@ -242,8 +242,8 @@ public class NewBooking extends JFrame {
 
         setVisible(false);
         
-        // PaymentPage payment = new payNewPage();
-    });
+        PayNewBooking payment = new PayNewBooking(this);
+        });
         
     
     setVisible(true);
