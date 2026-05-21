@@ -101,8 +101,4 @@ public class Home extends JFrame {
 
         new Home();
     }
-<<<<<<< HEAD
-
-=======
->>>>>>> branch 'main' of https://git.cs.kent.ac.uk/njw38/comp5009-group-project.git
 }
