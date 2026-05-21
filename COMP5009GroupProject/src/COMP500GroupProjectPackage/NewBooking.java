@@ -8,7 +8,7 @@ public class NewBooking extends JFrame {
 	private int timeDay;
 	private int luggageAmount;
 	private int estimationOfDuration;
-	private String pickup;
+	private String pickup;               //For Pay New booking to call this class
 	private String selectedAirport;
 	private String bookingDate;
 	
@@ -29,7 +29,7 @@ public class NewBooking extends JFrame {
 	public int getluggageAmount() {
 		return luggageAmount;
 	}
-	
+	                                     //All getters for the Pay New Booking Class
         /**
          * getestimationOfDuration
          * @return estimationOfDuration
@@ -66,15 +66,15 @@ public class NewBooking extends JFrame {
 		return bookingDate;
 	}
 
-	
-    public NewBooking() {
+	                                           
+    public NewBooking() {           
 
         setTitle("Booking Page");
-        setSize(650, 500);
+        setSize(650, 500);               //Creates the new booking JPanel, sets the window size with the title
         setLayout(null);
 
         JLabel airportLabel = new JLabel("Airport:");
-        airportLabel.setBounds(50, 50, 100, 30);
+        airportLabel.setBounds(50, 50, 100, 30);    //Creates a textbox next to the dropdown menu
 
         String[] airports = {
             "London Heathrow - UK",
@@ -85,7 +85,7 @@ public class NewBooking extends JFrame {
             "London City Airport - UK",
             "Birmingham Airport - UK",
             "Bristol Airport - UK",
-            "Liverpool John Lennon Airport - UK",
+            "Liverpool John Lennon Airport - UK",             //This is the list for the drop down menu
             "Leeds Bradford Airport - UK",
             "Newcastle Airport - UK",
             "East Midlands Airport - UK",
@@ -104,10 +104,10 @@ public class NewBooking extends JFrame {
         JComboBox<String> airportBox = new JComboBox<>(airports);
         airportBox.setBounds(150, 50, 350, 30);
 
-        add(airportLabel);
+        add(airportLabel);       //This is the drop down menu
         add(airportBox);
 
-        JLabel luggageLabel = new JLabel("Luggage:");
+        JLabel luggageLabel = new JLabel("Luggage:"); //All text boxes for Luggage, Pickup, Date and time fields
         luggageLabel.setBounds(50, 100, 100, 30);
 
         SpinnerNumberModel luggageModel =
@@ -136,7 +136,7 @@ public class NewBooking extends JFrame {
         JSpinner.DateEditor dateEditor =
                 new JSpinner.DateEditor(
                         dateSpinner,
-                        "dd/MM/yyyy"
+                        "dd/MM/yyyy"     //Sets the format to a calendar format
                 );
 
         dateSpinner.setEditor(dateEditor);
@@ -146,7 +146,7 @@ public class NewBooking extends JFrame {
         add(dateLabel);
         add(dateSpinner);
         
-        JLabel timeHint = new JLabel("Use 24 hour format");
+        JLabel timeHint = new JLabel("Use 24 hour format");   //it tells the user what format is accepted - 00:00
         timeHint.setBounds(410, 250, 150, 30);
         
         add(timeHint);
@@ -168,7 +168,7 @@ public class NewBooking extends JFrame {
 
         JSpinner timeSpinner =
                 new JSpinner(timeModel);
-
+                                         //this is to create the 00:00
         JSpinner.DateEditor timeEditor =
                 new JSpinner.DateEditor(
                         timeSpinner,
@@ -195,7 +195,7 @@ public class NewBooking extends JFrame {
         		"Example: Ashford, Canterbury, London, Manchester"
         );
         
-        pickupHint.setBounds(170, 175, 400, 30);
+        pickupHint.setBounds(170, 175, 400, 30);       //Creates buttons
         
         add(pickupHint);
 
@@ -205,7 +205,7 @@ public class NewBooking extends JFrame {
         bookButton.addActionListener(e -> {
         	if (pickupField.getText().trim().isEmpty()) {
 
-        	    JOptionPane.showMessageDialog(
+        	    JOptionPane.showMessageDialog(     //If you leave a field empty this catches it and tells the user to fill out the boxes
         	            null,
         	            "Please enter a pickup location"
         	    );
@@ -216,7 +216,7 @@ public class NewBooking extends JFrame {
         	estimationOfDuration = 30;
         	String timeText =
         	        timeEditor.getFormat()
-        	        .format(timeSpinner.getValue());
+        	        .format(timeSpinner.getValue()); 
 
         	timeDay = Integer.parseInt(
         	        timeText.substring(0, 2)
@@ -289,7 +289,7 @@ public class NewBooking extends JFrame {
         			+ "\nTotal Price: £" + totalPrice
         	);
         	
-        	setVisible(false);
+        	setVisible(false); // Doesn't show the JPanel
         	
         	new BookingSummary(booking);
         
@@ -297,7 +297,7 @@ public class NewBooking extends JFrame {
         });
         
     
-    setVisible(true);
+    setVisible(true); // Shows JPanel
     
     }
     

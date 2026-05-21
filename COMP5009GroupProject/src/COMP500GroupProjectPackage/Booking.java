@@ -3,7 +3,7 @@ package COMP500GroupProjectPackage;
 import javax.swing.*;
 
 /**
- * Stores all data of the booking
+ * Stores all data of the booking 
  */
 
 public class Booking {
@@ -23,14 +23,14 @@ public class Booking {
 	public Booking(
 			String airport,
 			String pickupLocation,
-			String bookingDate,
+			String bookingDate,    // Saves the data you inputed on new Booking
 			String bookingTime,
 			int luggageAmount,
 			int estimatedDuration,
 			double totalPrice
 	) {
 		this.airport = airport;
-		this.pickupLocation = pickupLocation;
+		this.pickupLocation = pickupLocation;  // this section assign a function to a method or object to pass through
 		this.bookingDate = bookingDate;
 		this.bookingTime = bookingTime;
 		
@@ -39,7 +39,7 @@ public class Booking {
 		
 		this.totalPrice = totalPrice;
 		
-		 confirmed = false;
+		 confirmed = false; // Set to false as it isnt confirmed or payed
 		 cancelled = false;
 	}
 	
@@ -113,4 +113,4 @@ public class Booking {
     public void setCancelled(boolean cancelled) {
         this.cancelled = cancelled;
     }
-}
+} //This section is getters and set to ensure all the fields are filled

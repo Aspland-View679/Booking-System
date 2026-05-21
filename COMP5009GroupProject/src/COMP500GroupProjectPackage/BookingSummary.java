@@ -9,7 +9,7 @@ public class BookingSummary extends JFrame {
 	
 	public BookingSummary(Booking booking) {
 		setTitle("Booking Summary");
-        setSize(500, 400);
+        setSize(500, 400);    // This is to create a summary ticket before the user continues
         setLayout(null);
         
         JLabel titleLabel = new JLabel("Booking Summary");
@@ -20,7 +20,7 @@ public class BookingSummary extends JFrame {
         JLabel summaryLabel = new JLabel(
         	    "<html>"
         	    + "Airport: " + booking.getAirport()
-        	    + "<br><br>Pickup Location: " + booking.getPickupLocation()
+        	    + "<br><br>Pickup Location: " + booking.getPickupLocation()         // Displays all the information from the booking to display in the booking summary
         	    + "<br><br>Date: " + booking.getBookingDate()
         	    + "<br><br>Time: " + booking.getBookingTime()
         	    + "<br><br>Luggage Amount: " + booking.getLuggageAmount()
@@ -43,7 +43,7 @@ public class BookingSummary extends JFrame {
 
         add(payButton);
         
-        JButton cancelButton =
+        JButton cancelButton =   // This if clicked, hides this summary and deletes the current booking
         		new JButton("Cancel Booking");
         
         cancelButton.setBounds(260, 280, 170, 40);
