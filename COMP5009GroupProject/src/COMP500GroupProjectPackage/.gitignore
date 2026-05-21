@@ -22,3 +22,7 @@
 /Booking.class
 /BookingSummary$1.class
 /BookingSummary.class
+<<<<<<< HEAD
+=======
+/Home$2.class
+>>>>>>> 1c8787d (Complete implementation of `ActionListener` on `PayNewBooking`)

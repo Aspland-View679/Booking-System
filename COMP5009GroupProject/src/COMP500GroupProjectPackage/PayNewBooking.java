@@ -502,6 +502,12 @@ public class PayNewBooking extends JFrame implements ActionListener {
 		ConfirmationMessage confirmCancel = new ConfirmationMessage(this, null, null, getCancelBooking());
 	}
 	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 }
 
 
