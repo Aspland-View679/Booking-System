@@ -1,6 +1,6 @@
 # COMP5009 Group Project
 
-The repo for both COMP5009 A1 and A2
+The repo for both COMP5009 A1, A2, and A3
 
 ## Members 
 
@@ -10,11 +10,18 @@ The repo for both COMP5009 A1 and A2
 | Oliver | ohf2   |
 | Rosie  | ra711  |
 
-## Meetings
-### 28th April
-[Google Slides](https://docs.google.com/presentation/d/1bXx9e9Y9gJ1Y1EsR9IVxFQbmN1YNnpJodtOvKvdkUuw/edit?usp=sharing) *Anyone with link can edit, be careful!*
-```rust
-let minutes = todo!();
-```
-## A1
+## Build instructions
+In Eclipse, with the project loaded, right click Home and run as program. Optionally, create a run config.
+
+## A1 
+- [x] submitted?
+
 [Google Docs](https://docs.google.com/document/d/1CJg2Cp3uXrQFli0MiqOV5rqrSwN6lAqj4RjFT7RcueQ/edit?usp=sharing)
+
+## A2 (due 2026-05-22)
+- [ ] submitted?
+```rust
+todo!();
+```
+
+# 
