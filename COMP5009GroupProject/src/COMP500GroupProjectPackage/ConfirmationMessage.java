@@ -28,7 +28,7 @@ public class ConfirmationMessage extends JFrame implements ActionListener {
 		showPaymentDetails.setBounds(10, 290, 600, 30);
 
 
-		showDetails.setText("Payment successful for your new booking from to " + booking.getselectedAirport() + " from " + booking.getpickup());
+		showDetails.setText("Payment successful for your new booking from to " + booking.getAirport() + " from " + booking.getPickupLocation());
 
 
 		showPaymentDetails.setText("Payment made from card number " + payment.getEncryptedCardNumber() + " with booking fee of £" + payment.getBookingFee());

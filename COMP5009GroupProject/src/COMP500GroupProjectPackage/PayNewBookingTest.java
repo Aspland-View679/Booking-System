@@ -6,7 +6,7 @@ import java.time.*;
 import org.junit.jupiter.api.Test;
 
 class PayNewBookingTest {
-	private PayNewBooking myPayBooking = new PayNewBooking(null, null, null);
+	private PayNewBooking myPayBooking = new PayNewBooking(null);
 	private LocalDate today = LocalDate.now();
 	private Integer month = today.getMonthValue();
 	private Integer year = today.getYear();

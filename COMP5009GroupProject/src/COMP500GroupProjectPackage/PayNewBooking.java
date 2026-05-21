@@ -26,11 +26,9 @@ implements ActionListener {
 	private String billingAddress;	
 	private double bookingFee;
 	private String starredOutCardNumber;
-	private AmendBooking amendBooking;
-	private CancelBooking cancelBooking;
-
+	
 	public static void main(String[] args) {
-		PayNewBooking pay = new PayNewBooking(null, null, null);
+		PayNewBooking pay = new PayNewBooking(null);
 	}
 	
 	public PayNewBooking(
@@ -120,9 +118,7 @@ implements ActionListener {
 						expiryMonth, 
 						expiryYear, 
 						cvv, 
-						bookingToSet,
-						amendBookingToSet, 
-						cancelBookingToSet
+						booking
 					)
 				) {
 					mainPayFrame.setVisible(false);
@@ -156,22 +152,13 @@ implements ActionListener {
 		JTextField expiryMonthInput, 
 		JTextField expiryYearInput, 
 		JTextField cvv, 
-		NewBooking booking, 
-		AmendBooking amend, 
-		CancelBooking cancel
+		Booking booking
 	) {
 		String cardTypeToSet = cardType.getSelectedItem().toString();
 		setCardType(cardTypeToSet);
 		setCardName(cardName.getText());
 		
-		if (booking != null) {
-			setNewBookingPaymentIsBeingMadeFor(booking);
-		} else if (cancel != null) {
-			setCancelBooking(cancel);
-		} else if (amend != null) {
-			setAmendBooking(amend);
-		}
-		
+			
 		try {
 			System.out.println(expiryMonthInput.getText());
 			String formattedMonth = formatMonth(expiryMonthInput.getText());
@@ -201,9 +188,9 @@ implements ActionListener {
 		setNewBookingPaymentIsBeingMadeFor(booking);
 		
 		setBookingFee(
-				booking.getTimeDay(), 
-				booking.getluggageAmount(), 
-				booking.getestimationOfDuration()
+				Integer.parseInt(booking.getBookingTime()), 
+				booking.getLuggageAmount(), 
+				booking.getEstimatedDuration()
 		);
 		
 		if (
@@ -234,38 +221,6 @@ implements ActionListener {
 		return bookingFee;
 	}
 	
-	/**
-	 * Get the AmendBooking class
-	 * @return amendBooking
-	 */
-	public AmendBooking getAmendBooking() {
-		return amendBooking;
-	}
-	
-	/**
-	 * Set AmendBooking class
-	 * @param amendBooking
-	 */
-	public void setAmendBooking(AmendBooking amendBooking) {
-		this.amendBooking = amendBooking;
-	}
-
-	/**
-	 * Get CancelBooking class 
-	 * @return cancelBooking class
-	 */
-	public CancelBooking getCancelBooking() {
-		return cancelBooking;
-	}
-	
-	/**
-	 * Set CancelBooking class 
-	 * @param cancelBooking
-	 */
-	public void setCancelBooking(CancelBooking cancelBooking) {
-		this.cancelBooking = cancelBooking;
-	}
-
 	/**
 	 * Get address relating to car
 	 * @return billingAddress
@@ -382,7 +337,7 @@ implements ActionListener {
 	 * getNewBooking - returns the booking payment is linked to
 	 * @return the booking linked to the payment
 	 */
-	public NewBooking getNewBooking() {
+	public Booking getNewBooking() {
 		return booking;
 	}
 	
@@ -390,7 +345,7 @@ implements ActionListener {
 	 * setNewBookingPaymentIsBeingMadeFor - links payment to the booking
 	 * @param booking
 	 */
-	public void setNewBookingPaymentIsBeingMadeFor(NewBooking booking) {
+	public void setNewBookingPaymentIsBeingMadeFor(Booking booking) {
 		this.booking = booking;
 	}
 
@@ -498,7 +453,7 @@ implements ActionListener {
 	public void setStarredOutCardNumber() {
 		String getCardNum = Long.toString(getCardNumber());		
 		String last4digits = getCardNum.substring(getCardNum.length() - 4, getCardNum.length());
-		int starLenght = getCardNum..length() - 4;
+		int starLenght = getCardNum.length() - 4;
 		String stars = "";
 		for (int i = 0; i <= starLenght; i++) {
 			stars = stars + "*";
@@ -511,7 +466,7 @@ implements ActionListener {
 	 * Fires confirmation screen
 	 */
 	public void sendConfirmation() {
-		ConfirmationMessage confirm = new ConfirmationMessage(this, booking)
+		ConfirmationMessage confirm = new ConfirmationMessage(this, booking);
 	}
 
 	@Override
