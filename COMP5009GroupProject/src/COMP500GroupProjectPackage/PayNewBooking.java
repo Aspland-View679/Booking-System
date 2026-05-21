@@ -188,7 +188,7 @@ implements ActionListener {
 		setNewBookingPaymentIsBeingMadeFor(booking);
 		
 		setBookingFee(
-				Integer.parseInt(booking.getBookingTime()), 
+				Integer.parseInt(booking.getBookingTime().substring(0, 1)), 
 				booking.getLuggageAmount(), 
 				booking.getEstimatedDuration()
 		);
