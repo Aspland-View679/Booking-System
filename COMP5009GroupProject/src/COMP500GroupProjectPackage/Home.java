@@ -83,9 +83,5 @@ public class Home extends JFrame {
 
         new Home();
     }
-}
-    public static void main(String[] args) {
 
-        new Home();
-    }
 }

@@ -20,21 +20,21 @@ public class ConfirmationMessage extends JFrame implements ActionListener {
 	public ConfirmationMessage(PayNewBooking payment, NewBooking booking, AmendBooking amend, CancelBooking cancel) {
 		
 		JFrame confirmationMessage = new JFrame();
-		confirmationMessage.setSize(500, 500);
+		confirmationMessage.setSize(650, 650);
 		
 		JLabel showDetails = new JLabel();
-		showDetails.setBounds(250, 250, 30, 100);
+		showDetails.setBounds(10, 250, 600, 30);
 		JLabel showPaymentDetails = new JLabel();
-		showPaymentDetails.setBounds(250, 290, 20, 100);
+		showPaymentDetails.setBounds(10, 290, 600, 30);
 
 		if (booking != null) {
 		showDetails.setText("Payment successful for your new booking from to " + booking.getselectedAirport() + " from " + booking.getpickup());
-		showPaymentDetails.setText("Payment made from card number " + payment.getEncryptedCardNumber() + " with booking fee of " + payment.getBookingFee());
 		}
 		else if (amend != null) {
 			showDetails.setText("Amendment successful");
-			showPaymentDetails.setText("Payment made from card number " + payment.getEncryptedCardNumber() + " with booking fee of " + payment.getBookingFee());
 		}
+
+		showPaymentDetails.setText("Payment made from card number " + payment.getEncryptedCardNumber() + " with booking fee of £" + payment.getBookingFee());
 		
 		confirmationMessage.add(showPaymentDetails);
 		confirmationMessage.add(showDetails);
@@ -44,11 +44,17 @@ public class ConfirmationMessage extends JFrame implements ActionListener {
 		home.setText("Home");
 		confirmationMessage.add(home);
 		
+		JLabel endOfFlow = new JLabel();
+		endOfFlow.setBounds(250,320,50,50);
+		endOfFlow.setText("Please click home to leave this booking flow");
+		confirmationMessage.add(endOfFlow);
+		
 		home.addActionListener(new ActionListener() {
 			
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				confirmationMessage.setVisible(false);
 				Home goHome = new Home();
 			}
 		});

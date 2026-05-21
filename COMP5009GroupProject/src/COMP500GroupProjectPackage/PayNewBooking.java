@@ -56,7 +56,7 @@ public class PayNewBooking extends JFrame implements ActionListener {
 		mainPayFrame.add(cardNumberInput);
 		
 		JLabel labelForCardNumber = new JLabel();
-		labelForCardNumber.setBounds(90, 150, 160, 30);
+		labelForCardNumber.setBounds(90, 150, 200, 30);
 		labelForCardNumber.setText("Enter your card number: ");
 		mainPayFrame.add(labelForCardNumber);
 		

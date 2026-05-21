@@ -151,7 +151,7 @@ public class NewBooking extends JFrame {
         add(timeLabel);
         add(timeSpinner);
 
-        JButton bookButton = new JButton("Book Your Flight");
+        JButton bookButton = new JButton("Book Your Ride");
         bookButton.setBounds(150, 320, 180, 40);
 
         add(luggageLabel);
@@ -253,6 +253,5 @@ public class NewBooking extends JFrame {
  
 }
     
- 
-}
+
 
