@@ -17,7 +17,7 @@ public class ConfirmationMessage extends JFrame implements ActionListener {
 	private boolean confirmed;
 
 	
-	public ConfirmationMessage(PayNewBooking payment, NewBooking booking, AmendBooking amend, CancelBooking cancel) {
+	public ConfirmationMessage(PayNewBooking payment, Booking booking) {
 		
 		JFrame confirmationMessage = new JFrame();
 		confirmationMessage.setSize(650, 650);
@@ -27,12 +27,9 @@ public class ConfirmationMessage extends JFrame implements ActionListener {
 		JLabel showPaymentDetails = new JLabel();
 		showPaymentDetails.setBounds(10, 290, 600, 30);
 
-		if (booking != null) {
+
 		showDetails.setText("Payment successful for your new booking from to " + booking.getselectedAirport() + " from " + booking.getpickup());
-		}
-		else if (amend != null) {
-			showDetails.setText("Amendment successful");
-		}
+
 
 		showPaymentDetails.setText("Payment made from card number " + payment.getEncryptedCardNumber() + " with booking fee of £" + payment.getBookingFee());
 		

@@ -22,7 +22,7 @@ implements ActionListener {
 	private String[] acceptedCardTypes = {"Visa", "Mastercard", "Visa Debit", "Apple card"};
 	private int expiryYear;
 	private int expiryMonth; 
-	private NewBooking booking;
+	private Booking booking;
 	private String billingAddress;	
 	private double bookingFee;
 	private String starredOutCardNumber;
@@ -34,12 +34,10 @@ implements ActionListener {
 	}
 	
 	public PayNewBooking(
-		NewBooking bookingToSet, 
-		AmendBooking amendBookingToSet, 
-		CancelBooking cancelBookingToSet
+		Booking booking
 	) {
 		
-		this.booking = bookingToSet;
+		this.booking = booking;
 		
 		JFrame mainPayFrame = new JFrame();
 		
@@ -500,7 +498,11 @@ implements ActionListener {
 	public void setStarredOutCardNumber() {
 		String getCardNum = Long.toString(getCardNumber());		
 		String last4digits = getCardNum.substring(getCardNum.length() - 4, getCardNum.length());
-		String stars = "*********"; // TODO: Should this be accurate to card number length/format?
+		int starLenght = getCardNum..length() - 4;
+		String stars = "";
+		for (int i = 0; i <= starLenght; i++) {
+			stars = stars + "*";
+			}
 		String starredOutCardNumber = stars + last4digits;
 		this.starredOutCardNumber = starredOutCardNumber;
 	}
@@ -509,13 +511,7 @@ implements ActionListener {
 	 * Fires confirmation screen
 	 */
 	public void sendConfirmation() {
-		if (getNewBooking() != null) {
-			ConfirmationMessage confirmNew = new ConfirmationMessage(this, getNewBooking(), null, null);		
-		} else if (getAmendBooking() != null) {
-			ConfirmationMessage confirmAmend = new ConfirmationMessage(this, null, getAmendBooking(), null);	
-		} else if (getCancelBooking() != null) {
-			ConfirmationMessage confirmCancel = new ConfirmationMessage(this, null, null, getCancelBooking());
-		}
+		ConfirmationMessage confirm = new ConfirmationMessage(this, booking)
 	}
 
 	@Override

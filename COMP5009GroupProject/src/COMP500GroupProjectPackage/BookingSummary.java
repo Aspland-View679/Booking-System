@@ -55,9 +55,7 @@ public class BookingSummary extends JFrame {
                 setVisible(false);
 
                 PayNewBooking payment = new PayNewBooking(
-            		   new NewBooking(), 
-            		   new AmendBooking(), 
-            		   new CancelBooking()
+            		   booking
             	);
             } 
         });
