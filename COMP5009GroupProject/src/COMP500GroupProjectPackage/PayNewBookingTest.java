@@ -6,13 +6,13 @@ import java.time.*;
 import org.junit.jupiter.api.Test;
 
 class PayNewBookingTest {
-
-	PayNewBooking myPayBooking = new PayNewBooking(null, null, null);
-	
+	private PayNewBooking myPayBooking = new PayNewBooking(null, null, null);
+	private LocalDate today = LocalDate.now();
+	private Integer month = today.getMonthValue();
+	private Integer year = today.getYear();
 	
 	@Test
 	void rejectCVV0() {
-		
 		boolean result = myPayBooking.isCVVAcceptable(0);
 		assertEquals(false, result);
 	}
@@ -46,10 +46,6 @@ class PayNewBookingTest {
 		boolean result6 = myPayBooking.isCVVAcceptable(10000);
 		assertEquals(false, result6);
 	}
-
-	LocalDate today = LocalDate.now();
-	Integer month = today.getMonthValue();
-	Integer year = today.getYear();
 	
 	@Test
 	void acceptCurrentDateAsExpiryDate() {
@@ -128,14 +124,14 @@ class PayNewBookingTest {
 	@Test
 	void encryptCardNumber() {
 		myPayBooking.setCardNumber("0123456789101234");
-		myPayBooking.setEncryptedCardNumber();
+		myPayBooking.setStarredOutCardNumber();
 		assertEquals("*********1234", myPayBooking.getEncryptedCardNumber());
 	}
 	
 	@Test
 	void encryptCardNumber2() {
 		myPayBooking.setCardNumber("01234567891012345");
-		myPayBooking.setEncryptedCardNumber();
+		myPayBooking.setStarredOutCardNumber();
 		assertEquals("*********2345", myPayBooking.getEncryptedCardNumber());
 	}
 	

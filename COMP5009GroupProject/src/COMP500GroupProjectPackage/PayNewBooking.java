@@ -12,8 +12,9 @@ import javax.swing.JTextField;
 
 import javax.swing.*;
 
-public class PayNewBooking extends JFrame implements ActionListener {
-	
+public class PayNewBooking 
+extends JFrame 
+implements ActionListener {
 	private Long cardNumber;
 	private String cardName;
 	private String cardType;
@@ -24,16 +25,19 @@ public class PayNewBooking extends JFrame implements ActionListener {
 	private NewBooking booking;
 	private String billingAddress;	
 	private double bookingFee;
-	private String encryptedCardNumber;
+	private String starredOutCardNumber;
 	private AmendBooking amendBooking;
 	private CancelBooking cancelBooking;
-	
 
 	public static void main(String[] args) {
 		PayNewBooking pay = new PayNewBooking(null, null, null);
 	}
 	
-	public PayNewBooking(NewBooking bookingToSet, AmendBooking amendBookingToSet, CancelBooking cancelBookingToSet) {
+	public PayNewBooking(
+		NewBooking bookingToSet, 
+		AmendBooking amendBookingToSet, 
+		CancelBooking cancelBookingToSet
+	) {
 		
 		this.booking = bookingToSet;
 		
@@ -109,7 +113,20 @@ public class PayNewBooking extends JFrame implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				if (mainLogic(mainPayFrame, cardTypeInput, cardNumberInput, payersName, expiryMonth, expiryYear, cvv, bookingToSet, amendBookingToSet, cancelBookingToSet)) {
+				if (
+					mainLogic(
+						mainPayFrame, 
+						cardTypeInput, 
+						cardNumberInput, 
+						payersName, 
+						expiryMonth, 
+						expiryYear, 
+						cvv, 
+						bookingToSet,
+						amendBookingToSet, 
+						cancelBookingToSet
+					)
+				) {
 					mainPayFrame.setVisible(false);
 					sendConfirmation();
 				} else {
@@ -122,10 +139,10 @@ public class PayNewBooking extends JFrame implements ActionListener {
 		}
 	
 	/**
-	 * mainLogic - does all assignments and checks
+	 * Does all assignments and checks
 	 * @param cardType
 	 * @param cardNumber
-	 * @param cardName
+	 * @param cardName The name on the card
 	 * @param expiryMonthInput
 	 * @param expiryYearInput
 	 * @param cvv
@@ -133,7 +150,18 @@ public class PayNewBooking extends JFrame implements ActionListener {
 	 * @return whether checks passed
 	 */
 	
-	public boolean mainLogic(JFrame mainPayFrame, JComboBox<String> cardType, JTextField cardNumber, JTextField cardName, JTextField expiryMonthInput, JTextField expiryYearInput, JTextField cvv, NewBooking booking, AmendBooking amend, CancelBooking cancel) {
+	public boolean mainLogic(
+		JFrame mainPayFrame, 
+		JComboBox<String> cardType, 
+		JTextField cardNumber, 
+		JTextField cardName, 
+		JTextField expiryMonthInput, 
+		JTextField expiryYearInput, 
+		JTextField cvv, 
+		NewBooking booking, 
+		AmendBooking amend, 
+		CancelBooking cancel
+	) {
 		String cardTypeToSet = cardType.getSelectedItem().toString();
 		setCardType(cardTypeToSet);
 		setCardName(cardName.getText());
@@ -145,13 +173,20 @@ public class PayNewBooking extends JFrame implements ActionListener {
 		} else if (amend != null) {
 			setAmendBooking(amend);
 		}
+		
 		try {
 			System.out.println(expiryMonthInput.getText());
 			String formattedMonth = formatMonth(expiryMonthInput.getText());
-			setExpiryMonthAndYear(Integer.parseInt(formattedMonth), Integer.parseInt(expiryYearInput.getText()));
+			
+			setExpiryMonthAndYear(
+					Integer.parseInt(formattedMonth), 
+					Integer.parseInt(expiryYearInput.getText())
+			);
+			
 			setCVV(Integer.parseInt(cvv.getText()));
 			setCardNumber(cardNumber.getText());
-			setEncryptedCardNumber();
+			setStarredOutCardNumber();
+			
 		} catch (Exception ex) {
 			System.out.println("Error");
 			JTextField showError = new JTextField();
@@ -164,10 +199,20 @@ public class PayNewBooking extends JFrame implements ActionListener {
 			mainPayFrame.add(showError);
 		
 		}
-		setNewBookingPaymentIsBeingMadeFor(booking);
-		setBookingFee(booking.getTimeDay(), booking.getluggageAmount(), booking.getestimationOfDuration());
 		
-		if (isCVVAcceptable(getCVV()) && isExpiryDateValid(getExpiryMonth(), getExpiryYear()) && isCardNumberValid(getCardNumber())) {
+		setNewBookingPaymentIsBeingMadeFor(booking);
+		
+		setBookingFee(
+				booking.getTimeDay(), 
+				booking.getluggageAmount(), 
+				booking.getestimationOfDuration()
+		);
+		
+		if (
+			isCVVAcceptable(getCVV()) 
+			&& isExpiryDateValid(getExpiryMonth(), getExpiryYear()) 
+			&& isCardNumberValid(getCardNumber())) 
+		{
 			return true;
 		} else {
 			return false;
@@ -176,181 +221,162 @@ public class PayNewBooking extends JFrame implements ActionListener {
 		
 	}
 	
+	/**
+	 * Get the accepted card types for the transaction.
+	 */
 	public String[] getAcceptedCardTypes() {
 		return acceptedCardTypes;
-		}
+	}
 	
 	/**
-	 * getBookingFee - returns address relating to car
+	 * Get the fee for the booking.
 	 * @return bookingFee
 	 */
-	
 	public double getBookingFee() {
 		return bookingFee;
 	}
 	
 	/**
-	 * returns amendBooking class
+	 * Get the AmendBooking class
 	 * @return amendBooking
 	 */
-
 	public AmendBooking getAmendBooking() {
 		return amendBooking;
 	}
 	
 	/**
-	 * sets amendBooking class
+	 * Set AmendBooking class
 	 * @param amendBooking
 	 */
-
 	public void setAmendBooking(AmendBooking amendBooking) {
 		this.amendBooking = amendBooking;
 	}
 
 	/**
-	 * gets cancelBooking class 
+	 * Get CancelBooking class 
 	 * @return cancelBooking class
 	 */
-	
 	public CancelBooking getCancelBooking() {
 		return cancelBooking;
 	}
 	
 	/**
-	 * sets cancelBooking class 
+	 * Set CancelBooking class 
 	 * @param cancelBooking
 	 */
-	
-
 	public void setCancelBooking(CancelBooking cancelBooking) {
 		this.cancelBooking = cancelBooking;
 	}
 
-	
 	/**
-	 * getBillingAddress - returns address relating to car
+	 * Get address relating to car
 	 * @return billingAddress
 	 */
-	
 	public String getBillingAddress() {
 		return billingAddress;
 	}
 	
 	/**
-	 * setBillingAdress - assigns billing address
+	 * Assigns billing address
 	 * @param billingAddressToSet
 	 */
 	
-	public void setBillingAddress(String billingAddressToSet) {
-		billingAddress = billingAddressToSet;
+	public void setBillingAddress(String billingAddress) {
+		this.billingAddress = billingAddress;
 	}
 	
 	
 	/**
-	 * getCardType - returns card type
+	 * Get card type
 	 * @return cardType
 	 */
-	
 	public String getCardType() {
 		return cardType;
 	}
 	
 	/**
-	 * setCardType - checks cardType is acceptable, and if so sets it
+	 * Check cardType is acceptable, and if so set it
 	 * @param cardType
 	 */
-
-	public void setCardType(String cardTypeInput) {
-			cardType = cardTypeInput;
+	public void setCardType(String cardType) {
+		this.cardType = cardType;
 	}
 
 	/**
-	 * getCardNumber - returns card number
+	 * Get card number
 	 * @return card number
 	 */
-	
 	public long getCardNumber() {
 		return cardNumber;
 	}
 	
 	/**
-	 * setCardNumber - assigns card number
+	 * Assign card number
 	 * @param cardNumber
 	 */
-
 	public void setCardNumber(String cardNumber) {
 		this.cardNumber = Long.parseLong(cardNumber);
 	}
 	
 	/**
-	 * getCardName - returns name of the holder of the card
+	 * Get the name of the holder of the card
 	 * @return cardName
 	 */
-
 	public String getCardName() {
 		return cardName;
 	}
 	
 	/**
-	 * setCardName - sets name of card owner
-	 * @param cardName
+	 * Set name of card owner
+	 * @param cardName The name on the card
 	 */
-
 	public void setCardName(String cardName) {
 		this.cardName = cardName;
 	}
 	
 	/**
-	 * getCVV - returns card CVV
+	 * Get card CVV
 	 * @return the card CVV
 	 */
-	
 	public int getCVV() {
 		return CVV;
 	}
 	
 	/**
-	 * setCVV - assigns CVV if valid
-	 * @param cVV
+	 * Assign CVV if valid
+	 * @param cvv The CVV to check
 	 */
-
-	public void setCVV(int cVV) {
-		
-		if (isCVVAcceptable(cVV)) {
-			CVV = cVV;
+	public void setCVV(int cvv) {
+		if (isCVVAcceptable(cvv)) {
+			this.CVV = cvv;
 		}
 	}
 
-	
 	/**
-	 * returns card expiry year
+	 * Get the card expiry year
 	 * @return the expiry year of the card
 	 */
-	
 	public int getExpiryYear() {
 		return expiryYear;
 	}
 
-
 	/**
-	 * returns card expiry month
+	 * Get the card expiry month
 	 * @return the expiry month of the card
 	 */
-	
 	public Integer getExpiryMonth() {
 		return expiryMonth;
 	}
 	
 	/**
-	 * setExpiryMonthAndYear - checks if the expiry date is valid and if so assigns it
+	 * Check if the expiry date is valid and if so assign it
 	 * @param expiryMonth
 	 * @param expiryYear
 	 */
-
 	public void setExpiryMonthAndYear(Integer expiryMonth, int expiryYear) {
 		if (isExpiryDateValid(expiryMonth, expiryYear)) {
-		this.expiryMonth = expiryMonth;
-		this.expiryYear = expiryYear;
+			this.expiryMonth = expiryMonth;
+			this.expiryYear = expiryYear;
 		}
 	}
 	
@@ -358,7 +384,6 @@ public class PayNewBooking extends JFrame implements ActionListener {
 	 * getNewBooking - returns the booking payment is linked to
 	 * @return the booking linked to the payment
 	 */
-
 	public NewBooking getNewBooking() {
 		return booking;
 	}
@@ -367,52 +392,45 @@ public class PayNewBooking extends JFrame implements ActionListener {
 	 * setNewBookingPaymentIsBeingMadeFor - links payment to the booking
 	 * @param booking
 	 */
-
 	public void setNewBookingPaymentIsBeingMadeFor(NewBooking booking) {
 		this.booking = booking;
 	}
 
-	
 	/**
-	 * isCVVAcceptable - ensures the CVV is the right format
-	 * @param inputCVV
-	 * @return a true/false value if CVV is right format (standard is 3-4 digits)
+	 * Naive check to ensure the CVV is the right format for any <i>possible</i> CVV.
+	 * This does not validate if it is the correct individual CVV for a card,
+	 * nor does it check if the format of CVV is valid for the specific type of card 
+	 * or issuer.
+	 * @param cvv
+	 * @return True if CVV is a valid CVV. Does not check it is correct.
 	 */
-	
-	public Boolean isCVVAcceptable(int inputCVV) {
-		
-		if ((inputCVV >= 100) && (inputCVV <= 9999)) {			//This is not checking the actual value, but a checker for the length of CVV 
+	public Boolean isCVVAcceptable(int cvv) {
+		if ((cvv >= 100) && (cvv <= 9999)) {			//This is not checking the actual value, but a checker for the length of CVV 
 			return true;
 		} else {
 			return false;
 		}
-		
 	}
 	
 	/**
-	 * formatMonth - gets rid of 0 if month style is 01,02...09
-	 * @param inputMonth
+	 * Get rid of 0 if month style is of format 0X.
+	 * @param month
 	 * @return the correct implemented month (without 0)
 	 */
 	
-	public String formatMonth(String inputMonth) {
-		   
-	  
-	    if (inputMonth.startsWith("0")) {
-	    	inputMonth = inputMonth.replaceFirst("0", "");
+	public static String formatMonth(String month) {
+	    if (month.startsWith("0")) {
+	    	month = month.replaceFirst("0", "");
 	    }
-	    return inputMonth;
-	    
+	    return month;
 	}
 	
 	/**
-	 * isExpiryDateValid - ensures date is correct
+	 * Check if expiry date is valid, i.e. after today.
 	 * @param inputMonth
 	 * @param inputYear
-	 * @return a boolean stating if the date is valid or not
+	 * @return true if expiry date is after today, false otherwise.
 	 */
-	
-	
 	public Boolean isExpiryDateValid(int inputMonth, int inputYear) {
 		
 		LocalDate today = LocalDate.now();
@@ -425,47 +443,43 @@ public class PayNewBooking extends JFrame implements ActionListener {
 		} else {
 			return true;
 		}
-
-		
 	}
 	
 	/**
-	 * isCardNumberValid - ensures that the card number is the right length
+	 * Naive check if the card number is between 16 and 19 digits as standard.
+	 * Does not check whether the card number matches from the issuer, nor does it
+	 * check that the card number format matches the specific format of the issuer.
 	 * @param cardNumber 
 	 * @return a boolean if cardNumber is within reasonable length
 	 */
-	
 	public Boolean isCardNumberValid(Long cardNum) {
-		
-		if ((cardNum.toString().length() >= 16) && (cardNum.toString().length() <= 19)) {		//16-19 digits is a standard length
+		if ((cardNum.toString().length() >= 16) && (cardNum.toString().length() <= 19)) {
 			return true;
 		} else {
 			return false;
 		}
-		
 	}
 	
 	/**
-	 * setBookingFee - generates the additional booking fee for the order
-	 * @param timeDay - the time of day booking was made
-	 * @param distance - travelling distance
-	 * @param numPeople - number of people the booking is made for
+	 * Generate the additional booking fee for the order
+	 * @param timeDay The time of day booking was made
+	 * @param distance Travelling distance
+	 * @param numPeople Number of people the booking is made for
 	 */
-	
 	public void setBookingFee(int timeDay, int numLuggage, int estimateDuration) {
 		
 		double bookingFeeToAssign = 0;
 		double feePerLuggage = 0.5;
 		bookingFeeToAssign = bookingFeeToAssign + (feePerLuggage * numLuggage);
-		if (timeDay >= 9 && timeDay <= 17) {		//Peak-time being normal 9-5 shift
+		if (timeDay >= 9 && timeDay <= 17) {		// Peak-time being normal 9-5 shift
 			bookingFeeToAssign+= 10;
-		} else {									//Off-peak times
+		} else {									// Off-peak times
 			bookingFeeToAssign += 5;
 		}
 		if (estimateDuration <= 60) {
 			bookingFeeToAssign += 5;
 		} else {
-			bookingFeeToAssign += (Math.round(estimateDuration)/60) * 5;  //Checks against 60mins
+			bookingFeeToAssign += (Math.round(estimateDuration)/60) * 5;  // Checks against 60mins
 		}
 		
 		this.bookingFee = bookingFeeToAssign;
@@ -477,30 +491,31 @@ public class PayNewBooking extends JFrame implements ActionListener {
 	 * @return encryptedCardNumber
 	 */
 	public String getEncryptedCardNumber() {
-		return encryptedCardNumber;
+		return starredOutCardNumber;
 	}
 	
-	public void setEncryptedCardNumber() {
-		
+	/**
+	 * Star out the card number so that it can be displayed securely on screen.
+	 */
+	public void setStarredOutCardNumber() {
 		String getCardNum = Long.toString(getCardNumber());		
-		String last4digits = getCardNum.substring(getCardNum.length() - 4, getCardNum.length());	//This gets the last 4 digits
-		String stars = "*********";
-		String encCardNumber = stars + last4digits;
-		this.encryptedCardNumber = encCardNumber;
+		String last4digits = getCardNum.substring(getCardNum.length() - 4, getCardNum.length());
+		String stars = "*********"; // TODO: Should this be accurate to card number length/format?
+		String starredOutCardNumber = stars + last4digits;
+		this.starredOutCardNumber = starredOutCardNumber;
 	}
 
 	/**
-	 * sendConfirmation() fires confirmation screen
+	 * Fires confirmation screen
 	 */
-
 	public void sendConfirmation() {
 		if (getNewBooking() != null) {
 			ConfirmationMessage confirmNew = new ConfirmationMessage(this, getNewBooking(), null, null);		
-	} else if (getAmendBooking() != null) {
-		ConfirmationMessage confirmAmend = new ConfirmationMessage(this, null, getAmendBooking(), null);	
-	} else if (getCancelBooking() != null) {
-		ConfirmationMessage confirmCancel = new ConfirmationMessage(this, null, null, getCancelBooking());
-	}
+		} else if (getAmendBooking() != null) {
+			ConfirmationMessage confirmAmend = new ConfirmationMessage(this, null, getAmendBooking(), null);	
+		} else if (getCancelBooking() != null) {
+			ConfirmationMessage confirmCancel = new ConfirmationMessage(this, null, null, getCancelBooking());
+		}
 	}
 
 	@Override
