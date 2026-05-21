@@ -5,13 +5,13 @@ import java.awt.event.*;
 
 public class Home extends JFrame {
 
-    JButton bookingButton;
-    JButton amendButton;
-    JButton cancelButton;
-    JButton payNewButton;
-    JButton confirmationButton;
-    JButton discountButton;
-    JButton bookingSummaryButton;
+    private JButton bookingButton;
+    private JButton amendButton;
+    private JButton cancelButton;
+    private JButton payNewButton;
+    private JButton confirmationButton;
+    private JButton discountButton;
+    private JButton bookingSummaryButton;
 
     public Home() {
         setTitle("Airport Booking System");
@@ -60,45 +60,23 @@ public class Home extends JFrame {
             }
         });
             
-            bookingSummaryButton.addActionListener(new ActionListener() {
+        bookingSummaryButton.addActionListener(new ActionListener() {
 
-                @Override
-                public void actionPerformed(ActionEvent e) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
-                    JOptionPane.showMessageDialog(
-                            null,
-                            "Please create a booking first"
-                    	    );
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Please create a booking first"
+                	    );
 
-                }
-            });
-            
-        // amendButton.addActionListener( e - {
-        // new amendBooking();
-        // });
-        
-     // cancelButton.addActionListener( e - {
-    	// new cancelBooking();
-    // });
-        
-     // payNewButton.addActionListener( e - {
-    	// new payNewBooking();
-    // });
-        
-     // confirmationButton.addActionListener( e - {
-    	// new confirmationBooking();
-    // });
-        
-     // discountButton.addActionListener( e - {
-    	// new discountBooking();
-    // });
+            }
+        });
         
         setVisible(true);
-     
     }
 
     public static void main(String[] args) {
-
         new Home();
     }
 }
