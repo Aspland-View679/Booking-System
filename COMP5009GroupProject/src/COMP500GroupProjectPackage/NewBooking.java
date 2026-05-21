@@ -12,25 +12,55 @@ public class NewBooking extends JFrame {
 	private String selectedAirport;
 	private String bookingDate;
 	
+        /**
+         * getTimeDay
+         * @return timeDay
+         */
+
 	public int getTimeDay() {
 		return timeDay;
 	}
 	
+        /**
+         * getluggageAmount
+         * @return luggageAmount
+         */
+
 	public int getluggageAmount() {
 		return luggageAmount;
 	}
 	
+        /**
+         * getestimationOfDuration
+         * @return estimationOfDuration
+         */
+
 	public int getestimationOfDuration() {
 		return estimationOfDuration;
 	}
+
+        /**
+         * getpickup
+         * @return pickup
+         */
 	
 	public String getpickup() {
 		return pickup;
 	}
+
+        /**
+         * getselectedAirport
+         * @return selectedAirport
+         */
 	
 	public String getselectedAirport() {
 		return selectedAirport;
 	}
+
+        /**
+         * getbookingDate
+         * @return bookingDate
+         */
 	
 	public String getbookingDate() {
 		return bookingDate;
@@ -201,6 +231,8 @@ public class NewBooking extends JFrame {
         	else {
         		estimationOfDuration += 10;
         	}
+
+                //Estimates time based on how busy time of day it is
         	
         	bookingDate = dateEditor.getFormat()
         	        .format(dateSpinner.getValue());
@@ -233,6 +265,8 @@ public class NewBooking extends JFrame {
         		estimationOfDuration += 60;
         	}
 
+                //Generates duration based on airport chosen
+
         	
         	double totalPrice = estimationOfDuration * 1.5;
         	
@@ -245,6 +279,8 @@ public class NewBooking extends JFrame {
         			estimationOfDuration,
         			totalPrice
         	);
+
+                //Creates a booking object
         	
         	JOptionPane.showMessageDialog(
         			null,

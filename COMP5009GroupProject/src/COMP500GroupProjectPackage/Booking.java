@@ -1,6 +1,11 @@
 package COMP500GroupProjectPackage;
 
 import javax.swing.*;
+
+/**
+ * Stores all data of the booking
+ */
+
 public class Booking {
 	private String airport;
 	private String pickupLocation;

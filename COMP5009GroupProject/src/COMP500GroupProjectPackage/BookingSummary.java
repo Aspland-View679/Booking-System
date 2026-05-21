@@ -30,6 +30,8 @@ public class BookingSummary extends JFrame {
         	    + booking.getTotalPrice()
         	    + "</html>"
         );
+
+        //Shows reciept of booking
         
         summaryLabel.setBounds(50, 60, 400, 180);
         
@@ -58,6 +60,7 @@ public class BookingSummary extends JFrame {
             		   booking
             	);
             } 
+            //On being clicked, hides the JFrame and opens payment frame
         });
  
         cancelButton.addActionListener(e -> {
