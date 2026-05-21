@@ -29,7 +29,7 @@ public class BookingSummary extends JFrame {
         	    + "<br><br>Total Price: £"
         	    + booking.getTotalPrice()
         	    + "</html>"
-       );
+        );
         
         summaryLabel.setBounds(50, 60, 400, 180);
         
