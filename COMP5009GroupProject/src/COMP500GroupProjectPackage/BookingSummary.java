@@ -49,15 +49,17 @@ public class BookingSummary extends JFrame {
         add(cancelButton);
         
         payButton.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
 
                 setVisible(false);
 
-               PayNewBooking payment = new PayNewBooking(booking);
-            }
-            
+                PayNewBooking payment = new PayNewBooking(
+            		   new NewBooking(), 
+            		   new AmendBooking(), 
+            		   new CancelBooking()
+            	);
+            } 
         });
  
         cancelButton.addActionListener(e -> {
