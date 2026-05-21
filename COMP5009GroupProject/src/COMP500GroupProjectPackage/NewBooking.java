@@ -1,3 +1,4 @@
+
 package COMP500GroupProjectPackage;
 
 import javax.swing.*;
@@ -231,18 +232,32 @@ public class NewBooking extends JFrame {
         	else {
         		estimationOfDuration += 60;
         	}
+
+        	
+        	double totalPrice = estimationOfDuration * 1.5;
+        	
+        	Booking booking = new Booking(
+        			selectedAirport,
+        			pickup,
+        			bookingDate,
+        			timeText,
+        			luggageAmount,
+        			estimationOfDuration,
+        			totalPrice
+        	);
         	
         	JOptionPane.showMessageDialog(
         			null,
         			"Estimated Duration Of Your Trip: "
-        			+ estimationOfDuration + " minutes"
+        			+estimationOfDuration + "minutes"
+        			+ "\nTotal Price: £" + totalPrice
         	);
         	
-      
-
-        setVisible(false);
+        	setVisible(false);
+        	
+        	new BookingSummary(booking);
         
-        PayNewBooking payment = new PayNewBooking(this, null, null);
+        	
         });
         
     
@@ -252,6 +267,5 @@ public class NewBooking extends JFrame {
     
  
 }
-    
 
 
