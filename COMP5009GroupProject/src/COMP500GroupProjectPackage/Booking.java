@@ -7,6 +7,9 @@ import javax.swing.*;
  */
 
 public class Booking {
+    
+    public static Booking currentBooking;
+    
 	private String airport;
 	private String pickupLocation;
 	private String bookingDate;
