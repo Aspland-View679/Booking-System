@@ -19,36 +19,34 @@ public class CancelBooking {
 		Integer dateOfMonth = today.getDate();
 		Integer month = today.getMonth(); //0 to 11 with 0 = jan
 		Integer year = today.getYear();
-		Integer inputDate, inputMonth, inputYear;
+		Integer bookingDate, bookingMonth, bookingYear;
 		
 		
-		if (dateOfBooking.startsWith("0")) {
-			dateOfBooking.replaceFirst("0", "");		
-			if (dateOfBooking.charAt(2) == '0') {
+		if (dateOfBooking.startsWith("0")) {	//checking for 0x/mm/yyyy
+			dateOfBooking.replaceFirst("0", ""); 		
+			if (dateOfBooking.charAt(2) == '0') { //checks now for month being dd/0x/yyyy
 				dateOfBooking.substring(2, 2).replace("0", "");
-				inputMonth = Integer.parseInt(dateOfBooking.substring(2,2));
-				inputYear = Integer.parseInt(dateOfBooking.substring(4, 7));
+				bookingMonth = Integer.parseInt(dateOfBooking.substring(2,2));
+				bookingYear = Integer.parseInt(dateOfBooking.substring(4, 7));
 			}
-			inputDate = Integer.parseInt(dateOfBooking.substring(0, 0));
-			inputMonth = Integer.parseInt(dateOfBooking.substring(2,3));
-			inputYear = Integer.parseInt(dateOfBooking.substring(5, 8));
+			bookingDate = Integer.parseInt(dateOfBooking.substring(0, 0));
+			bookingMonth = Integer.parseInt(dateOfBooking.substring(2,3));
+			bookingYear = Integer.parseInt(dateOfBooking.substring(5, 8));
 		   } else {
-		 	if (dateOfBooking.charAt(3) == '0') {
+		 	if (dateOfBooking.charAt(3) == '0') {		//checking for just month being 0x
 				dateOfBooking.substring(3, 3).replace("0", "");
-				inputMonth = Integer.parseInt(dateOfBooking.substring(3,3));
-				inputYear = Integer.parseInt(dateOfBooking.substring(5, 8));
+				bookingMonth = Integer.parseInt(dateOfBooking.substring(3,3));
+				bookingYear = Integer.parseInt(dateOfBooking.substring(5, 8));
 			}
-			inputDate = Integer.parseInt(dateOfBooking.substring(0, 1));
-			inputMonth = Integer.parseInt(dateOfBooking.substring(3,4));
-			inputYear = Integer.parseInt(dateOfBooking.substring(6, 9));
+		 	bookingDate = Integer.parseInt(dateOfBooking.substring(0, 1));
+		 	bookingMonth = Integer.parseInt(dateOfBooking.substring(3,4));
+		 	bookingYear = Integer.parseInt(dateOfBooking.substring(6, 9));
 		}
-		
-		
-		if ((inputDate < dateOfMonth) && (inputMonth < month) && (year < inputYear)) {
-			return true;
-		} else {
+			
+		if (((dateOfMonth - bookingDate) <= 1) && (bookingMonth == month) && (bookingYear == year)) { //can't be 24hrs (1 day) before booking
 			return false;
+		} else {
+			return true;
 		}
-	}
 	
 }
