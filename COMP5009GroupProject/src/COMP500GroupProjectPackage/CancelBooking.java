@@ -54,12 +54,14 @@ public class CancelBooking {
 	/**
 	* changeDuration - reduces duration for other user bookings due to this cancellation
 	* @param otherUsersBookings - a list of bookings for us to change duration as they are sharing the car
+	* @param cancelledBooking - the booking we are cancelling
 	* @return the amended other booking with changed durations
 	*/
 	
-	public Booking[] changeDuration(Booking otherUsersBookings) {
+	public Booking[] changeDuration(Booking otherUsersBookings, Booking cancelledBooking) {
 		Booking[] amendedBookings = otherUsersBookings; //cloning for the change
 		for (int i = 0; i <= amendedBookings.length(); i++) {
+			//if amendedBookings[i].id == cancalledbooking.id then
 			amendedBookings[i].setEstimatedDuration(amendedBookings[i].getEstimatedDuration() - 10); //reduces time by 10mins
 		}
 		return amendedBookings;
