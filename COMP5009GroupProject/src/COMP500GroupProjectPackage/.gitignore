@@ -28,3 +28,7 @@
 >>>>>>> 1c8787d (Complete implementation of `ActionListener` on `PayNewBooking`)
 /BookingSummaryTest.class
 /NewBookingTest.class
+/AmendBooking$1.class
+/AmendBooking$2$1.class
+/AmendBooking$2.class
+/AmendBookingTest.class

@@ -1,7 +1,6 @@
 package COMP500GroupProjectPackage;
 
-import java.sql.Date;
-import java.time.*;
+import java.util.Date;
 
 public class CancelBooking {
 	
@@ -23,9 +22,9 @@ public class CancelBooking {
 		Integer inputDate, inputMonth, inputYear;
 		
 		
-		if (dateOfBooking.startsWith("0") {
+		if (dateOfBooking.startsWith("0")) {
 			dateOfBooking.replaceFirst("0", "");		
-			if (dateOfBooking.charAt(2) == "0") {
+			if (dateOfBooking.charAt(2) == '0') {
 				dateOfBooking.substring(2, 2).replace("0", "");
 				inputMonth = Integer.parseInt(dateOfBooking.substring(2,2));
 				inputYear = Integer.parseInt(dateOfBooking.substring(4, 7));
@@ -33,8 +32,8 @@ public class CancelBooking {
 			inputDate = Integer.parseInt(dateOfBooking.substring(0, 0));
 			inputMonth = Integer.parseInt(dateOfBooking.substring(2,3));
 			inputYear = Integer.parseInt(dateOfBooking.substring(5, 8));
-		}  else {
-			if (dateOfBooking.charAt(3) == "0") {
+		   } else {
+		 	if (dateOfBooking.charAt(3) == '0') {
 				dateOfBooking.substring(3, 3).replace("0", "");
 				inputMonth = Integer.parseInt(dateOfBooking.substring(3,3));
 				inputYear = Integer.parseInt(dateOfBooking.substring(5, 8));
@@ -45,12 +44,11 @@ public class CancelBooking {
 		}
 		
 		
-		if ((inputDate < date) && (inputMonth < month) && (year < inputYear)) {
+		if ((inputDate < dateOfMonth) && (inputMonth < month) && (year < inputYear)) {
 			return true;
 		} else {
 			return false;
 		}
-		
-		
 	}
+	
 }
