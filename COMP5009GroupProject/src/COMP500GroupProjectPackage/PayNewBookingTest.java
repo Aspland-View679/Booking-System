@@ -125,14 +125,14 @@ class PayNewBookingTest {
 	void encryptCardNumber() {
 		myPayBooking.setCardNumber("0123456789101234");
 		myPayBooking.setStarredOutCardNumber();
-		assertEquals("*********1234", myPayBooking.getEncryptedCardNumber());
+		assertEquals("************1234", myPayBooking.getEncryptedCardNumber());
 	}
 	
 	@Test
 	void encryptCardNumber2() {
 		myPayBooking.setCardNumber("01234567891012345");
 		myPayBooking.setStarredOutCardNumber();
-		assertEquals("*********2345", myPayBooking.getEncryptedCardNumber());
+		assertEquals("*************2345", myPayBooking.getEncryptedCardNumber());
 	}
 	
 	@Test
