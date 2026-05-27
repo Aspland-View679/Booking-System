@@ -1,5 +1,6 @@
 package COMP500GroupProjectPackage;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class CancelBooking {
@@ -15,9 +16,9 @@ public class CancelBooking {
 	
 	public boolean isCancellable(String dateOfBooking) {
 		
-		Date today = new Date();
-		Integer dateOfMonth = today.getDate();
-		Integer month = today.getMonth(); //0 to 11 with 0 = jan
+		LocalDate today = LocalDate.now();
+		Integer dateOfMonth = today.getDayOfMonth();
+		Integer month = today.getMonthValue(); //0 to 11 with 0 = jan
 		Integer year = today.getYear();
 		Integer bookingDate, bookingMonth, bookingYear;
 		
