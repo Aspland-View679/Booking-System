@@ -9,8 +9,8 @@ import org.junit.Test;
 public class CancelBookingTest {
 
 
-	Booking myBookingToCancel;
-	CancelBooking cancelledBooking;
+	private Booking myBookingToCancel =  new Booking("London", "Canterbury", "11/07/2006", "12:30", 2, 3, 45.45);
+	private CancelBooking cancelledBooking = new CancelBooking(myBookingToCancel);
 	
 	
 	LocalDate today = LocalDate.now();
@@ -19,8 +19,8 @@ public class CancelBookingTest {
     Integer month = today.getMonthValue();
 	Integer year = today.getYear();
 	
-	String todayFormattedWith0 = ("O" + String.valueOf(dayToday) + "/0" + String.valueOf(month) + "/" + String.valueOf(year));
-	String todayFormattedWithout0 = (String.valueOf(dayToday) + "/" + String.valueOf(month) + "/" + String.valueOf(year));	
+	String todayFormattedWith0 = ("O" + dayToday.toString() + "/0" + month.toString() + "/" + year.toString());
+	String todayFormattedWithout0 = (dayToday.toString() + "/" + month.toString() + "/" + year.toString());	
 	
 	@Test
 	public void isNotCancellableTodayWith0(){

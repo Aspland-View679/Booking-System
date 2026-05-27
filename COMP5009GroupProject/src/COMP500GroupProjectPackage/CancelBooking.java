@@ -7,6 +7,10 @@ public class CancelBooking {
 	
 	Booking bookingToCancel;
 	
+	public CancelBooking(Booking bookingtocancel) {
+		this.bookingToCancel = bookingtocancel;
+	}
+	
 
 	/**
 	 * isCancellable - returns whether this booking can be cancelled at all
