@@ -1,10 +1,9 @@
 package COMP500GroupProjectPackage;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-
-import org.junit.Test;
 
 public class CancelBookingTest {
 

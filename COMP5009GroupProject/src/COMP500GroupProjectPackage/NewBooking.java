@@ -3,6 +3,7 @@ package COMP500GroupProjectPackage;
 
 import javax.swing.*;
 
+
 public class NewBooking extends JFrame {
 	
 	private int timeDay;
@@ -253,7 +254,7 @@ public class NewBooking extends JFrame {
         		estimationOfDuration += 30;
         	}
         	
-        	 selectedAirport = airportBox.getSelectedItem().toString().toLowerCase();
+        	 selectedAirport = airportBox.getSelectedItem().toString();
         	
         	if (selectedAirport.contains("london")) {
         		estimationOfDuration += 25;
@@ -279,6 +280,8 @@ public class NewBooking extends JFrame {
         			estimationOfDuration,
         			totalPrice
         	);
+        	
+        	Booking.currentBooking = booking;
 
                 //Creates a booking object
         	

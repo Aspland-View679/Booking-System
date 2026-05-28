@@ -60,16 +60,41 @@ public class Home extends JFrame {
             }
         });
             
-        bookingSummaryButton.addActionListener(new ActionListener() {
+        amendButton.addActionListener(new ActionListener() {
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
+           
+                @Override
+                public void actionPerformed(ActionEvent e) {
 
-                JOptionPane.showMessageDialog(  //creates a warning if you try and look at a booking but no bookings have been created
+                    if (Booking.currentBooking == null) {
+
+                        JOptionPane.showMessageDialog(
+                                null,
+                                "Please create a booking first"
+                        );
+
+                    } else {
+
+                        setVisible(false);
+
+                        new AmendBooking();
+                    }
+                }
+            });
+        bookingSummaryButton.addActionListener(e -> {
+
+            if (Booking.currentBooking == null) {
+
+                JOptionPane.showMessageDialog(
                         null,
                         "Please create a booking first"
-                	    );
+                );
 
+            } else {
+
+                setVisible(false);
+
+                new BookingSummary(Booking.currentBooking);
             }
         });
         

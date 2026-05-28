@@ -50,6 +50,20 @@ public class BookingSummary extends JFrame {
         
         add(cancelButton);
         
+        JButton amendButton = new JButton("Amend Booking");
+
+        amendButton.setBounds(180, 330, 170, 40);
+
+        add(amendButton);
+        
+        amendButton.addActionListener(e -> {
+
+            setVisible(false);
+
+            new AmendBooking();
+
+        });
+        
         payButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -65,9 +79,18 @@ public class BookingSummary extends JFrame {
  
         cancelButton.addActionListener(e -> {
 
+            Booking.currentBooking = null;
+
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Booking Cancelled"
+            );
+            
+
             setVisible(false);
 
-            new NewBooking();
+            new Home();
+
 
         });
 

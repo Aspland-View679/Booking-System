@@ -27,15 +27,18 @@ public class AmendBooking extends JFrame {
 	JButton cancelButton;
 
 	public AmendBooking() {
+
 		Booking booking = Booking.currentBooking;
 
 		if (booking == null) {
+
 			JOptionPane.showMessageDialog(
 					null,
 					"Please create a booking first."
-					);
+			);
 
 			new Home();
+
 			return;
 		}
 
@@ -44,20 +47,20 @@ public class AmendBooking extends JFrame {
 			LocalDate bookingDate =
 					LocalDate.parse(
 							booking.getBookingDate()
-							);
+					);
 
 			long daysUntilBooking =
 					ChronoUnit.DAYS.between(
 							LocalDate.now(),
 							bookingDate
-							);
+					);
 
 			if (daysUntilBooking < 7) {
 
 				JOptionPane.showMessageDialog(
 						null,
 						"Bookings cannot be amended within 7 days of travel."
-						);
+				);
 
 				new BookingSummary(booking);
 
@@ -69,19 +72,23 @@ public class AmendBooking extends JFrame {
 			JOptionPane.showMessageDialog(
 					null,
 					"Date format issue detected."
-					);
+			);
 		}
 
 		setTitle("Amend Booking");
 
-		setSize(520, 500);
+		setSize(520, 550);
 
 		setLayout(null);
 
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-		JLabel airportLabel = new JLabel("Airport:");
+		JLabel airportLabel =
+				new JLabel("Airport:");
+
 		airportLabel.setBounds(50, 50, 100, 30);
+
+		add(airportLabel);
 
 		String[] airports = {
 				"London Heathrow - UK",
@@ -108,14 +115,17 @@ public class AmendBooking extends JFrame {
 				"George Best Belfast City Airport - UK"
 		};
 
-		airportBox = new JComboBox<>(airports);
+		airportBox =
+				new JComboBox<>(airports);
+
 		airportBox.setBounds(180, 50, 220, 30);
 
 		airportBox.setSelectedItem(
 				booking.getAirport()
-				);
+		);
 
 		add(airportBox);
+
 		JLabel luggageLabel =
 				new JLabel("Luggage:");
 
@@ -130,8 +140,9 @@ public class AmendBooking extends JFrame {
 								0,
 								10,
 								1
-								)
-						);
+						)
+				);
+
 		luggageSpinner.setBounds(180, 100, 80, 30);
 
 		add(luggageSpinner);
@@ -146,7 +157,7 @@ public class AmendBooking extends JFrame {
 		pickupField =
 				new JTextField(
 						booking.getPickupLocation()
-						);
+				);
 
 		pickupField.setBounds(180, 150, 220, 30);
 
@@ -162,7 +173,7 @@ public class AmendBooking extends JFrame {
 		dateField =
 				new JTextField(
 						booking.getBookingDate()
-						);
+				);
 
 		dateField.setBounds(180, 200, 220, 30);
 
@@ -178,11 +189,12 @@ public class AmendBooking extends JFrame {
 		timeField =
 				new JTextField(
 						booking.getBookingTime()
-						);
+				);
 
 		timeField.setBounds(180, 250, 220, 30);
 
 		add(timeField);
+
 		updateButton =
 				new JButton("Update Booking");
 
@@ -200,10 +212,16 @@ public class AmendBooking extends JFrame {
 		JButton homeButton =
 				new JButton("Return Home");
 
-		homeButton.setBounds(160, 380, 180, 40);
+		homeButton.setBounds(160, 390, 180, 40);
 
 		add(homeButton);
 
+		JButton summaryButton =
+				new JButton("View Summary");
+
+		summaryButton.setBounds(160, 440, 180, 40);
+
+		add(summaryButton);
 
 		updateButton.addActionListener(
 				new ActionListener() {
@@ -211,67 +229,58 @@ public class AmendBooking extends JFrame {
 					@Override
 					public void actionPerformed(
 							ActionEvent e
-							) {
+					) {
 
 						booking.setAirport(
 								airportBox.getSelectedItem().toString()
-								);
+						);
 
 						booking.setLuggageAmount(
 								(int) luggageSpinner.getValue()
-								);
+						);
 
 						booking.setPickupLocation(
 								pickupField.getText()
-								);
+						);
 
 						booking.setBookingDate(
 								dateField.getText()
-								);
+						);
 
 						booking.setBookingTime(
 								timeField.getText()
-								);
+						);
 
 						JOptionPane.showMessageDialog(
 								null,
 								"Booking amended successfully."
-								);
-
-						setVisible(false);
-
-						new BookingSummary(booking);
+						);
 					}
 				});
 
+		summaryButton.addActionListener(e -> {
 
+			setVisible(false);
 
-		cancelButton.addActionListener(
-				new ActionListener() {
+			new BookingSummary(Booking.currentBooking);
 
-					@Override
-					public void actionPerformed(
-							ActionEvent e
-							) {
+		});
 
-						homeButton.addActionListener(
-								new ActionListener() {
+		cancelButton.addActionListener(e -> {
 
-									@Override
-									public void actionPerformed(
-											ActionEvent e
-											) {
+			setVisible(false);
 
-										setVisible(false);
+			new BookingSummary(Booking.currentBooking);
 
-										new Home();
-									}
-								});
-						setVisible(false);
+		});
 
-						new Home();
-					}
-				});
+		homeButton.addActionListener(e -> {
+
+			setVisible(false);
+
+			new Home();
+
+		});
 
 		setVisible(true);
 	}
