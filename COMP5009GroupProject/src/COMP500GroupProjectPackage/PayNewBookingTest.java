@@ -72,20 +72,39 @@ public class PayNewBookingTest {
 		
 	}
 	
-	@Test 
+	@Test
 	void addPayment() throws SQLException {
+
 		DataManager.connect();
-		Booking booking = new Booking("London", "UoK", "2027-04-03", "19:03", 3, 4, 4.32);
+
+		Booking booking =
+				new Booking(
+						"London",
+						"UoK",
+						"2027-04-03",
+						"19:03",
+						3,
+						4,
+						4.32
+				);
+
 		cardNumber.setText("01234567899012748");
 		cvv.setText("272");
 		expiryMonthInput.setText("01");
 		billAdd.setText("UOK");
 		expiryYearInput.setText("2028");
 		name.setText("Oliver");
+
 		DataManager.insertBooking(booking);
-		DataManager.updatePayment(booking.getBookingID(), "Visa", 
-				cardNumber.getText(), 
-				billAdd.getText(), 0);
+
+		DataManager.updatePayment(
+				booking.getBookingID(),
+				"Visa",
+				cardNumber.getText(),
+				billAdd.getText(),
+				0
+		);
+
 		ResultSet rs =
 				DataManager.getBooking(
 						booking.getBookingID()
@@ -95,6 +114,8 @@ public class PayNewBookingTest {
 				"Visa",
 				rs.getString("paymentType")
 		);
+
+		rs.close();
 	}
 	
 	@Test
