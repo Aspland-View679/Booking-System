@@ -119,10 +119,29 @@ implements ActionListener {
 						expiryYear, 
 						cvv, 
 						booking
+						
+						
 					)
+					
 				) {
-					mainPayFrame.setVisible(false);
-					sendConfirmation();
+					DataManager.updatePayment(
+
+				            booking.getBookingID(),
+				            getCardType(),
+				            getEncryptedCardNumber(),
+				            getBillingAddress(),
+				            getBookingFee()
+
+				    );
+
+				    DataManager.confirmBooking(
+				            booking.getBookingID()
+				    );
+
+				    mainPayFrame.setVisible(false);
+
+				    sendConfirmation();
+
 				} else {
 					System.out.println("ERROR");
 			}

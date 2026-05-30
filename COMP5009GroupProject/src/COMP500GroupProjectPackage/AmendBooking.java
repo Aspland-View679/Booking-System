@@ -28,7 +28,7 @@ public class AmendBooking extends JFrame {
 
 	public AmendBooking() {
 
-		Booking booking = Booking.currentBooking;
+		Booking booking = DataManager.getCurrentBooking();
 
 		if (booking == null) {
 
@@ -250,6 +250,18 @@ public class AmendBooking extends JFrame {
 						booking.setBookingTime(
 								timeField.getText()
 						);
+						DataManager.updateBooking(
+
+						        booking.getBookingID(),
+						        booking.getAirport(),
+						        booking.getPickupLocation(),
+						        booking.getBookingDate(),
+						        booking.getBookingTime(),
+						        booking.getLuggageAmount(),
+						        booking.getEstimatedDuration(),
+						        booking.getTotalPrice()
+
+						);
 
 						JOptionPane.showMessageDialog(
 								null,
@@ -262,7 +274,7 @@ public class AmendBooking extends JFrame {
 
 			setVisible(false);
 
-			new BookingSummary(Booking.currentBooking);
+			new BookingSummary(DataManager.getCurrentBooking());
 
 		});
 
@@ -270,7 +282,7 @@ public class AmendBooking extends JFrame {
 
 			setVisible(false);
 
-			new BookingSummary(Booking.currentBooking);
+			new BookingSummary(DataManager.getCurrentBooking());
 
 		});
 

@@ -79,7 +79,11 @@ public class BookingSummary extends JFrame {
  
         cancelButton.addActionListener(e -> {
 
-            Booking.currentBooking = null;
+        	DataManager.cancelBooking(
+        	        booking.getBookingID()
+        	);
+
+        	DataManager.setCurrentBooking(null);
 
             JOptionPane.showMessageDialog(
                     null,

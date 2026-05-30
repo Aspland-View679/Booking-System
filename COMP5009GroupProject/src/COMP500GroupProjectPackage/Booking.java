@@ -1,6 +1,5 @@
 package COMP500GroupProjectPackage;
 
-import javax.swing.*;
 
 /**
  * Stores all data of the booking 
@@ -8,7 +7,6 @@ import javax.swing.*;
 
 public class Booking {
     
-    public static Booking currentBooking;
     
 	private String airport;
 	private String pickupLocation;
@@ -17,6 +15,7 @@ public class Booking {
 	
 	private int luggageAmount;
 	private int estimatedDuration;
+	private int bookingID;
 	
 	private double totalPrice;
 	
@@ -115,5 +114,13 @@ public class Booking {
 
     public void setCancelled(boolean cancelled) {
         this.cancelled = cancelled;
+    }
+    
+    public int getBookingID() {
+        return bookingID;
+    }
+
+    public void setBookingID(int bookingID) {
+        this.bookingID = bookingID;
     }
 } //This section is getters and set to ensure all the fields are filled

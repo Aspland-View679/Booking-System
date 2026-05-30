@@ -281,9 +281,14 @@ public class NewBooking extends JFrame {
         			totalPrice
         	);
         	
-        	Booking.currentBooking = booking;
-
-                //Creates a booking object
+        	DataManager.setCurrentBooking(booking);
+        	DataManager.insertBooking(booking);
+        	
+        	System.out.println(
+        	        booking.getBookingID()
+        	);
+        	
+               //Creates a booking object
         	
         	JOptionPane.showMessageDialog(
         			null,

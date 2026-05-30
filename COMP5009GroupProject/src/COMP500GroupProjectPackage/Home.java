@@ -66,7 +66,7 @@ public class Home extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-                    if (Booking.currentBooking == null) {
+                    if (DataManager.getCurrentBooking() == null) {
 
                         JOptionPane.showMessageDialog(
                                 null,
@@ -83,18 +83,18 @@ public class Home extends JFrame {
             });
         bookingSummaryButton.addActionListener(e -> {
 
-            if (Booking.currentBooking == null) {
+            if (DataManager.getCurrentBooking() == null) {
 
                 JOptionPane.showMessageDialog(
-                        null,
-                        "Please create a booking first"
+                        null, 
+                        "Please create a booking first"              //This two sections of code stops the user going further if they haven't made a booking to review or amend
                 );
 
             } else {
 
                 setVisible(false);
 
-                new BookingSummary(Booking.currentBooking);
+                new BookingSummary(DataManager.getCurrentBooking()); //this if you made a booking calls it back
             }
         });
         
@@ -102,6 +102,16 @@ public class Home extends JFrame {
     }
 
     public static void main(String[] args) {
-        new Home(); //Home page
+
+        DataManager.createTable(); //connects to sqlite to check if the booking table exists and creates if there isn't a booking table
+
+        Booking latestBooking =
+                DataManager.getLatestBooking();  //searchs the database to find the most recent booking and make it a booking object
+
+        DataManager.setCurrentBooking(
+                latestBooking  //this stores booking into ram so it can be called back even when restarting the application
+        );
+
+        new Home(); //relaunches the homepage once the backend is complete.
     }
 }
