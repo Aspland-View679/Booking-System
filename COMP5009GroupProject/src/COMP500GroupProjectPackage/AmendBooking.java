@@ -1,6 +1,7 @@
 package COMP500GroupProjectPackage;
 
 import java.awt.event.ActionEvent;
+import java.time.format.DateTimeFormatter;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -44,11 +45,14 @@ public class AmendBooking extends JFrame {
 
 		try {
 
-			LocalDate bookingDate =
-					LocalDate.parse(
-							booking.getBookingDate()
-					);
+			DateTimeFormatter formatter =
+			        DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
+			LocalDate bookingDate =
+			        LocalDate.parse(
+			                booking.getBookingDate(),
+			                formatter
+			        );
 			long daysUntilBooking =
 					ChronoUnit.DAYS.between(
 							LocalDate.now(),

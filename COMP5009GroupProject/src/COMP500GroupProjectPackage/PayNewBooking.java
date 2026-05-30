@@ -88,12 +88,21 @@ implements ActionListener {
 		mainPayFrame.add(cvv);
 		
 		JLabel cvvLabel = new JLabel();
-		cvvLabel.setBounds(140, 255, 100, 60);
+		cvvLabel.setBounds(240, 255, 100, 60);
 		cvvLabel.setText("Enter CVV here: ");
 		mainPayFrame.add(cvvLabel);
 		
+		JTextField billAdd = new JTextField();
+		billAdd.setBounds(250, 250, 100, 30);
+		mainPayFrame.add(billAdd);
+		
+		JLabel billAddLabel = new JLabel();
+		billAddLabel.setBounds(250, 255, 100, 60);
+		billAddLabel.setText("Billing address: ");
+		mainPayFrame.add(billAddLabel);
+		
 		JButton payButton = new JButton();
-		payButton.setBounds(250, 300, 100, 50);
+		payButton.setBounds(260, 300, 100, 50);
 		payButton.setText("Click to pay");
 		payButton.setBackground(Color.pink);
 		mainPayFrame.add(payButton);
@@ -118,7 +127,8 @@ implements ActionListener {
 						expiryMonth, 
 						expiryYear, 
 						cvv, 
-						booking
+						booking,
+						billAdd
 						
 						
 					)
@@ -171,11 +181,13 @@ implements ActionListener {
 		JTextField expiryMonthInput, 
 		JTextField expiryYearInput, 
 		JTextField cvv, 
-		Booking booking
+		Booking booking,
+		JTextField billAdd
 	) {
 		String cardTypeToSet = cardType.getSelectedItem().toString();
 		setCardType(cardTypeToSet);
 		setCardName(cardName.getText());
+		setBillingAddress(billAdd.getText());
 		
 			
 		try {
@@ -495,5 +507,6 @@ implements ActionListener {
 		
 	}
 }
+
 
 

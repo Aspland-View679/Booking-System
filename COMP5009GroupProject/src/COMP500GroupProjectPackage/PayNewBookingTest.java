@@ -1,7 +1,13 @@
 package COMP500GroupProjectPackage;
 
 import static org.junit.jupiter.api.Assertions.*;
+import java.sql.SQLException;
+import java.sql.ResultSet;
 import java.time.*;
+
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JTextField;
 
 import org.junit.jupiter.api.Test;
 
@@ -10,6 +16,86 @@ public class PayNewBookingTest {
 	private LocalDate today = LocalDate.now();
 	private Integer month = today.getMonthValue();
 	private Integer year = today.getYear();
+	JFrame payFrame = new JFrame();
+	String[] types = {"Visa", "Mastercard"};
+	JComboBox<String> cardType = new JComboBox(types);
+	JTextField cardNumber = new JTextField();
+	JTextField billAdd = new JTextField();
+	JTextField expiryMonthInput = new JTextField();
+	JTextField expiryYearInput = new JTextField();
+	JTextField cvv = new JTextField();
+	Booking booking = new Booking("London", "Canterbury", "11/07/2006", "20:30", 5, 120, 5.55);
+	JTextField name = new JTextField();
+	
+	@Test
+	void rejectMainLogic() {
+		cardNumber.setText("01234567899012748373273737373");
+		cvv.setText("27272");
+		expiryMonthInput.setText("01");
+		expiryYearInput.setText("2024");
+		name.setText("Oliver");
+		billAdd.setText("UOK");
+		assertEquals(false, myPayBooking.mainLogic(
+									   payFrame,
+									   cardType,
+									   cardNumber,
+									   name,
+									   expiryMonthInput,
+									   expiryYearInput,
+									   cvv,
+									   booking,
+									   billAdd
+											));
+		
+	}
+	
+	
+	@Test
+	void acceptMainLogic() {
+		cardNumber.setText("01234567899012748");
+		cvv.setText("272");
+		expiryMonthInput.setText("01");
+		billAdd.setText("UOK");
+		expiryYearInput.setText("2028");
+		name.setText("Oliver");
+		assertEquals(true, myPayBooking.mainLogic(
+									   payFrame,
+									   cardType,
+									   cardNumber,
+									   name,
+									   expiryMonthInput,
+									   expiryYearInput,
+									   cvv,
+									   booking,
+									   billAdd
+											));
+		
+	}
+	
+	@Test 
+	void addPayment() throws SQLException {
+		DataManager.connect();
+		Booking booking = new Booking("London", "UoK", "2027-04-03", "19:03", 3, 4, 4.32);
+		cardNumber.setText("01234567899012748");
+		cvv.setText("272");
+		expiryMonthInput.setText("01");
+		billAdd.setText("UOK");
+		expiryYearInput.setText("2028");
+		name.setText("Oliver");
+		DataManager.insertBooking(booking);
+		DataManager.updatePayment(booking.getBookingID(), "Visa", 
+				cardNumber.getText(), 
+				billAdd.getText(), 0);
+		ResultSet rs =
+				DataManager.getBooking(
+						booking.getBookingID()
+				);
+
+		assertEquals(
+				"Visa",
+				rs.getString("paymentType")
+		);
+	}
 	
 	@Test
 	void rejectCVV0() {
@@ -151,3 +237,4 @@ public class PayNewBookingTest {
 	}
 	
 }
+

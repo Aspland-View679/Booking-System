@@ -21,6 +21,7 @@ public class Booking {
 	
 	private boolean confirmed;
 	private boolean cancelled;
+
 	
 	public Booking(
 			String airport,
@@ -116,11 +117,11 @@ public class Booking {
         this.cancelled = cancelled;
     }
     
-    public int getBookingID() {
-        return bookingID;
-    }
+	public int getBookingID() {
+	    return bookingID;
+	}
 
-    public void setBookingID(int bookingID) {
-        this.bookingID = bookingID;
-    }
+	public void setBookingID(int bookingID) {
+	    this.bookingID = bookingID;
+	}
 } //This section is getters and set to ensure all the fields are filled

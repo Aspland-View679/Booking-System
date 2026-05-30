@@ -35,14 +35,12 @@ public class DataManager {
 
 	}
 
-	
+	/**
+	 * connects the application to sqlite
+	 * 
+	 * @return the database connections
+	 */
 
-/**
- * connects the application to sqlite
- * 
- * @return the database connections
- */
-	
 	public static Connection connect() {
 
 		try {
@@ -64,7 +62,7 @@ public class DataManager {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * creates the bookings tables if it doesn't exist
 	 * 
@@ -91,8 +89,8 @@ public class DataManager {
 
 						+ "estimatedDuration INTEGER,"
 
-						+ "totalPrice REAL,"                     //this creates the table and fields for the table
- 
+						+ "totalPrice REAL," //this creates the table and fields for the table
+
 						+ "paymentType TEXT,"
 
 						+ "cardNumber TEXT,"
@@ -119,7 +117,7 @@ public class DataManager {
 
 				Connection conn = connect();
 
-				Statement stmt = conn.createStatement()      //Create the sql table statements
+				Statement stmt = conn.createStatement() //Create the sql table statements
 
 		) {
 
@@ -136,7 +134,6 @@ public class DataManager {
 		}
 	}
 
-	
 	/**
 	 * Inserets the booking into the database
 	 * 
@@ -144,12 +141,12 @@ public class DataManager {
 	 * 
 	 * @return booking booking object to insert
 	 */
-	
+
 	public static void insertBooking(
 	        Booking booking
 	) {
 
-	    String sql =         //this is to save the booking into the database
+	    String sql = //this is to save the booking into the database
 
 	            "INSERT INTO bookings("
 
@@ -173,7 +170,7 @@ public class DataManager {
 	                            Statement.RETURN_GENERATED_KEYS
 	                    )
 
-	    ) {  //Inserts booking values into the SQL query
+	    ) { //Inserts booking values into the SQL query
 
 	        pstmt.setString(
 	                1,
@@ -210,10 +207,10 @@ public class DataManager {
 	                booking.getTotalPrice()
 	        );
 
-	        pstmt.executeUpdate();  //runs the sql insert statement
+	        pstmt.executeUpdate(); //runs the sql insert statement
 
 	        ResultSet generatedKeys =
-	                pstmt.getGeneratedKeys();  //returns the automatic generated booking
+	                pstmt.getGeneratedKeys(); //returns the automatic generated booking
 
 	        if (generatedKeys.next()) {
 
@@ -221,7 +218,7 @@ public class DataManager {
 	                    generatedKeys.getInt(1);
 
 	            booking.setBookingID(
-	                    bookingID          //Assigns swl booking id back to object
+	                    bookingID //Assigns sql booking id back to object
 	            );
 
 	            System.out.println(
@@ -238,57 +235,55 @@ public class DataManager {
 
 	    }
 	}
-	
+
 	/**
-	 * Retrieves a booking using booking id
+	 * Retrieves a booking using booking ID
 	 * 
 	 * @param bookingID booking ID to search for
-	 * @reurn SQL ResultSet
+	 * @return SQL ResultSet
 	 */
 
 	public static ResultSet getBooking(int bookingID) {
-	
 
-		String sql =
+	    String sql =
+	            "SELECT * FROM bookings WHERE bookingID = ?";
 
-				"SELECT * FROM bookings " + "WHERE bookingID = ?"; // Searches the database for specific booking
+	    try {
 
-		try {
+	        Connection conn = connect();
 
-			Connection conn = connect();
+	        PreparedStatement pstmt =
+	                conn.prepareStatement(sql);
 
-			PreparedStatement pstmt = conn.prepareStatement(sql);
+	        pstmt.setInt(1, bookingID);
 
-			pstmt.setInt(1, bookingID);
+	        return pstmt.executeQuery();
 
-			return pstmt.executeQuery();
+	    }
 
-		}
+	    catch (SQLException e) {
 
-		catch (SQLException e) {
+	        e.printStackTrace();
 
-			e.printStackTrace();
-
-			return null;
-		}
+	        return null;
+	    }
 	}
 	
 	
+	/**
+	 * Returns the latest booking stored in the database
+	 * 
+	 * Used to restore bookings after the application restarted
+	 * 
+	 * @return latest booking object
+	 */
 
-/**
- * Returns the latest booking stored in the database
- * 
- * Used to restore bookings after the application restarted
- * 
- * @return latest booking object
- */
-	
 	public static Booking getLatestBooking() {
 
         String sql =
 
                 "SELECT * FROM bookings "
-                + "ORDER BY bookingID DESC "  //Gets the latest booking from the database
+                + "ORDER BY bookingID DESC "
                 + "LIMIT 1";
 
         try (
@@ -312,18 +307,18 @@ public class DataManager {
                                 rs.getString("pickupLocation"),
                                 rs.getString("bookingDate"),
                                 rs.getString("bookingTime"),
-                                rs.getInt("luggageAmount"), // all the data getting restored
+                                rs.getInt("luggageAmount"),
                                 rs.getInt("estimatedDuration"),
                                 rs.getDouble("totalPrice")
 
                         );
 
                 booking.setBookingID(
-                        rs.getInt("bookingID")  //restores the booking id
+                        rs.getInt("bookingID")
                 );
 
                 booking.setConfirmed(
-                        rs.getInt("confirmed") == 1  ///converts sql integer into java
+                        rs.getInt("confirmed") == 1
                 );
 
                 booking.setCancelled(
@@ -344,30 +339,31 @@ public class DataManager {
         return null;
     }
 
-	/** Updates booking details in SQL database. 
+	/** 
+	 * Updates booking details in SQL database.
 	 * 
-	 * Used when a booking is amended. 
+	 * Used when a booking is amended.
 	 * 
-	 * @param bookingID booking ID 
+	 * @param bookingID booking ID
 	 * @param airport updated airport
 	 * @param pickupLocation updated location
-	 * @param bookingDate updated date 
-	 * @param bookingTime updated time 
-	 * @param luggageAmount updated luggage amount 
-	 * @param estimatedDuration updated duration 
-	 * @param totalPrice updated price 
+	 * @param bookingDate updated date
+	 * @param bookingTime updated time
+	 * @param luggageAmount updated luggage amount
+	 * @param estimatedDuration updated duration
+	 * @param totalPrice updated price
 	 */
-	
+
 	public static void updateBooking(
 
-			int bookingID, 
-			String airport, 
-			String pickupLocation, 
+			int bookingID,
+			String airport,
+			String pickupLocation,
 			String bookingDate,
 			String bookingTime,
-			int luggageAmount, 
-			int estimatedDuration, 
-			double totalPrice  //Updates existing booking
+			int luggageAmount,
+			int estimatedDuration,
+			double totalPrice
 
 	) {
 
@@ -375,8 +371,14 @@ public class DataManager {
 
 				"UPDATE bookings SET "
 
-						+ "airport = ?," + "pickupLocation = ?," + "bookingDate = ?," + "bookingTime = ?,"
-						+ "luggageAmount = ?," + "estimatedDuration = ?," + "totalPrice = ?," + "amended = 1 "
+						+ "airport = ?,"
+						+ "pickupLocation = ?,"
+						+ "bookingDate = ?,"
+						+ "bookingTime = ?,"
+						+ "luggageAmount = ?,"
+						+ "estimatedDuration = ?,"
+						+ "totalPrice = ?,"
+						+ "amended = 1 "
 
 						+ "WHERE bookingID = ?";
 
@@ -416,24 +418,25 @@ public class DataManager {
 
 		}
 	}
-	
+
 	/**
-	 *  Updates payment information for a booking. 
-	 *  
-	 * Also marks the booking as paid.  
-	 * @param bookingID booking ID to update 
-	 * @param paymentType payment method used 
-	 * @param cardNumber encrypted card number 
-	 * @param billingAddress billing address 
-	 * @param bookingFee booking fee amount 
+	 * Updates payment information for a booking.
+	 * 
+	 * Also marks the booking as paid.
+	 * 
+	 * @param bookingID booking ID to update
+	 * @param paymentType payment method used
+	 * @param cardNumber encrypted card number
+	 * @param billingAddress billing address
+	 * @param bookingFee booking fee amount
 	 */
 
 	public static void updatePayment(
 
-			int bookingID, 
-			String paymentType, 
-			String cardNumber, 
-			String billingAddress,   //Updates payment details inside sql database
+			int bookingID,
+			String paymentType,
+			String cardNumber,
+			String billingAddress,
 			double bookingFee
 
 	) {
@@ -442,7 +445,10 @@ public class DataManager {
 
 				"UPDATE bookings SET "
 
-						+ "paymentType = ?," + "cardNumber = ?," + "billingAddress = ?," + "bookingFee = ?,"
+						+ "paymentType = ?,"
+						+ "cardNumber = ?,"
+						+ "billingAddress = ?,"
+						+ "bookingFee = ?,"
 						+ "paid = 1 "
 
 						+ "WHERE bookingID = ?";
@@ -457,7 +463,7 @@ public class DataManager {
 
 			pstmt.setString(1, paymentType);
 
-			pstmt.setString(2, cardNumber);    //Inserts payment information into the sql query
+			pstmt.setString(2, cardNumber);
 
 			pstmt.setString(3, billingAddress);
 
@@ -477,19 +483,19 @@ public class DataManager {
 
 		}
 	}
-	
+
 	/** 
 	 * Applies a discount code to a booking.
 	 * 
-	 *  @param bookingID booking ID to update 
+	 * @param bookingID booking ID to update
 	 * @param discountCode discount code entered
-	 * @param discountPercentage discount percentage applied 
+	 * @param discountPercentage discount percentage applied
 	 */
 
 	public static void applyDiscount(
 
-			int bookingID, 
-			String discountCode, // Applies discount information to booking
+			int bookingID,
+			String discountCode,
 			double discountPercentage
 
 	) {
@@ -498,7 +504,8 @@ public class DataManager {
 
 				"UPDATE bookings SET "
 
-						+ "discountCode = ?," + "discountPercentage = ? "
+						+ "discountCode = ?,"
+						+ "discountPercentage = ? "
 
 						+ "WHERE bookingID = ?";
 
@@ -512,11 +519,11 @@ public class DataManager {
 
 			pstmt.setString(1, discountCode);
 
-			pstmt.setDouble(2, discountPercentage);  //Inserts discount values into SQL query
+			pstmt.setDouble(2, discountPercentage);
 
 			pstmt.setInt(3, bookingID);
 
-			pstmt.executeUpdate();  //Executes SQL update statement
+			pstmt.executeUpdate();
 
 			System.out.println("Discount Applied");
 
@@ -535,7 +542,7 @@ public class DataManager {
 
 				"UPDATE bookings SET "
 
-						+ "cancelled = 1 "   //Cancel the booking within the sql database
+						+ "cancelled = 1 "
 
 						+ "WHERE bookingID = ?";
 
@@ -547,7 +554,7 @@ public class DataManager {
 
 		) {
 
-			pstmt.setInt(1, bookingID);  //Inserts booking ID into sql query
+			pstmt.setInt(1, bookingID);
 
 			pstmt.executeUpdate();
 
@@ -561,14 +568,12 @@ public class DataManager {
 
 		}
 	}
-	
+
 	/** 
-	 * Confirms a booking inside the database. 
+	 * Confirms a booking inside the database.
 	 * 
-	 * @param bookingID booking ID to confirm 
+	 * @param bookingID booking ID to confirm
 	 */
-	
-	// Marks booking as confirmed
 
 	public static void confirmBooking(int bookingID) {
 
@@ -602,20 +607,18 @@ public class DataManager {
 
 		}
 	}
-	
+
 	/** 
-	 * Deletes a booking completely from the database. 
+	 * Deletes a booking completely from the database.
 	 * 
-	 * @param bookingID booking ID to delete 
-	 */ 
-	
-	// Permanently removes booking from database
+	 * @param bookingID booking ID to delete
+	 */
 
 	public static void deleteBooking(int bookingID) {
 
 		String sql =
 
-				"DELETE FROM bookings " + "WHERE bookingID = ?";
+				"DELETE FROM bookings WHERE bookingID = ?";
 
 		try (
 
