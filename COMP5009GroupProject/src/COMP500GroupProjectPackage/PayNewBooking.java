@@ -201,6 +201,7 @@ implements ActionListener {
 			showError2.setBounds(250, 360, 300, 30);
 			showError2.setText("Please check you've enter numbers for card number, cvv and expiry dates");
 			mainPayFrame.add(showError);
+			return false;
 		
 		}
 		
