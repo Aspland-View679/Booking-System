@@ -16,9 +16,26 @@ public class CancelBookingTest {
 					3,
 					45.45
 			);
+	
+	private Booking myBookingToCancelCanDo =  new Booking("London", "Canterbury", "11/07/2028", "12:30", 2, 3, 45.45);
+	private Booking myBookingToCancelCannotDo =  new Booking("London", "Canterbury", "11/07/2006", "12:30", 2, 3, 45.45);
 
+	Booking goodBooking;
+	Booking badBooking;
+
+	@Before
+	public void insert() {
+		DataManager.insertBooking(myBookingToCancelCanDo);
+		goodBooking = DataManager.getLatestBooking();
+		DataManager.insertBooking(myBookingToCancelCannotDo);
+		badBooking = DataManager.getLatestBooking();
+
+	}
+	
+	
+	
 	private CancelBooking cancelledBooking =
-			new CancelBooking(myBookingToCancel);
+			new CancelBooking();
 
 
 	/**
@@ -55,5 +72,16 @@ public class CancelBookingTest {
 		);
 
 	}
+	
+	@Test 
+	public void cancelAndRemoveBooking() {
+		assertEquals(true, cancelledBooking.mainLogic(goodBooking.getBookingID()));
+	}
+
+	@Test
+	public void donTCancelOrRemoveBooking() {		
+		assertEquals(false, cancelledBooking.mainLogic(badBooking.getBookingID()));
+	
+}
 
 }
