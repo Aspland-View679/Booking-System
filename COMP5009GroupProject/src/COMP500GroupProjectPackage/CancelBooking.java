@@ -1,5 +1,12 @@
 package COMP500GroupProjectPackage;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -30,26 +37,26 @@ public class CancelBooking {
 	public void setBookingToCancel(Booking bookingToCancel) {
 		this.bookingToCancel = bookingToCancel;
 	}
+	
 	public CancelBooking() {
 		
 		JFrame mainCancelFrame = new JFrame();
 		mainCancelFrame.setSize(500, 500);
 		
-		Connection myConn = DataManager.connect();
-		
+		try {
 		String sql = "SELECT bookingID FROM bookings";
+			Connection myConn = DataManager.connect();
+
+			Statement state = myConn.createStatement();
 		
-		PreparedStatement prep = myConn.prepareStatement(sql);
-		
-		ResultSet values = prep.executeQuery();
+			ResultSet values = state.executeQuery(sql);
 		
 		Integer[] ids = {};
 		Integer i = 0;
-		while (values.hasNext()) {
+		while (values.next()) {
 			ids[i] = (values.getInt("bookingID"));
 			i++;
 		}
-		
 		
 		JComboBox<Integer> bookingID = new JComboBox(ids); //This is going to be populated with all of booking ids
 		bookingID.setBounds(250,250,100,30);
@@ -64,32 +71,43 @@ public class CancelBooking {
 		mainCancelFrame.add(cancelBtn);
 		
 		cancelBtn.addActionListener(new ActionListener() {
-			
+		
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-			
-			if (mainLogic((int) bookingID.getSelectedItem())) {
-				mainCancelFrame.setVisible(false);
-				JOptionPane.showMessageDialog(null, "Cancelled!");
-			} else {
-				mainCancelFrame.setVisible(false);
+				// TODO Auto-generated method stub
+				if (mainLogic((int) bookingID.getSelectedItem())) {
+					mainCancelFrame.setVisible(false);
+					JOptionPane.showMessageDialog(null, "Cancelled!");
+				} else {
+					mainCancelFrame.setVisible(false);
+				}
 			}
-			
-			}		
 		});
-	}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		}
 	
+
 	public boolean mainLogic(int bookingID) {
 		
+		try {
 		ResultSet bookingFound = DataManager.getBooking(bookingID);
-		setBookingToCancel(new Booking(bookingFound.getString("airport"), 
-										bookingFound.getString("pickupLocation", 
-										bookingFound.getString("bookingDate"), 
-									    bookingFound.getString("bookingTime"),
-									    bookingFound.getString("luggageAmount"), 
-									    bookingFound.getInt("estimatedDuration"), 
-									    bookingFound.getDouble("totalPrice"))));
+		 Booking booking =
+                 new Booking(
+
+                         bookingFound.getString("airport"),
+                         bookingFound.getString("pickupLocation"),
+                         bookingFound.getString("bookingDate"),
+                         bookingFound.getString("bookingTime"),
+                         bookingFound.getInt("luggageAmount"),
+                         bookingFound.getInt("estimatedDuration"),
+                         bookingFound.getDouble("totalPrice"));
+
+                
+
+		setBookingToCancel(booking);
 		String date = bookingFound.getString("bookingDate");
 		String airport = bookingFound.getString("airport");
 	
@@ -101,7 +119,11 @@ public class CancelBooking {
 			} else {
 				JOptionPane.showMessageDialog(null, "Not cancellable!");
 				return false;
-			}
+			}}
+		catch (SQLException e) {
+		e.printStackTrace();
+		return false;
+	}
 		}
 	
 
@@ -162,23 +184,25 @@ public class CancelBooking {
 	*/
 	
 	public void changeDuration(String date, String airport) {
+		try {
 		Connection con = DataManager.connect();
 		String sql = "SELECT * FROM bookings WHERE bookingDate = ? && airport = ?";
 		PreparedStatement pstms = con.prepareStatement(sql);
 		pstms.setString(1, date);
 		pstms.setString(2, airport);
 		ResultSet results = pstms.executeQuery(sql);
-		Booking[] bookings;
 		int i = 0;
-		while (results.hasNext()) {
-			Booking bAdd = new Booking(rs.getString("airport"), 
-										rs.getString("pickupLocation", 
-										rs.getString("bookingDate"), 
-									    rs.getString("bookingTime"),
-									    rs.getString("luggageAmount"), 
-									    rs.getInt("estimatedDuration"), 
-									    rs.getDouble("totalPrice"));
-			bAdd,setBookingID(rs.getString("bookingID"));
+		Booking[] bookings = null;
+		while (results.next()) {
+			Booking bAdd = new Booking(results.getString("airport"), 
+										results.getString("pickupLocation"), 
+									    results.getString("bookingDate"), 
+									    results.getString("bookingTime"),
+									    results.getInt("luggageAmount"), 
+									    results.getInt("estimatedDuration"), 
+									    results.getDouble("totalPrice"));
+			
+			bAdd.setBookingID(Integer.parseInt(results.getString("bookingID")));
 			bookings[i] = bAdd;
 			i++;
 			
@@ -192,10 +216,15 @@ public class CancelBooking {
 									  bookings[ind].getBookingTime(), 
 									  bookings[ind].getLuggageAmount(), 
 									  bookings[ind].getEstimatedDuration(), 
-									  bookings[ind].getTotalPrice());
+									  bookings[ind].getTotalPrice()
+									  );
+		}} catch (SQLException e) {
+			e.printStackTrace();
 		}
+		
 	}
 	
 	
-}
+		}
+	
 	

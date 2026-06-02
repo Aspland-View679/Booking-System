@@ -1,18 +1,15 @@
+
 package COMP500GroupProjectPackage;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.time.format.DateTimeFormatter;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JSpinner;
-import javax.swing.JTextField;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.WindowConstants;
 
@@ -53,6 +50,7 @@ public class AmendBooking extends JFrame {
 			                booking.getBookingDate(),
 			                formatter
 			        );
+
 			long daysUntilBooking =
 					ChronoUnit.DAYS.between(
 							LocalDate.now(),
@@ -81,18 +79,153 @@ public class AmendBooking extends JFrame {
 
 		setTitle("Amend Booking");
 
-		setSize(520, 550);
+		setSize(950, 700);
 
-		setLayout(null);
+		setLocationRelativeTo(null);
+
+		setLayout(new BorderLayout());
 
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+
+		//Main background panel
+
+		JPanel backgroundPanel =
+				new JPanel(new BorderLayout());
+
+		backgroundPanel.setBackground(
+				new Color(245, 245, 245)
+		);
+
+
+		//Heading section
+
+		JPanel headingPanel =
+				new JPanel();
+
+		headingPanel.setBackground(
+				new Color(245, 245, 245)
+		);
+
+		headingPanel.setBorder(
+				new EmptyBorder(30, 40, 10, 40)
+		);
+
+		headingPanel.setLayout(
+				new BoxLayout(
+						headingPanel,
+						BoxLayout.Y_AXIS
+				)
+		);
+
+
+		JLabel title =
+				new JLabel("Amend Existing Booking");
+
+		title.setFont(
+				new Font(
+						"SansSerif",
+						Font.BOLD,
+						34
+				)
+		);
+
+		title.setForeground(
+				new Color(30, 30, 30)
+		);
+
+
+		JLabel subtitle =
+				new JLabel(
+						"Update airport, luggage, pickup and travel details"
+				);
+
+		subtitle.setFont(
+				new Font(
+						"SansSerif",
+						Font.PLAIN,
+						16
+				)
+		);
+
+		subtitle.setForeground(
+				new Color(90, 90, 90)
+		);
+
+
+		headingPanel.add(title);
+
+		headingPanel.add(
+				Box.createRigidArea(
+						new Dimension(0, 8)
+				)
+		);
+
+		headingPanel.add(subtitle);
+
+
+		//Main amendment card
+
+		JPanel amendCard =
+				new JPanel();
+
+		amendCard.setLayout(
+				new GridBagLayout()
+		);
+
+		amendCard.setBackground(Color.WHITE);
+
+		amendCard.setBorder(
+				BorderFactory.createCompoundBorder(
+
+						BorderFactory.createLineBorder(
+								new Color(220, 220, 220),
+								1,
+								true
+						),
+
+						new EmptyBorder(35, 35, 35, 35)
+				)
+		);
+
+
+		JPanel cardWrapper =
+				new JPanel(new BorderLayout());
+
+		cardWrapper.setBackground(
+				new Color(245, 245, 245)
+		);
+
+		cardWrapper.setBorder(
+				new EmptyBorder(10, 40, 40, 40)
+		);
+
+		cardWrapper.add(amendCard);
+
+
+		GridBagConstraints gbc =
+				new GridBagConstraints();
+
+		gbc.insets =
+				new Insets(15, 15, 15, 15);
+
+		gbc.fill =
+				GridBagConstraints.HORIZONTAL;
+
+
+		//Airport section
 
 		JLabel airportLabel =
 				new JLabel("Airport:");
 
-		airportLabel.setBounds(50, 50, 100, 30);
+		airportLabel.setFont(
+				new Font(
+						"SansSerif",
+						Font.BOLD,
+						15
+				)
+		);
 
-		add(airportLabel);
 
 		String[] airports = {
 				"London Heathrow - UK",
@@ -122,20 +255,28 @@ public class AmendBooking extends JFrame {
 		airportBox =
 				new JComboBox<>(airports);
 
-		airportBox.setBounds(180, 50, 220, 30);
-
 		airportBox.setSelectedItem(
 				booking.getAirport()
 		);
 
-		add(airportBox);
+		airportBox.setPreferredSize(
+				new Dimension(300, 40)
+		);
+
+
+		//Luggage section
 
 		JLabel luggageLabel =
 				new JLabel("Luggage:");
 
-		luggageLabel.setBounds(50, 100, 100, 30);
+		luggageLabel.setFont(
+				new Font(
+						"SansSerif",
+						Font.BOLD,
+						15
+				)
+		);
 
-		add(luggageLabel);
 
 		luggageSpinner =
 				new JSpinner(
@@ -147,85 +288,285 @@ public class AmendBooking extends JFrame {
 						)
 				);
 
-		luggageSpinner.setBounds(180, 100, 80, 30);
+		luggageSpinner.setPreferredSize(
+				new Dimension(300, 40)
+		);
 
-		add(luggageSpinner);
+
+		//Pickup section
 
 		JLabel pickupLabel =
 				new JLabel("Pickup Location:");
 
-		pickupLabel.setBounds(50, 150, 120, 30);
+		pickupLabel.setFont(
+				new Font(
+						"SansSerif",
+						Font.BOLD,
+						15
+				)
+		);
 
-		add(pickupLabel);
 
 		pickupField =
 				new JTextField(
 						booking.getPickupLocation()
 				);
 
-		pickupField.setBounds(180, 150, 220, 30);
+		pickupField.setPreferredSize(
+				new Dimension(300, 40)
+		);
 
-		add(pickupField);
+
+		//Date section
 
 		JLabel dateLabel =
 				new JLabel("Date:");
 
-		dateLabel.setBounds(50, 200, 100, 30);
+		dateLabel.setFont(
+				new Font(
+						"SansSerif",
+						Font.BOLD,
+						15
+				)
+		);
 
-		add(dateLabel);
 
 		dateField =
 				new JTextField(
 						booking.getBookingDate()
 				);
 
-		dateField.setBounds(180, 200, 220, 30);
+		dateField.setPreferredSize(
+				new Dimension(300, 40)
+		);
 
-		add(dateField);
+
+		//Time section
 
 		JLabel timeLabel =
 				new JLabel("Time:");
 
-		timeLabel.setBounds(50, 250, 100, 30);
+		timeLabel.setFont(
+				new Font(
+						"SansSerif",
+						Font.BOLD,
+						15
+				)
+		);
 
-		add(timeLabel);
 
 		timeField =
 				new JTextField(
 						booking.getBookingTime()
 				);
 
-		timeField.setBounds(180, 250, 220, 30);
+		timeField.setPreferredSize(
+				new Dimension(300, 40)
+		);
 
-		add(timeField);
+
+		//Update button
 
 		updateButton =
 				new JButton("Update Booking");
 
-		updateButton.setBounds(70, 330, 150, 40);
+		updateButton.setPreferredSize(
+				new Dimension(220, 50)
+		);
 
-		add(updateButton);
+		updateButton.setFocusPainted(false);
+
+		updateButton.setBorderPainted(false);
+
+		updateButton.setBackground(
+				new Color(155, 109, 255)
+		);
+
+		updateButton.setForeground(Color.WHITE);
+
+		updateButton.setFont(
+				new Font(
+						"SansSerif",
+						Font.BOLD,
+						15
+				)
+		);
+
+
+		//Cancel button
 
 		cancelButton =
 				new JButton("Cancel");
 
-		cancelButton.setBounds(260, 330, 150, 40);
+		cancelButton.setPreferredSize(
+				new Dimension(180, 50)
+		);
 
-		add(cancelButton);
+		cancelButton.setFocusPainted(false);
+
+		cancelButton.setBorderPainted(false);
+
+		cancelButton.setBackground(
+				new Color(230, 230, 230)
+		);
+
+		cancelButton.setFont(
+				new Font(
+						"SansSerif",
+						Font.BOLD,
+						15
+				)
+		);
+
+
+		//Home button
 
 		JButton homeButton =
 				new JButton("Return Home");
 
-		homeButton.setBounds(160, 390, 180, 40);
+		homeButton.setPreferredSize(
+				new Dimension(180, 50)
+		);
 
-		add(homeButton);
+		homeButton.setFocusPainted(false);
+
+		homeButton.setBorderPainted(false);
+
+		homeButton.setBackground(
+				new Color(230, 230, 230)
+		);
+
+		homeButton.setFont(
+				new Font(
+						"SansSerif",
+						Font.BOLD,
+						15
+				)
+		);
+
+
+		//Summary button
 
 		JButton summaryButton =
 				new JButton("View Summary");
 
-		summaryButton.setBounds(160, 440, 180, 40);
+		summaryButton.setPreferredSize(
+				new Dimension(180, 50)
+		);
 
-		add(summaryButton);
+		summaryButton.setFocusPainted(false);
+
+		summaryButton.setBorderPainted(false);
+
+		summaryButton.setBackground(
+				new Color(230, 230, 230)
+		);
+
+		summaryButton.setFont(
+				new Font(
+						"SansSerif",
+						Font.BOLD,
+						15
+				)
+		);
+
+
+		//Adds all components to the amendment card
+
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+
+		amendCard.add(airportLabel, gbc);
+
+		gbc.gridx = 1;
+
+		amendCard.add(airportBox, gbc);
+
+
+		gbc.gridx = 0;
+		gbc.gridy++;
+
+		amendCard.add(luggageLabel, gbc);
+
+		gbc.gridx = 1;
+
+		amendCard.add(luggageSpinner, gbc);
+
+
+		gbc.gridx = 0;
+		gbc.gridy++;
+
+		amendCard.add(pickupLabel, gbc);
+
+		gbc.gridx = 1;
+
+		amendCard.add(pickupField, gbc);
+
+
+		gbc.gridx = 0;
+		gbc.gridy++;
+
+		amendCard.add(dateLabel, gbc);
+
+		gbc.gridx = 1;
+
+		amendCard.add(dateField, gbc);
+
+
+		gbc.gridx = 0;
+		gbc.gridy++;
+
+		amendCard.add(timeLabel, gbc);
+
+		gbc.gridx = 1;
+
+		amendCard.add(timeField, gbc);
+
+
+		//Button row
+
+		JPanel buttonPanel =
+				new JPanel(
+						new FlowLayout(
+								FlowLayout.CENTER,
+								20,
+								10
+						)
+				);
+
+		buttonPanel.setBackground(Color.WHITE);
+
+		buttonPanel.add(updateButton);
+
+		buttonPanel.add(cancelButton);
+
+		buttonPanel.add(homeButton);
+
+		buttonPanel.add(summaryButton);
+
+
+		gbc.gridx = 0;
+		gbc.gridy++;
+
+		gbc.gridwidth = 2;
+
+		amendCard.add(buttonPanel, gbc);
+
+
+		//Adds everything to the frame
+
+		backgroundPanel.add(
+				headingPanel,
+				BorderLayout.NORTH
+		);
+
+		backgroundPanel.add(
+				cardWrapper,
+				BorderLayout.CENTER
+		);
+
+		add(backgroundPanel);
+
 
 		updateButton.addActionListener(
 				new ActionListener() {
@@ -254,6 +595,7 @@ public class AmendBooking extends JFrame {
 						booking.setBookingTime(
 								timeField.getText()
 						);
+
 						DataManager.updateBooking(
 
 						        booking.getBookingID(),
@@ -274,6 +616,7 @@ public class AmendBooking extends JFrame {
 					}
 				});
 
+
 		summaryButton.addActionListener(e -> {
 
 			setVisible(false);
@@ -281,6 +624,7 @@ public class AmendBooking extends JFrame {
 			new BookingSummary(DataManager.getCurrentBooking());
 
 		});
+
 
 		cancelButton.addActionListener(e -> {
 
@@ -290,6 +634,7 @@ public class AmendBooking extends JFrame {
 
 		});
 
+
 		homeButton.addActionListener(e -> {
 
 			setVisible(false);
@@ -297,6 +642,7 @@ public class AmendBooking extends JFrame {
 			new Home();
 
 		});
+
 
 		setVisible(true);
 	}

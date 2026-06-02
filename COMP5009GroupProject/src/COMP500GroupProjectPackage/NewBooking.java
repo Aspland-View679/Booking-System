@@ -2,17 +2,19 @@
 package COMP500GroupProjectPackage;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
+import java.awt.*;
 
 public class NewBooking extends JFrame {
-	
+
 	private int timeDay;
 	private int luggageAmount;
 	private int estimationOfDuration;
 	private String pickup;               //For Pay New booking to call this class
 	private String selectedAirport;
 	private String bookingDate;
-	
+
         /**
          * getTimeDay
          * @return timeDay
@@ -21,7 +23,7 @@ public class NewBooking extends JFrame {
 	public int getTimeDay() {
 		return timeDay;
 	}
-	
+
         /**
          * getluggageAmount
          * @return luggageAmount
@@ -44,7 +46,7 @@ public class NewBooking extends JFrame {
          * getpickup
          * @return pickup
          */
-	
+
 	public String getpickup() {
 		return pickup;
 	}
@@ -53,7 +55,7 @@ public class NewBooking extends JFrame {
          * getselectedAirport
          * @return selectedAirport
          */
-	
+
 	public String getselectedAirport() {
 		return selectedAirport;
 	}
@@ -62,20 +64,163 @@ public class NewBooking extends JFrame {
          * getbookingDate
          * @return bookingDate
          */
-	
+
 	public String getbookingDate() {
 		return bookingDate;
 	}
 
-	                                           
-    public NewBooking() {           
+
+    public NewBooking() {
 
         setTitle("Booking Page");
-        setSize(650, 500);               //Creates the new booking JPanel, sets the window size with the title
-        setLayout(null);
 
-        JLabel airportLabel = new JLabel("Airport:");
-        airportLabel.setBounds(50, 50, 100, 30);    //Creates a textbox next to the dropdown menu
+        setSize(950, 700);               //Creates the new booking JPanel, sets the window size with the title
+
+        setLocationRelativeTo(null);
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        setLayout(new BorderLayout());
+
+
+        //Main background panel
+
+        JPanel backgroundPanel =
+                new JPanel(new BorderLayout());
+
+        backgroundPanel.setBackground(
+                new Color(245, 245, 245)
+        );
+
+
+        //Top heading section
+
+        JPanel headingPanel =
+                new JPanel();
+
+        headingPanel.setBackground(
+                new Color(245, 245, 245)
+        );
+
+        headingPanel.setBorder(
+                new EmptyBorder(30, 40, 10, 40)
+        );
+
+        headingPanel.setLayout(
+                new BoxLayout(
+                        headingPanel,
+                        BoxLayout.Y_AXIS
+                )
+        );
+
+
+        JLabel title =
+                new JLabel("Create New Booking");
+
+        title.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.BOLD,
+                        34
+                )
+        );
+
+        title.setForeground(
+                new Color(30, 30, 30)
+        );
+
+
+        JLabel subtitle =
+                new JLabel(
+                        "Enter customer journey details below"
+                );
+
+        subtitle.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.PLAIN,
+                        16
+                )
+        );
+
+        subtitle.setForeground(
+                new Color(90, 90, 90)
+        );
+
+
+        headingPanel.add(title);
+
+        headingPanel.add(
+                Box.createRigidArea(
+                        new Dimension(0, 8)
+                )
+        );
+
+        headingPanel.add(subtitle);
+
+
+        //Main booking card
+
+        JPanel bookingCard =
+                new JPanel();
+
+        bookingCard.setLayout(
+                new GridBagLayout()
+        );
+
+        bookingCard.setBackground(Color.WHITE);
+
+        bookingCard.setBorder(
+                BorderFactory.createCompoundBorder(
+
+                        BorderFactory.createLineBorder(
+                                new Color(220, 220, 220),
+                                1,
+                                true
+                        ),
+
+                        new EmptyBorder(35, 35, 35, 35)
+                )
+        );
+
+
+        JPanel cardWrapper =
+                new JPanel(new BorderLayout());
+
+        cardWrapper.setBackground(
+                new Color(245, 245, 245)
+        );
+
+        cardWrapper.setBorder(
+                new EmptyBorder(10, 40, 40, 40)
+        );
+
+        cardWrapper.add(bookingCard);
+
+
+        GridBagConstraints gbc =
+                new GridBagConstraints();
+
+        gbc.insets =
+                new Insets(15, 15, 15, 15);
+
+        gbc.fill =
+                GridBagConstraints.HORIZONTAL;
+
+
+        //Airport label
+
+        JLabel airportLabel =
+                new JLabel("Airport:");
+
+        airportLabel.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.BOLD,
+                        15
+                )
+        );
+
 
         String[] airports = {
             "London Heathrow - UK",
@@ -102,14 +247,28 @@ public class NewBooking extends JFrame {
             "George Best Belfast City Airport - UK"
         };
 
-        JComboBox<String> airportBox = new JComboBox<>(airports);
-        airportBox.setBounds(150, 50, 350, 30);
 
-        add(airportLabel);       //This is the drop down menu
-        add(airportBox);
+        JComboBox<String> airportBox =
+                new JComboBox<>(airports);
 
-        JLabel luggageLabel = new JLabel("Luggage:"); //All text boxes for Luggage, Pickup, Date and time fields
-        luggageLabel.setBounds(50, 100, 100, 30);
+        airportBox.setPreferredSize(
+                new Dimension(300, 40)
+        );
+
+
+        //Luggage section
+
+        JLabel luggageLabel =
+                new JLabel("Luggage:");
+
+        luggageLabel.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.BOLD,
+                        15
+                )
+        );
+
 
         SpinnerNumberModel luggageModel =
                 new SpinnerNumberModel(0, 0, 10, 1);
@@ -117,17 +276,57 @@ public class NewBooking extends JFrame {
         JSpinner luggageSpinner =
                 new JSpinner(luggageModel);
 
-        luggageSpinner.setBounds(150, 100, 250, 30);
+        luggageSpinner.setPreferredSize(
+                new Dimension(300, 40)
+        );
 
-        JLabel pickupLabel = new JLabel("Pickup Location:");
-        pickupLabel.setBounds(50, 150, 120, 30);
 
-        JTextField pickupField = new JTextField();
-        pickupField.setBounds(170, 150, 230, 30);
-        
-        JLabel dateLabel = new JLabel("Date:");
-        dateLabel.setBounds(50, 200, 100, 30);
-        
+        //Pickup section
+
+        JLabel pickupLabel =
+                new JLabel("Pickup Location:");
+
+        pickupLabel.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.BOLD,
+                        15
+                )
+        );
+
+
+        JTextField pickupField =
+                new JTextField();
+
+        pickupField.setPreferredSize(
+                new Dimension(300, 40)
+        );
+
+
+        JLabel pickupHint =
+                new JLabel(
+        		"Example: Ashford, Canterbury, London, Manchester"
+                );
+
+        pickupHint.setForeground(
+                new Color(100, 100, 100)
+        );
+
+
+        //Date section
+
+        JLabel dateLabel =
+                new JLabel("Date:");
+
+        dateLabel.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.BOLD,
+                        15
+                )
+        );
+
+
         SpinnerDateModel dateModel =
                 new SpinnerDateModel();
 
@@ -142,34 +341,44 @@ public class NewBooking extends JFrame {
 
         dateSpinner.setEditor(dateEditor);
 
-        dateSpinner.setBounds(150, 200, 250, 30);
-        
-        add(dateLabel);
-        add(dateSpinner);
-        
-        JLabel timeHint = new JLabel("Use 24 hour format");   //it tells the user what format is accepted - 00:00
-        timeHint.setBounds(410, 250, 150, 30);
-        
-        add(timeHint);
-        
-        JLabel dateHint = new JLabel(
-        		"Format: DD/MM/YYYY"
+        dateSpinner.setPreferredSize(
+                new Dimension(300, 40)
         );
-        
-        dateHint.setBounds(410, 200, 150, 30);
-        
-        add(dateHint);
-        		
-        
-        JLabel timeLabel = new JLabel("Time:");
-        timeLabel.setBounds(50, 250, 100, 30);
-        
+
+
+        JLabel dateHint =
+                new JLabel(
+        		"Format: DD/MM/YYYY"
+                );
+
+        dateHint.setForeground(
+                new Color(100, 100, 100)
+        );
+
+
+        //Time section
+
+        JLabel timeLabel =
+                new JLabel("Time:");
+
+        timeLabel.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.BOLD,
+                        15
+                )
+        );
+
+
         SpinnerDateModel timeModel =
                 new SpinnerDateModel();
 
         JSpinner timeSpinner =
                 new JSpinner(timeModel);
+
+
                                          //this is to create the 00:00
+
         JSpinner.DateEditor timeEditor =
                 new JSpinner.DateEditor(
                         timeSpinner,
@@ -178,32 +387,142 @@ public class NewBooking extends JFrame {
 
         timeSpinner.setEditor(timeEditor);
 
-        timeSpinner.setBounds(150, 250, 250, 30);
-        
-        add(timeLabel);
-        add(timeSpinner);
-
-        JButton bookButton = new JButton("Book Your Ride");
-        bookButton.setBounds(150, 320, 180, 40);
-
-        add(luggageLabel);
-        add(luggageSpinner);
-
-        add(pickupLabel);
-        add(pickupField);
-        
-        JLabel pickupHint = new JLabel(
-        		"Example: Ashford, Canterbury, London, Manchester"
+        timeSpinner.setPreferredSize(
+                new Dimension(300, 40)
         );
-        
-        pickupHint.setBounds(170, 175, 400, 30);       //Creates buttons
-        
-        add(pickupHint);
 
-        add(bookButton);
-        
-        
+
+        JLabel timeHint =
+                new JLabel(
+                        "Use 24 hour format"
+                );
+
+        timeHint.setForeground(
+                new Color(100, 100, 100)
+        );
+
+
+        //Book button
+
+        JButton bookButton =
+                new JButton("Book Your Ride");
+
+        bookButton.setPreferredSize(
+                new Dimension(220, 50)
+        );
+
+        bookButton.setFocusPainted(false);
+
+        bookButton.setBorderPainted(false);
+
+        bookButton.setBackground(
+                new Color(155, 109, 255)
+        );
+
+        bookButton.setForeground(Color.WHITE);
+
+        bookButton.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.BOLD,
+                        15
+                )
+        );
+
+
+        //Adds all components to the booking card
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+
+        bookingCard.add(airportLabel, gbc);
+
+        gbc.gridx = 1;
+
+        bookingCard.add(airportBox, gbc);
+
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+
+        bookingCard.add(luggageLabel, gbc);
+
+        gbc.gridx = 1;
+
+        bookingCard.add(luggageSpinner, gbc);
+
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+
+        bookingCard.add(pickupLabel, gbc);
+
+        gbc.gridx = 1;
+
+        bookingCard.add(pickupField, gbc);
+
+
+        gbc.gridx = 1;
+        gbc.gridy++;
+
+        bookingCard.add(pickupHint, gbc);
+
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+
+        bookingCard.add(dateLabel, gbc);
+
+        gbc.gridx = 1;
+
+        bookingCard.add(dateSpinner, gbc);
+
+
+        gbc.gridx = 1;
+        gbc.gridy++;
+
+        bookingCard.add(dateHint, gbc);
+
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+
+        bookingCard.add(timeLabel, gbc);
+
+        gbc.gridx = 1;
+
+        bookingCard.add(timeSpinner, gbc);
+
+
+        gbc.gridx = 1;
+        gbc.gridy++;
+
+        bookingCard.add(timeHint, gbc);
+
+
+        gbc.gridx = 1;
+        gbc.gridy++;
+
+        bookingCard.add(bookButton, gbc);
+
+
+        //Adds everything to the frame
+
+        backgroundPanel.add(
+                headingPanel,
+                BorderLayout.NORTH
+        );
+
+        backgroundPanel.add(
+                cardWrapper,
+                BorderLayout.CENTER
+        );
+
+        add(backgroundPanel);
+
+
         bookButton.addActionListener(e -> {
+
         	if (pickupField.getText().trim().isEmpty()) {
 
         	    JOptionPane.showMessageDialog(     //If you leave a field empty this catches it and tells the user to fill out the boxes
@@ -213,64 +532,96 @@ public class NewBooking extends JFrame {
 
         	    return;
         	}
-        	
+
+
         	estimationOfDuration = 30;
+
+
         	String timeText =
         	        timeEditor.getFormat()
-        	        .format(timeSpinner.getValue()); 
+        	        .format(timeSpinner.getValue());
+
 
         	timeDay = Integer.parseInt(
         	        timeText.substring(0, 2)
         	);
-        	
+
+
         	if (timeDay >= 7 && timeDay <= 9) {
+
         		estimationOfDuration += 20;
         	}
+
         	else if (timeDay >= 16 && timeDay <=18) {
+
         		estimationOfDuration += 20;
         	}
+
         	else {
+
         		estimationOfDuration += 10;
         	}
 
                 //Estimates time based on how busy time of day it is
-        	
+
+
         	bookingDate = dateEditor.getFormat()
         	        .format(dateSpinner.getValue());
-        	
-        	luggageAmount = (Integer) luggageSpinner.getValue();
-        	
+
+
+        	luggageAmount =
+                    (Integer) luggageSpinner.getValue();
+
+
         	estimationOfDuration += luggageAmount * 5;
-        	
-        	pickup = pickupField.getText().toLowerCase();
-        	
+
+
+        	pickup =
+                    pickupField.getText().toLowerCase();
+
+
         	if (pickup.contains("ashford")) {
+
         		estimationOfDuration += 10;
         	}
+
         	else if (pickup.contains("canterbury")) {
+
         		estimationOfDuration += 20;
         	}
+
         	else {
+
         		estimationOfDuration += 30;
         	}
-        	
-        	 selectedAirport = airportBox.getSelectedItem().toString();
-        	
+
+
+        	selectedAirport =
+                    airportBox.getSelectedItem().toString();
+
+
         	if (selectedAirport.contains("london")) {
+
         		estimationOfDuration += 25;
         	}
+
         	else if (selectedAirport.contains("manchester")) {
+
         		estimationOfDuration += 40;
         	}
+
         	else {
+
         		estimationOfDuration += 60;
         	}
 
                 //Generates duration based on airport chosen
 
-        	
-        	double totalPrice = estimationOfDuration * 1.5;
-        	
+
+        	double totalPrice =
+                    estimationOfDuration * 1.5;
+
+
         	Booking booking = new Booking(
         			selectedAirport,
         			pickup,
@@ -280,36 +631,36 @@ public class NewBooking extends JFrame {
         			estimationOfDuration,
         			totalPrice
         	);
-        	
+
+
         	DataManager.setCurrentBooking(booking);
+
         	DataManager.insertBooking(booking);
-        	
+
+
         	System.out.println(
         	        booking.getBookingID()
         	);
-        	
+
                //Creates a booking object
-        	
+
+
         	JOptionPane.showMessageDialog(
         			null,
         			"Estimated Duration Of Your Trip: "
-        			+estimationOfDuration + "minutes"
+        			+ estimationOfDuration + " minutes"
         			+ "\nTotal Price: £" + totalPrice
         	);
-        	
+
+
         	setVisible(false); // Doesn't show the JPanel
-        	
+
+
         	new BookingSummary(booking);
-        
-        	
+
         });
-        
-    
-    setVisible(true); // Shows JPanel
-    
+
+
+        setVisible(true); // Shows JPanel
     }
-    
- 
 }
-
-
