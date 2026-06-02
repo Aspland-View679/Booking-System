@@ -30,6 +30,10 @@ public class CancelBooking {
 		return bookingToCancel;
 	}
 
+	public static void main(String[] args) {
+		CancelBooking c = new CancelBooking();
+	}
+	
 	/**
 	 * setBookingToCancel - sets the booking which needs to be cancelled
 	 * @param - bookingToCancel - the booking needing to be cancelled
@@ -223,10 +227,10 @@ public class CancelBooking {
 
 
 			String date =
-					bookingFound.getString("bookingDate");
+					booking.getBookingDate();
 
 			String airport =
-					bookingFound.getString("airport");
+					booking.getAirport();
 
 
 			if (isCancellable(date)) {
