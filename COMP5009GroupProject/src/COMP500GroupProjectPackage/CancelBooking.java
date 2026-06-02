@@ -13,6 +13,7 @@ import java.util.Date;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 public class CancelBooking {
@@ -42,7 +43,11 @@ public class CancelBooking {
 		
 		JFrame mainCancelFrame = new JFrame();
 		mainCancelFrame.setSize(500, 500);
+<<<<<<< HEAD
 		
+=======
+
+>>>>>>> branch 'main' of https://git.cs.kent.ac.uk/njw38/comp5009-group-project.git
 		try {
 		String sql = "SELECT bookingID FROM bookings";
 			Connection myConn = DataManager.connect();
@@ -61,14 +66,22 @@ public class CancelBooking {
 		JComboBox<Integer> bookingID = new JComboBox(ids); //This is going to be populated with all of booking ids
 		bookingID.setBounds(250,250,100,30);
 		mainCancelFrame.add(bookingID);
-	
 		
+		JLabel label = new JLabel();
+		label.setBounds(250, 230, 50, 30);
+		label.setText("Cancel id" );
+		mainCancelFrame.add(label);
 		mainCancelFrame.setVisible(true);
 		
 		JButton cancelBtn = new JButton();
 		cancelBtn.setBounds(250,290,100,30);
 		cancelBtn.setText("Cancel");
 		mainCancelFrame.add(cancelBtn);
+		
+		JLabel warn = new JLabel();
+		warn.setBounds(250, 330, 50, 30);
+		warn.setText("You cannot cancel 24hrs before");
+		mainCancelFrame.add(warn);
 		
 		cancelBtn.addActionListener(new ActionListener() {
 		
@@ -226,5 +239,8 @@ public class CancelBooking {
 	
 	
 		}
+<<<<<<< HEAD
 	
+=======
+>>>>>>> branch 'main' of https://git.cs.kent.ac.uk/njw38/comp5009-group-project.git
 	
