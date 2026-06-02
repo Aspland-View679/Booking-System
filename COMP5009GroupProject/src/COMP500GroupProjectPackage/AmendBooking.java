@@ -1,4 +1,3 @@
-
 package COMP500GroupProjectPackage;
 
 import java.awt.*;
@@ -121,6 +120,22 @@ public class AmendBooking extends JFrame {
 
 		JLabel title =
 				new JLabel("Amend Existing Booking");
+		
+		ImageIcon amendIcon = new ImageIcon(
+				"src/icons/AmendBooking.png"
+				);
+		
+		Image amendImage =
+		        amendIcon.getImage().getScaledInstance(
+		                40,
+		                40,
+		                Image.SCALE_SMOOTH
+		        );
+
+		title.setIcon(new ImageIcon(amendImage));
+
+		title.setIconTextGap(15);
+				
 
 		title.setFont(
 				new Font(

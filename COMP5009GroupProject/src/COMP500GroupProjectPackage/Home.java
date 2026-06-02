@@ -47,7 +47,7 @@ public class Home extends JFrame {
                 new JPanel();
 
         sidebar.setPreferredSize(
-                new Dimension(210, getHeight())
+                new Dimension(260, getHeight())
         );
 
         sidebar.setBackground(
@@ -63,6 +63,30 @@ public class Home extends JFrame {
 
         sidebar.setBorder(
                 new EmptyBorder(30, 20, 30, 20)
+        );
+
+
+        //Airport icon
+
+        ImageIcon airportIcon =
+                new ImageIcon(
+                        "src/icons/Airport.png"
+                );
+
+        Image airportImage =
+                airportIcon.getImage().getScaledInstance(
+                        70,
+                        70,
+                        Image.SCALE_SMOOTH
+                );
+
+        JLabel airportLogo =
+                new JLabel(
+                        new ImageIcon(airportImage)
+                );
+
+        airportLogo.setAlignmentX(
+                Component.CENTER_ALIGNMENT
         );
 
 
@@ -87,6 +111,15 @@ public class Home extends JFrame {
 
         logo.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+
+        sidebar.add(airportLogo);
+
+        sidebar.add(
+                Box.createRigidArea(
+                        new Dimension(0, 15)
+                )
+        );
+
         sidebar.add(logo);
 
         sidebar.add(
@@ -100,7 +133,8 @@ public class Home extends JFrame {
 
         bookingButton =
                 createSidebarButton(
-                        "Make New Booking"
+                        "Make New Booking",
+                        "src/icons/NewBooking.png"
                 );
 
 
@@ -108,7 +142,8 @@ public class Home extends JFrame {
 
         amendButton =
                 createSidebarButton(
-                        "Amend Booking"
+                        "Amend Booking",
+                        "src/icons/AmendBooking.png"
                 );
 
 
@@ -116,7 +151,8 @@ public class Home extends JFrame {
 
         cancelButton =
                 createSidebarButton(
-                        "Cancel Booking"
+                        "Cancel Booking",
+                        "src/icons/CancelBooking.png"
                 );
 
 
@@ -124,7 +160,8 @@ public class Home extends JFrame {
 
         payNewButton =
                 createSidebarButton(
-                        "Pay for Booking"
+                        "Pay for Booking",
+                        "src/icons/Payment.png"
                 );
 
 
@@ -132,7 +169,8 @@ public class Home extends JFrame {
 
         confirmationButton =
                 createSidebarButton(
-                        "Confirmation Message"
+                        "Confirmation Message",
+                        "src/icons/Booking.png"
                 );
 
 
@@ -140,7 +178,8 @@ public class Home extends JFrame {
 
         discountButton =
                 createSidebarButton(
-                        "Offer Discount"
+                        "Offer Discount",
+                        "src/icons/Booking.png"
                 );
 
 
@@ -148,7 +187,8 @@ public class Home extends JFrame {
 
         bookingSummaryButton =
                 createSidebarButton(
-                        "Booking Summary"
+                        "Booking Summary",
+                        "src/icons/TicketSummary.png"
                 );
 
 
@@ -420,18 +460,50 @@ public class Home extends JFrame {
 
     //Creates modern sidebar buttons
 
-    private JButton createSidebarButton(String text) {
+    private JButton createSidebarButton(
+
+            String text,
+            String iconPath
+
+    ) {
+
+        ImageIcon icon =
+                new ImageIcon(iconPath);
+
+        Image scaledImage =
+                icon.getImage().getScaledInstance(
+                        36,
+                        36,
+                        Image.SCALE_SMOOTH
+                );
 
         JButton button =
-                new JButton(text);
+                new JButton(
+                        text,
+                        new ImageIcon(scaledImage)
+                );
 
         button.setMaximumSize(
-                new Dimension(160, 45)
+                new Dimension(220, 68)
+        );
+
+        button.setPreferredSize(
+                new Dimension(220, 68)
+        );
+
+        button.setAlignmentX(
+                Component.CENTER_ALIGNMENT
         );
 
         button.setFocusPainted(false);
 
         button.setBorderPainted(false);
+
+        button.setHorizontalAlignment(
+                SwingConstants.LEFT
+        );
+
+        button.setIconTextGap(15);
 
         button.setBackground(
                 new Color(155, 109, 255)
@@ -582,5 +654,3 @@ public class Home extends JFrame {
         new Home(); //relaunches the homepage once the backend is complete.
     }
 }
-
-

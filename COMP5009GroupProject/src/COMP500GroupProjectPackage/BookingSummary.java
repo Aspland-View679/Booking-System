@@ -57,6 +57,21 @@ public class BookingSummary extends JFrame {
 
         JLabel titleLabel =
                 new JLabel("Booking Summary");
+        
+        ImageIcon summaryIcon = new ImageIcon(
+                "src/icons/TicketSummary.png"
+        );
+
+        Image summaryImage =
+                summaryIcon.getImage().getScaledInstance(
+                        40,
+                        40,
+                        Image.SCALE_SMOOTH
+                );
+
+        titleLabel.setIcon(new ImageIcon(summaryImage));
+
+        titleLabel.setIconTextGap(15);
 
         titleLabel.setFont(
                 new Font(
