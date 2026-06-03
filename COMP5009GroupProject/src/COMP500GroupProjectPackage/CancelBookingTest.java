@@ -90,7 +90,7 @@ public class CancelBookingTest {
 
 	}
 
-	s
+	
 	@Test
 	public void isNotCancellablePastDate() {
 		assertEquals(false, cancelledBooking.isCancellable("11/02/2003"));
