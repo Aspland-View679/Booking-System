@@ -415,6 +415,19 @@ public class Home extends JFrame {
                 new NewBooking();
             }
         });
+        
+        discountButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                setVisible(false); // does not call the JPanel
+
+                //allows user to click and go onto making a booking
+
+                new OfferDiscount();
+            }
+        });
 
         amendButton.addActionListener(new ActionListener() {
 
