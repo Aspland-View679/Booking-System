@@ -1,30 +1,26 @@
-
 package COMP500GroupProjectPackage;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import java.awt.*;
-import java.awt.event.*;
 
 public class BookingSummary extends JFrame {
 
-	JButton payButton;
+    public BookingSummary(Booking booking) {
 
-	public BookingSummary(Booking booking) {
+        setTitle("Booking Summary");
 
-		setTitle("Booking Summary");
-
-        setSize(900, 650);    // This is to create a summary ticket before the user continues
+        setSize(850, 650);
 
         setLocationRelativeTo(null);
 
-        setLayout(new BorderLayout());
-
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        setLayout(new BorderLayout());
 
-        //Main background panel
+
+        //Main panel
 
         JPanel backgroundPanel =
                 new JPanel(new BorderLayout());
@@ -55,25 +51,10 @@ public class BookingSummary extends JFrame {
         );
 
 
-        JLabel titleLabel =
+        JLabel title =
                 new JLabel("Booking Summary");
-        
-        ImageIcon summaryIcon = new ImageIcon(
-                "src/icons/TicketSummary.png"
-        );
 
-        Image summaryImage =
-                summaryIcon.getImage().getScaledInstance(
-                        40,
-                        40,
-                        Image.SCALE_SMOOTH
-                );
-
-        titleLabel.setIcon(new ImageIcon(summaryImage));
-
-        titleLabel.setIconTextGap(15);
-
-        titleLabel.setFont(
+        title.setFont(
                 new Font(
                         "SansSerif",
                         Font.BOLD,
@@ -81,14 +62,14 @@ public class BookingSummary extends JFrame {
                 )
         );
 
-        titleLabel.setForeground(
+        title.setForeground(
                 new Color(30, 30, 30)
         );
 
 
         JLabel subtitle =
                 new JLabel(
-                        "Review all customer booking details before payment"
+                        "Review your booking details below"
                 );
 
         subtitle.setFont(
@@ -104,7 +85,7 @@ public class BookingSummary extends JFrame {
         );
 
 
-        headingPanel.add(titleLabel);
+        headingPanel.add(title);
 
         headingPanel.add(
                 Box.createRigidArea(
@@ -121,13 +102,12 @@ public class BookingSummary extends JFrame {
                 new JPanel();
 
         summaryCard.setLayout(
-                new BoxLayout(
-                        summaryCard,
-                        BoxLayout.Y_AXIS
-                )
+                new GridBagLayout()
         );
 
-        summaryCard.setBackground(Color.WHITE);
+        summaryCard.setBackground(
+                new Color(255, 255, 255)
+        );
 
         summaryCard.setBorder(
                 BorderFactory.createCompoundBorder(
@@ -143,151 +123,343 @@ public class BookingSummary extends JFrame {
         );
 
 
-        JPanel cardWrapper =
-                new JPanel(new BorderLayout());
+        GridBagConstraints gbc =
+                new GridBagConstraints();
 
-        cardWrapper.setBackground(
-                new Color(245, 245, 245)
+        gbc.insets =
+                new Insets(18, 18, 18, 18);
+
+        gbc.anchor =
+                GridBagConstraints.WEST;
+
+
+        Font labelFont =
+                new Font(
+                        "SansSerif",
+                        Font.BOLD,
+                        16
+                );
+
+        Font valueFont =
+                new Font(
+                        "SansSerif",
+                        Font.PLAIN,
+                        16
+                );
+
+        Color purple =
+                new Color(155, 109, 255);
+
+
+        //Booking ID
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+
+        JLabel bookingIDLabel =
+                new JLabel("Booking ID:");
+
+        bookingIDLabel.setFont(labelFont);
+
+        bookingIDLabel.setForeground(purple);
+
+        summaryCard.add(
+                bookingIDLabel,
+                gbc
         );
 
-        cardWrapper.setBorder(
-                new EmptyBorder(10, 40, 40, 40)
+        gbc.gridx = 1;
+
+        JLabel bookingIDValue =
+                new JLabel(
+                        booking.getDisplayBookingID()
+                );
+
+        bookingIDValue.setFont(valueFont);
+
+        summaryCard.add(
+                bookingIDValue,
+                gbc
         );
 
-        cardWrapper.add(summaryCard);
 
+        //Airport
 
-        //Booking information labels
+        gbc.gridx = 0;
+        gbc.gridy++;
 
         JLabel airportLabel =
-                createSummaryLabel(
-                        "Airport",
+                new JLabel("Airport:");
+
+        airportLabel.setFont(labelFont);
+
+        airportLabel.setForeground(purple);
+
+        summaryCard.add(
+                airportLabel,
+                gbc
+        );
+
+        gbc.gridx = 1;
+
+        JLabel airportValue =
+                new JLabel(
                         booking.getAirport()
                 );
 
+        airportValue.setFont(valueFont);
+
+        summaryCard.add(
+                airportValue,
+                gbc
+        );
+
+
+        //Pickup Location
+
+        gbc.gridx = 0;
+        gbc.gridy++;
 
         JLabel pickupLabel =
-                createSummaryLabel(
-                        "Pickup Location",
+                new JLabel("Pickup Location:");
+
+        pickupLabel.setFont(labelFont);
+
+        pickupLabel.setForeground(purple);
+
+        summaryCard.add(
+                pickupLabel,
+                gbc
+        );
+
+        gbc.gridx = 1;
+
+        JLabel pickupValue =
+                new JLabel(
                         booking.getPickupLocation()
                 );
 
+        pickupValue.setFont(valueFont);
 
-        JLabel dateLabel =
-                createSummaryLabel(
-                        "Date",
+        summaryCard.add(
+                pickupValue,
+                gbc
+        );
+
+
+        //Booking Date
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+
+        JLabel bookingDateLabel =
+                new JLabel("Booking Date:");
+
+        bookingDateLabel.setFont(labelFont);
+
+        bookingDateLabel.setForeground(purple);
+
+        summaryCard.add(
+                bookingDateLabel,
+                gbc
+        );
+
+        gbc.gridx = 1;
+
+        JLabel bookingDateValue =
+                new JLabel(
                         booking.getBookingDate()
                 );
 
+        bookingDateValue.setFont(valueFont);
 
-        JLabel timeLabel =
-                createSummaryLabel(
-                        "Time",
+        summaryCard.add(
+                bookingDateValue,
+                gbc
+        );
+
+
+        //Booking Time
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+
+        JLabel bookingTimeLabel =
+                new JLabel("Booking Time:");
+
+        bookingTimeLabel.setFont(labelFont);
+
+        bookingTimeLabel.setForeground(purple);
+
+        summaryCard.add(
+                bookingTimeLabel,
+                gbc
+        );
+
+        gbc.gridx = 1;
+
+        JLabel bookingTimeValue =
+                new JLabel(
                         booking.getBookingTime()
                 );
 
+        bookingTimeValue.setFont(valueFont);
+
+        summaryCard.add(
+                bookingTimeValue,
+                gbc
+        );
+
+
+        //Luggage Amount
+
+        gbc.gridx = 0;
+        gbc.gridy++;
 
         JLabel luggageLabel =
-                createSummaryLabel(
-                        "Luggage Amount",
+                new JLabel("Luggage Amount:");
+
+        luggageLabel.setFont(labelFont);
+
+        luggageLabel.setForeground(purple);
+
+        summaryCard.add(
+                luggageLabel,
+                gbc
+        );
+
+        gbc.gridx = 1;
+
+        JLabel luggageValue =
+                new JLabel(
                         String.valueOf(
                                 booking.getLuggageAmount()
                         )
                 );
 
+        luggageValue.setFont(valueFont);
+
+        summaryCard.add(
+                luggageValue,
+                gbc
+        );
+
+
+        //Estimated Duration
+
+        gbc.gridx = 0;
+        gbc.gridy++;
 
         JLabel durationLabel =
-                createSummaryLabel(
-                        "Estimated Duration",
+                new JLabel("Estimated Duration:");
+
+        durationLabel.setFont(labelFont);
+
+        durationLabel.setForeground(purple);
+
+        summaryCard.add(
+                durationLabel,
+                gbc
+        );
+
+        gbc.gridx = 1;
+
+        JLabel durationValue =
+                new JLabel(
                         booking.getEstimatedDuration()
                         + " minutes"
                 );
 
-
-        JLabel totalPriceLabel =
-                createSummaryLabel(
-                        "Total Price",
-                        "£" + booking.getTotalPrice()
-                );
-
-
-        //Displays all the information from the booking to display in the booking summary
-
-        summaryCard.add(airportLabel);
+        durationValue.setFont(valueFont);
 
         summaryCard.add(
-                Box.createRigidArea(
-                        new Dimension(0, 15)
-                )
+                durationValue,
+                gbc
         );
 
-        summaryCard.add(pickupLabel);
+
+        //Total Price
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+
+        JLabel priceLabel =
+                new JLabel("Total Price:");
+
+        priceLabel.setFont(labelFont);
+
+        priceLabel.setForeground(purple);
 
         summaryCard.add(
-                Box.createRigidArea(
-                        new Dimension(0, 15)
-                )
+                priceLabel,
+                gbc
         );
 
-        summaryCard.add(dateLabel);
+        gbc.gridx = 1;
 
-        summaryCard.add(
-                Box.createRigidArea(
-                        new Dimension(0, 15)
-                )
-        );
-
-        summaryCard.add(timeLabel);
-
-        summaryCard.add(
-                Box.createRigidArea(
-                        new Dimension(0, 15)
-                )
-        );
-
-        summaryCard.add(luggageLabel);
-
-        summaryCard.add(
-                Box.createRigidArea(
-                        new Dimension(0, 15)
-                )
-        );
-
-        summaryCard.add(durationLabel);
-
-        summaryCard.add(
-                Box.createRigidArea(
-                        new Dimension(0, 15)
-                )
-        );
-
-        summaryCard.add(totalPriceLabel);
-
-
-        //Button section
-
-        JPanel buttonPanel =
-                new JPanel(
-                        new FlowLayout(
-                                FlowLayout.CENTER,
-                                20,
-                                20
+        JLabel priceValue =
+                new JLabel(
+                        "£"
+                        + String.format(
+                                "%.2f",
+                                booking.getTotalPrice()
                         )
                 );
+
+        priceValue.setFont(valueFont);
+
+        summaryCard.add(
+                priceValue,
+                gbc
+        );
+
+
+        JPanel wrapper =
+                new JPanel(new BorderLayout());
+
+        wrapper.setBackground(
+                new Color(245, 245, 245)
+        );
+
+        wrapper.setBorder(
+                new EmptyBorder(20, 40, 40, 40)
+        );
+
+        wrapper.add(summaryCard);
+
+
+        //Buttons
+
+        JPanel buttonPanel =
+                new JPanel();
 
         buttonPanel.setBackground(
                 new Color(245, 245, 245)
         );
 
 
-        //Proceed to payment button
+        JButton homeButton =
+                new JButton("Return Home");
 
-        payButton =
-                new JButton("Proceed To Payment");
+        homeButton.setFocusPainted(false);
 
-        payButton.setPreferredSize(
-                new Dimension(220, 50)
+        homeButton.setBorderPainted(false);
+
+        homeButton.setBackground(
+                new Color(230, 230, 230)
         );
+
+        homeButton.setFont(
+                new Font(
+                        "SansSerif",
+                        Font.BOLD,
+                        14
+                )
+        );
+
+
+        JButton payButton =
+                new JButton("Proceed To Payment");
 
         payButton.setFocusPainted(false);
 
@@ -303,73 +475,41 @@ public class BookingSummary extends JFrame {
                 new Font(
                         "SansSerif",
                         Font.BOLD,
-                        15
+                        14
                 )
         );
 
 
-        //Cancel booking button
+        buttonPanel.add(homeButton);
 
-        JButton cancelButton =
-        		new JButton("Cancel Booking");
-
-        cancelButton.setPreferredSize(
-                new Dimension(180, 50)
-        );
-
-        cancelButton.setFocusPainted(false);
-
-        cancelButton.setBorderPainted(false);
-
-        cancelButton.setBackground(
-                new Color(230, 230, 230)
-        );
-
-        cancelButton.setFont(
-                new Font(
-                        "SansSerif",
-                        Font.BOLD,
-                        15
+        buttonPanel.add(
+                Box.createRigidArea(
+                        new Dimension(15, 0)
                 )
         );
-
-
-        //Amend booking button
-
-        JButton amendButton =
-                new JButton("Amend Booking");
-
-        amendButton.setPreferredSize(
-                new Dimension(180, 50)
-        );
-
-        amendButton.setFocusPainted(false);
-
-        amendButton.setBorderPainted(false);
-
-        amendButton.setBackground(
-                new Color(230, 230, 230)
-        );
-
-        amendButton.setFont(
-                new Font(
-                        "SansSerif",
-                        Font.BOLD,
-                        15
-                )
-        );
-
-
-        //Adds buttons to panel
 
         buttonPanel.add(payButton);
 
-        buttonPanel.add(cancelButton);
 
-        buttonPanel.add(amendButton);
+        homeButton.addActionListener(e -> {
+
+            setVisible(false);
+
+            new Home();
+
+        });
 
 
-        //Adds everything to frame
+        payButton.addActionListener(e -> {
+
+            setVisible(false);
+
+            new PayNewBooking(booking);
+
+        });
+
+
+        //Adds everything
 
         backgroundPanel.add(
                 headingPanel,
@@ -377,7 +517,7 @@ public class BookingSummary extends JFrame {
         );
 
         backgroundPanel.add(
-                cardWrapper,
+                wrapper,
                 BorderLayout.CENTER
         );
 
@@ -388,81 +528,7 @@ public class BookingSummary extends JFrame {
 
         add(backgroundPanel);
 
-
-        amendButton.addActionListener(e -> {
-
-            setVisible(false);
-
-            new AmendBooking();
-
-        });
-
-
-        payButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                setVisible(false);
-
-                PayNewBooking payment = new PayNewBooking(
-            		   booking
-            	);
-            }
-
-            //On being clicked, hides the JFrame and opens payment frame
-        });
-
-
-        cancelButton.addActionListener(e -> {
-
-        	DataManager.cancelBooking(
-        	        booking.getBookingID()
-        	);
-
-        	DataManager.setCurrentBooking(null);
-
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Booking Cancelled"
-            );
-
-
-            setVisible(false);
-
-            new Home();
-
-        });
-
-
         setVisible(true);
-    }
-
-
-    //Creates booking summary labels
-
-    private JLabel createSummaryLabel(
-
-            String title,
-            String value
-
-    ) {
-
-        JLabel label =
-                new JLabel(
-
-                        "<html>"
-                        + "<span style='font-size:16px; color:#555555;'>"
-                        + title
-                        + "</span><br>"
-                        + "<span style='font-size:20px; font-weight:bold; color:#1E1E1E;'>"
-                        + value
-                        + "</span>"
-                        + "</html>"
-
-                );
-
-        return label;
     }
 }
 

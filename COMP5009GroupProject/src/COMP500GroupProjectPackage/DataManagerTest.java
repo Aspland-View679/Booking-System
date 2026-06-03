@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -19,6 +20,22 @@ import org.junit.jupiter.api.Test;
 
 public class DataManagerTest {
 
+	@BeforeEach
+	public void setup() {
+
+		DataManager.createTable();
+
+		DataManager.createUserTable();
+
+		GuestAccount guest =
+				new GuestAccount();
+
+		guest.setUserID(1);
+
+		DataManager.setCurrentUser(guest);
+	}
+
+
 	/**
 	 * Tests that inserting a booking
 	 * generates a valid booking ID.
@@ -27,12 +44,10 @@ public class DataManagerTest {
     @Test
     public void testInsertBookingCreatesID() {
 
-        DataManager.createTable();
-
         Booking booking = new Booking(
                 "London Heathrow - UK",
                 "Ashford",
-                "20/05/2026",
+                "20/05/2028",
                 "14:00",
                 2,
                 90,
@@ -55,12 +70,10 @@ public class DataManagerTest {
     public void testGetBookingReturnsCorrectAirport()
             throws SQLException {
 
-        DataManager.createTable();
-
         Booking booking = new Booking(
                 "Manchester - UK",
                 "Canterbury",
-                "21/05/2026",
+                "21/05/2028",
                 "15:00",
                 1,
                 70,
@@ -74,14 +87,16 @@ public class DataManagerTest {
                         booking.getBookingID()
                 );
 
-        rs.next();
+        assertTrue(
+                rs.next()
+        );
 
         assertEquals(
                 "Manchester - UK",
                 rs.getString("airport")
         );
 
-        rs.close(); 
+        rs.close();
     }
 
     /**
@@ -93,12 +108,10 @@ public class DataManagerTest {
     public void testCancelBooking()
             throws SQLException {
 
-        DataManager.createTable();
-
         Booking booking = new Booking(
                 "Gatwick Airport - UK",
                 "Dover",
-                "22/05/2026",
+                "22/05/2028",
                 "10:00",
                 3,
                 80,
@@ -116,13 +129,15 @@ public class DataManagerTest {
                         booking.getBookingID()
                 );
 
-        rs.next();
+        assertTrue(
+                rs.next()
+        );
 
         assertEquals(
                 1,
                 rs.getInt("cancelled")
         );
 
-        rs.close(); 
+        rs.close();
     }
 }

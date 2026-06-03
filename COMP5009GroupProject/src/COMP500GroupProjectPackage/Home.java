@@ -13,14 +13,15 @@ public class Home extends JFrame {
     private JButton bookingButton;
     private JButton amendButton;
     private JButton cancelButton;
-    private JButton payNewButton;
-    private JButton confirmationButton;  //This is for the creation of buttons
+    private JButton payNewButton;  //This is for the creation of buttons
+    private JButton confirmationButton;
     private JButton discountButton;
     private JButton bookingSummaryButton;
 
+
     public Home() {
 
-        setTitle("Airport Booking System"); //sets the window application window size, title and layout
+        setTitle("Airport Booking System");  //sets the window application window size, title and layout
 
         setSize(1100, 700);
 
@@ -31,7 +32,7 @@ public class Home extends JFrame {
         setLayout(new BorderLayout());
 
 
-        //Main background panel for the application
+        //Main background panel for application
 
         JPanel backgroundPanel =
                 new JPanel(new BorderLayout());
@@ -41,7 +42,7 @@ public class Home extends JFrame {
         );
 
 
-        //Sidebar section of the application
+        //Sidebar section for the application
 
         JPanel sidebar =
                 new JPanel();
@@ -94,7 +95,7 @@ public class Home extends JFrame {
 
         JLabel logo =
                 new JLabel(
-                        "<html><center>Airport<br>System</center></html>"
+                        "<html><center>Airport<br>System</center></html>"  //icon!
                 );
 
         logo.setForeground(
@@ -109,7 +110,9 @@ public class Home extends JFrame {
                 )
         );
 
-        logo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        logo.setAlignmentX(
+                Component.CENTER_ALIGNMENT  //Make it centered!
+        );
 
 
         sidebar.add(airportLogo);
@@ -121,7 +124,7 @@ public class Home extends JFrame {
         );
 
         sidebar.add(logo);
-
+                                       //Creating a sidebar and center and add icons
         sidebar.add(
                 Box.createRigidArea(
                         new Dimension(0, 40)
@@ -129,7 +132,7 @@ public class Home extends JFrame {
         );
 
 
-        //sets up the booking button
+        //Buttons
 
         bookingButton =
                 createSidebarButton(
@@ -137,17 +140,11 @@ public class Home extends JFrame {
                         "src/icons/NewBooking.png"
                 );
 
-
-        //sets up the amend button
-
         amendButton =
                 createSidebarButton(
                         "Amend Booking",
                         "src/icons/AmendBooking.png"
                 );
-
-
-        //sets up the cancel button
 
         cancelButton =
                 createSidebarButton(
@@ -155,17 +152,11 @@ public class Home extends JFrame {
                         "src/icons/CancelBooking.png"
                 );
 
-
-        //sets up the payment button
-
         payNewButton =
                 createSidebarButton(
                         "Pay for Booking",
                         "src/icons/Payment.png"
                 );
-
-
-        //sets up the confirmation button
 
         confirmationButton =
                 createSidebarButton(
@@ -173,17 +164,11 @@ public class Home extends JFrame {
                         "src/icons/Booking.png"
                 );
 
-
-        //sets up the discount button
-
         discountButton =
                 createSidebarButton(
                         "Offer Discount",
                         "src/icons/Booking.png"
                 );
-
-
-        //sets up the booking summary button
 
         bookingSummaryButton =
                 createSidebarButton(
@@ -192,7 +177,7 @@ public class Home extends JFrame {
                 );
 
 
-        //creates the buttons to the application
+        //Adds buttons
 
         sidebar.add(bookingButton);
 
@@ -245,7 +230,7 @@ public class Home extends JFrame {
         sidebar.add(bookingSummaryButton);
 
 
-        //Main dashboard section
+        //Dashboard section
 
         JPanel dashboardPanel =
                 new JPanel();
@@ -263,7 +248,7 @@ public class Home extends JFrame {
         );
 
 
-        //Main heading
+        //Heading
 
         JLabel heading =
                 new JLabel(
@@ -282,8 +267,6 @@ public class Home extends JFrame {
                 )
         );
 
-
-        //Sub heading text
 
         JLabel subtitle =
                 new JLabel(
@@ -354,33 +337,138 @@ public class Home extends JFrame {
         );
 
 
+        //Current user
+
+        UserAccount currentUser =
+                DataManager.getCurrentUser();
+
+        String welcomeTitle;
+
+        String welcomeDescription;
+
+
+        if (currentUser == null) {
+
+            welcomeTitle =
+                    "No User Logged In";
+
+            welcomeDescription =
+                    "Please sign in to continue";
+        }
+
+        else if (currentUser instanceof GuestAccount) {
+
+            welcomeTitle =
+                    "Guest Session";
+
+            welcomeDescription =
+                    "Currently browsing as a guest user";
+        }
+
+        else {
+
+            welcomeTitle =
+                    "Welcome, "
+                    + currentUser.getUsername();
+
+            welcomeDescription =
+                    "Logged in using "
+                    + currentUser.getEmail();
+        }
+
+
+        //Latest booking
+
+        Booking latestBooking =
+        		
+                DataManager.getLatestBooking();
+
+        String latestBookingText;
+
+        String bookingStatusText;
+
+
+        if (latestBooking != null) {
+
+            latestBookingText =
+
+                    latestBooking.getDisplayBookingID()
+                    + " • "
+                    + latestBooking.getAirport();
+
+
+            if (latestBooking.isCancelled()) {
+
+                bookingStatusText =
+                        "Cancelled";
+            }
+
+            else if (latestBooking.isConfirmed()) {
+
+                bookingStatusText =
+                        "Confirmed";
+            }
+
+            else {
+
+                bookingStatusText =
+                        "Pending";
+            }
+
+        }
+
+        else {
+
+            latestBookingText =
+                    "No bookings found";
+
+            bookingStatusText =
+                    "No booking status";
+        }
+
+
+        //Cards
+
         cardsPanel.add(
                 createDashboardCard(
-                        "New Booking",
-                        "Create a new airport transfer booking"
+                        welcomeTitle,
+                        welcomeDescription
                 )
         );
 
         cardsPanel.add(
                 createDashboardCard(
-                        "Amend Booking",
-                        "Update dates, times and booking details"
+                        "Latest Booking",
+                        latestBookingText
                 )
         );
 
         cardsPanel.add(
                 createDashboardCard(
-                        "Payments",
-                        "Manage payment processing and booking fees"
+                        "Booking Status",
+                        bookingStatusText
                 )
         );
 
         cardsPanel.add(
                 createDashboardCard(
+
                         "Booking Summary",
-                        "Review all booking information"
+
+                        latestBooking != null
+
+                        ?
+
+                        latestBooking.getPickupLocation()
+                        + " → "
+                        + latestBooking.getAirport()
+
+                        :
+
+                        "No active bookings"
                 )
         );
+
 
         dashboardPanel.add(
                 cardsPanel,
@@ -388,7 +476,7 @@ public class Home extends JFrame {
         );
 
 
-        //Adds everything to the application
+        //Adds everything
 
         backgroundPanel.add(
                 sidebar,
@@ -403,52 +491,57 @@ public class Home extends JFrame {
         add(backgroundPanel);
 
 
-        bookingButton.addActionListener(new ActionListener() {
+        //Booking button
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        bookingButton.addActionListener(
+                new ActionListener() {
 
-                setVisible(false); // does not call the JPanel
+                    @Override
+                    public void actionPerformed(
+                            ActionEvent e
+                    ) {
 
-                //allows user to click and go onto making a booking
+                        setVisible(false);
 
-                new NewBooking();
-            }
-        });
-        
-        discountButton.addActionListener(new ActionListener() {
+                        new NewBooking();
+                    }
+                });
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
 
-                setVisible(false); // does not call the JPanel
+        //Amend button
 
-                //allows user to click and go onto making a booking
+        amendButton.addActionListener(
+                new ActionListener() {
 
-                new OfferDiscount();
-            }
-        });
+                    @Override
+                    public void actionPerformed(
+                            ActionEvent e
+                    ) {
 
-        amendButton.addActionListener(new ActionListener() {
+                        if (DataManager.getLatestBooking() == null) {
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
+                            JOptionPane.showMessageDialog(
+                                    null,
+                                    "Please create a booking first"
+                            );
 
-                if (DataManager.getCurrentBooking() == null) {
+                        }
 
-                    JOptionPane.showMessageDialog(
-                            null,
-                            "Please create a booking first"
-                    );
+                        else {
+                        	
+                        	DataManager.setCurrentBooking( 
+                        			DataManager.getLatestBooking() 
+                        			);
 
-                } else {
+                            setVisible(false);
 
-                    setVisible(false);
+                            new AmendBooking();
+                        }
+                    }
+                });
 
-                    new AmendBooking();
-                }
-            }
-        });
+
+        //Booking summary button
 
         bookingSummaryButton.addActionListener(e -> {
 
@@ -456,22 +549,110 @@ public class Home extends JFrame {
 
                 JOptionPane.showMessageDialog(
                         null,
-                        "Please create a booking first" //This two sections of code stops the user going further if they haven't made a booking to review or amend
+                        "Please create a booking first"
                 );
+            }
 
-            } else {
+            else {
 
-                setVisible(false);
-
-                new BookingSummary(DataManager.getCurrentBooking()); //this if you made a booking calls it back
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Booking Summary screen is currently unavailable."
+                );
             }
         });
 
-        setVisible(true); //Calls the JPanel
+
+        //Cancel booking button
+
+      
+        cancelButton.addActionListener(e -> {
+
+            if (DataManager.getLatestBooking() == null) {
+
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Please create a booking first"
+                );
+            }
+
+            else {
+
+                DataManager.setCurrentBooking(
+                        DataManager.getLatestBooking()
+                );
+
+                setVisible(false);
+
+                new CancelBooking();
+            }
+
+        });
+      
+
+
+        //Payment button
+
+        payNewButton.addActionListener(e -> {
+
+            if (DataManager.getCurrentBooking() == null) {
+
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Please create a booking first"
+                );
+            }
+
+            else {
+
+                setVisible(false);
+
+                new PayNewBooking(
+                        DataManager.getCurrentBooking()
+                );
+            }
+        });
+
+
+        //Confirmation button
+
+        confirmationButton.addActionListener(e -> {
+
+            if (DataManager.getCurrentBooking() == null) {
+
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Please create a booking first"
+                );
+            }
+
+            else {
+
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Confirmation appears after payment"
+                );
+            }
+        });
+
+
+        //Discount button
+
+        discountButton.addActionListener(e -> {
+
+            setVisible(false);
+
+            new OfferDiscount();
+
+        });
+
+
+        setVisible(true);
+
     }
 
 
-    //Creates modern sidebar buttons
+    //Creates sidebar buttons
 
     private JButton createSidebarButton(
 
@@ -500,7 +681,7 @@ public class Home extends JFrame {
                 new Dimension(220, 68)
         );
 
-        button.setPreferredSize(
+        button.setPreferredSize(          //sidebar buttons dimensions and warping the icons to fit
                 new Dimension(220, 68)
         );
 
@@ -537,30 +718,35 @@ public class Home extends JFrame {
         );
 
 
-        //Creates hover effect for sidebar buttons
+        //Hover effect
 
-        button.addMouseListener(new MouseAdapter() {
+        button.addMouseListener(
+                new MouseAdapter() {
 
-            public void mouseEntered(MouseEvent e) {
+                    public void mouseEntered(
+                            MouseEvent e
+                    ) {
 
-                button.setBackground(
-                        new Color(125, 85, 230)
-                );
-            }
+                        button.setBackground(
+                                new Color(125, 85, 230)
+                        );
+                    }
 
-            public void mouseExited(MouseEvent e) {
+                    public void mouseExited(
+                            MouseEvent e
+                    ) {
 
-                button.setBackground(
-                        new Color(155, 109, 255)
-                );
-            }
-        });
+                        button.setBackground(
+                                new Color(155, 109, 255)
+                        );
+                    }
+                });
 
         return button;
     }
 
 
-    //Creates dashboard information cards
+    //Creates dashboard cards
 
     private JPanel createDashboardCard(
 
@@ -581,7 +767,7 @@ public class Home extends JFrame {
         card.setBorder(
                 BorderFactory.createCompoundBorder(
 
-                        BorderFactory.createLineBorder(
+                        BorderFactory.createLineBorder(        //card panel boarders
                                 new Color(220, 220, 220),
                                 1,
                                 true
@@ -593,7 +779,7 @@ public class Home extends JFrame {
 
 
         JLabel titleLabel =
-                new JLabel(title);
+                new JLabel(title);             //labels
 
         titleLabel.setForeground(
                 new Color(30, 30, 30)
@@ -614,7 +800,6 @@ public class Home extends JFrame {
                         "<html><div style='width:220px'>"
                                 + description
                                 + "</div></html>"
-
                 );
 
         descriptionLabel.setForeground(
@@ -622,7 +807,7 @@ public class Home extends JFrame {
         );
 
         descriptionLabel.setFont(
-                new Font(
+                new Font(                         //creates cards that can be used as a dashboard and have data put into dynamically
                         "SansSerif",
                         Font.PLAIN,
                         15
@@ -648,22 +833,25 @@ public class Home extends JFrame {
 
         try {
 
-            FlatLightLaf.setup();
+            FlatLightLaf.setup(); //fkatlaf
 
-        } catch (Exception e) {
+        }
 
+        catch (Exception e) {
+//if there is an invalid data stop it
             e.printStackTrace();
         }
 
-        DataManager.createTable(); //connects to sqlite to check if the booking table exists and creates if there isn't a booking table
 
-        Booking latestBooking =
-                DataManager.getLatestBooking(); //searchs the database to find the most recent booking and make it a booking object
+        DataManager.createTable();
 
-        DataManager.setCurrentBooking(
-                latestBooking //this stores booking into ram so it can be called back even when restarting the application
-        );
+        DataManager.createUserTable();
+//ensures data can be stored
 
-        new Home(); //relaunches the homepage once the backend is complete.
+        DataManager.setCurrentBooking(null);  //if you log on there should be no bookings
+
+        new SignUpOrLogin();   //startes from the signup or login page
     }
 }
+
+

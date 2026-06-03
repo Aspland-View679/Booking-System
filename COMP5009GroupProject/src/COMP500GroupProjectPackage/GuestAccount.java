@@ -1,10 +1,21 @@
+
 package COMP500GroupProjectPackage;
 
 /**
- * Represents a guest account. 
- * @author <a href="mailto:njw38@kent.ac.uk">Alexis Williams</a>
+ * Represents a guest account.
+ * @author ra711
  * @version 2026-05-11
  */
 public class GuestAccount extends UserAccount {
-    // TODO: make a constructor for this!
+
+	public GuestAccount() {
+
+		super(
+
+				"Guest",
+				"guest@guest.com",
+				"",
+				"Guest"
+		);
+	}
 }

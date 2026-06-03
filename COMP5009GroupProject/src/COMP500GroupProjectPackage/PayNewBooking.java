@@ -289,35 +289,86 @@ public class PayNewBooking extends JFrame implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				if (
+			    if (
 
-				mainLogic(PayNewBooking.this, cardTypeInput, cardNumberInput, payersName, expiryMonth, expiryYear, cvv,
-						booking, billAdd)
+			        mainLogic(
 
-				) {
+			                PayNewBooking.this,
+			                cardTypeInput,
+			                cardNumberInput,
+			                payersName,
+			                expiryMonth,
+			                expiryYear,
+			                cvv,
+			                booking,
+			                billAdd
 
-					DataManager.updatePayment(
+			        )
 
-							booking.getBookingID(), getCardType(), getEncryptedCardNumber(), getBillingAddress(),
-							getBookingFee()
+			    ) {
 
-					);
+			        double originalPrice =
+			                booking.getTotalPrice();
 
-					DataManager.confirmBooking(booking.getBookingID());
+			        double finalPrice =
+			                originalPrice;
 
-					setVisible(false);
+			        double discount =
+			                DataManager.getGlobalDiscountPercentage();
 
-					sendConfirmation();
+			        if (discount > 0) {
 
-				}
+			            finalPrice =
+			                    finalPrice
+			                    - (finalPrice * (discount / 100));
 
-				else {
+			            JOptionPane.showMessageDialog(
 
-					JOptionPane.showMessageDialog(null, "Payment validation failed.");
-				}
+			                    null,
+
+			                    "Global Discount Applied: "
+			                    + discount
+			                    + "%\n"
+			                    + "Original Price: £"
+			                    + originalPrice
+			                    + "\n"
+			                    + "New Price: £"
+			                    + String.format("%.2f", finalPrice)
+			            );
+			        }
+
+			        booking.setTotalPrice(finalPrice);
+
+			        DataManager.updatePayment(
+
+			                booking.getBookingID(),
+			                getCardType(),
+			                getEncryptedCardNumber(),
+			                getBillingAddress(),
+			                getBookingFee()
+
+			        );
+
+			        DataManager.confirmBooking(
+			                booking.getBookingID()
+			        );
+
+			        setVisible(false);
+
+			        sendConfirmation();
+			    }
+
+			    else {
+
+			        JOptionPane.showMessageDialog(
+			                null,
+			                "Payment validation failed."
+			        );
+			    }
+			    
 			}
-		});
-	}
+			    });
+			}
 
 	/**
 	 * Does all assignments and checks

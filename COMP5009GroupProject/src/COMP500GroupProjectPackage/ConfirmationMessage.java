@@ -1,5 +1,6 @@
-
 package COMP500GroupProjectPackage;
+
+import com.formdev.flatlaf.FlatLightLaf;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -26,6 +27,17 @@ implements ActionListener {
 			PayNewBooking payment,
 			Booking booking
 	) {
+
+		try {
+
+			FlatLightLaf.setup();
+
+		}
+
+		catch (Exception e) {
+
+			e.printStackTrace();
+		}
 
 
 		setTitle("Booking Confirmation");
@@ -72,6 +84,26 @@ implements ActionListener {
 
 		JLabel titleLabel =
 				new JLabel("Booking Confirmed");
+
+
+		ImageIcon confirmIcon =
+				new ImageIcon(
+						"src/icons/Confirmation.png"
+				);
+
+		Image confirmImage =
+				confirmIcon.getImage().getScaledInstance(
+						55,
+						55,
+						Image.SCALE_SMOOTH
+				);
+
+		titleLabel.setIcon(
+				new ImageIcon(confirmImage)
+		);
+
+		titleLabel.setIconTextGap(15);
+
 
 		titleLabel.setFont(
 				new Font(
@@ -205,6 +237,9 @@ implements ActionListener {
 				new JLabel(
 
 						"<html><center>"
+						+ "Booking ID: "
+				        + booking.getDisplayBookingID()
+						+ "<br><br>"
 						+ "Your booking to "
 						+ booking.getAirport()
 						+ "<br><br>"

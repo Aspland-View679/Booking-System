@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.security.MessageDigest;
+
 
 /**
  * This handles all SQL database functions for the airport booking system.
@@ -19,21 +21,67 @@ import java.sql.Statement;
 
 public class DataManager {
 
-	private static final String URL = "jdbc:sqlite:bookingSystem.db"; //this is for the database location and creates it, if it doesn't exists already 
+	private static final String URL = "jdbc:sqlite:bookingSystem.db";
 
 	private static Booking currentBooking;
 
-	public static void setCurrentBooking(Booking booking) {
+	private static UserAccount currentUser;
 
-		currentBooking = booking; //Stores current booking while the application is running 
+	private static double globalDiscountPercentage = 0;
 
+	private static int globalDiscountDuration = 0;
+
+
+	public static void setCurrentUser(
+	        UserAccount user
+	) {
+
+	    currentUser = user;
 	}
+
+
+	public static UserAccount getCurrentUser() {
+
+	    return currentUser;
+	}
+
+
+	public static void setCurrentBooking(
+	        Booking booking
+	) {
+
+		currentBooking = booking;
+	}
+
 
 	public static Booking getCurrentBooking() {
 
-		return currentBooking;  //returns current booking
-
+		return currentBooking;
 	}
+
+
+	public static void setGlobalDiscount(
+	        double percentage,
+	        int durationDays
+	) {
+
+	    globalDiscountPercentage = percentage;
+
+	    globalDiscountDuration = durationDays;
+	}
+
+
+	public static double getGlobalDiscountPercentage() {
+
+	    return globalDiscountPercentage;
+	}
+
+
+	public static int getGlobalDiscountDuration() {
+
+	    return globalDiscountDuration;
+	}
+
 
 	/**
 	 * connects the application to sqlite
@@ -45,7 +93,8 @@ public class DataManager {
 
 		try {
 
-			Connection conn = DriverManager.getConnection(URL); //this attempts the sql database connection
+			Connection conn =
+			        DriverManager.getConnection(URL);
 
 			System.out.println("Connected to Database");
 
@@ -55,7 +104,7 @@ public class DataManager {
 
 		catch (SQLException e) {
 
-			System.out.println("Connection Failed"); // these tells us if the connection was successful or not
+			System.out.println("Connection Failed");
 
 			e.printStackTrace();
 
@@ -63,10 +112,9 @@ public class DataManager {
 		}
 	}
 
+
 	/**
 	 * creates the bookings tables if it doesn't exist
-	 * 
-	 * @return the database connections
 	 */
 
 	public static void createTable() {
@@ -76,40 +124,24 @@ public class DataManager {
 				"CREATE TABLE IF NOT EXISTS bookings ("
 
 						+ "bookingID INTEGER PRIMARY KEY AUTOINCREMENT,"
-
 						+ "airport TEXT NOT NULL,"
-
 						+ "pickupLocation TEXT NOT NULL,"
-
 						+ "bookingDate TEXT NOT NULL,"
-
 						+ "bookingTime TEXT NOT NULL,"
-
 						+ "luggageAmount INTEGER,"
-
 						+ "estimatedDuration INTEGER,"
-
-						+ "totalPrice REAL," //this creates the table and fields for the table
-
+						+ "totalPrice REAL,"
 						+ "paymentType TEXT,"
-
 						+ "cardNumber TEXT,"
-
 						+ "billingAddress TEXT,"
-
 						+ "bookingFee REAL,"
-
 						+ "discountCode TEXT,"
-
 						+ "discountPercentage REAL,"
-
 						+ "paid INTEGER DEFAULT 0,"
-
 						+ "amended INTEGER DEFAULT 0,"
-
 						+ "cancelled INTEGER DEFAULT 0,"
-
-						+ "confirmed INTEGER DEFAULT 0"
+						+ "confirmed INTEGER DEFAULT 0,"
+						+ "userID INTEGER"
 
 						+ ");";
 
@@ -117,7 +149,8 @@ public class DataManager {
 
 				Connection conn = connect();
 
-				Statement stmt = conn.createStatement() //Create the sql table statements
+				Statement stmt =
+				        conn.createStatement()
 
 		) {
 
@@ -130,23 +163,217 @@ public class DataManager {
 		catch (SQLException e) {
 
 			e.printStackTrace();
-
 		}
 	}
 
+
+	public static void createUserTable() {
+
+		String sql =
+
+				"CREATE TABLE IF NOT EXISTS users ("
+
+						+ "userID INTEGER PRIMARY KEY AUTOINCREMENT,"
+						+ "username TEXT NOT NULL,"
+						+ "email TEXT NOT NULL UNIQUE,"
+						+ "password TEXT NOT NULL,"
+						+ "accountType TEXT NOT NULL"
+
+						+ ");";
+
+		try (
+
+				Connection conn = connect();
+
+				Statement stmt =
+				        conn.createStatement()
+
+		) {
+
+			stmt.execute(sql);
+
+			System.out.println("Users Table Created");
+
+		}
+
+		catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+	}
+
+
+	//stores passwords as encrypted
+	
+	public static String hashPassword(
+	        String password
+	) {
+
+		try {
+
+			MessageDigest md =
+			        MessageDigest.getInstance("SHA-256");
+
+			byte[] hashedBytes =
+			        md.digest(
+			                password.getBytes()
+			        );
+
+			StringBuilder sb =
+			        new StringBuilder();
+
+			for (byte b : hashedBytes) {
+
+				sb.append(
+						String.format(
+								"%02x",
+								b
+						)
+				);
+			}
+
+			return sb.toString();
+
+		}
+
+		catch (Exception e) {
+
+			e.printStackTrace();
+//if there is an error ot will return null
+			return null;
+		}
+	}
+
+	// Create A User table
+
+	public static void createUser(
+
+	        String username,
+	        String email,
+	        String password,
+	        String accountType
+
+	) {
+
+		String sql =
+
+				"INSERT INTO users("
+
+						+ "username,"
+						+ "email,"
+						+ "password,"  //all the data being stored
+						+ "accountType"
+
+						+ ") VALUES(?,?,?,?)";
+
+		try (
+
+				Connection conn = connect();
+//ensures a connection to sql
+				PreparedStatement pstmt =
+				        conn.prepareStatement(sql)
+
+		) {
+
+			pstmt.setString(1, username);
+
+			pstmt.setString(2, email);  //sets the data into the right field
+
+			pstmt.setString(
+					3,
+					hashPassword(password)
+			);
+
+			pstmt.setString(4, accountType);
+
+			pstmt.executeUpdate();
+
+			System.out.println("User Created");  //allows the user to be created
+		}
+
+		catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+	}
+
+
+	public static UserAccount loginUser(
+
+	        String emailOrUsername,
+	        String password
+
+	) {
+
+		String sql =
+
+				"SELECT * FROM users "
+
+				+ "WHERE "
+
+				+ "(email = ? OR username = ?) "
+ //stores data from table to be used annd called for login
+				+ "AND password = ?";
+
+		try (
+
+				Connection conn = connect();
+
+				PreparedStatement pstmt =
+				        conn.prepareStatement(sql)
+
+		) {
+
+			pstmt.setString(1, emailOrUsername);
+
+			pstmt.setString(2, emailOrUsername);
+
+			pstmt.setString(
+					3,
+					hashPassword(password)
+			);
+
+			ResultSet rs =
+			        pstmt.executeQuery();
+
+			if (rs.next()) {
+
+				UserAccount user =
+				        new UserAccount(
+
+				                rs.getString("username"),
+				                rs.getString("email"),
+				                rs.getString("password"),
+				                rs.getString("accountType")
+				        );
+
+				user.setUserID(
+						rs.getInt("userID")
+				);
+
+				return user;
+			}
+
+		}
+
+		catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+
 	/**
-	 * Inserets the booking into the database
-	 * 
-	 * generates a booking ID
-	 * 
-	 * @return booking booking object to insert
+	 * Inserts the booking into database
 	 */
 
 	public static void insertBooking(
 	        Booking booking
 	) {
 
-	    String sql = //this is to save the booking into the database
+	    String sql =
 
 	            "INSERT INTO bookings("
 
@@ -156,9 +383,10 @@ public class DataManager {
 	                    + "bookingTime,"
 	                    + "luggageAmount,"
 	                    + "estimatedDuration,"
-	                    + "totalPrice"
+	                    + "totalPrice,"
+	                    + "userId"
 
-	                    + ") VALUES(?,?,?,?,?,?,?)";
+	                    + ") VALUES(?,?,?,?,?,?,?,?)";
 
 	    try (
 
@@ -170,7 +398,7 @@ public class DataManager {
 	                            Statement.RETURN_GENERATED_KEYS
 	                    )
 
-	    ) { //Inserts booking values into the SQL query
+	    ) {
 
 	        pstmt.setString(
 	                1,
@@ -207,10 +435,15 @@ public class DataManager {
 	                booking.getTotalPrice()
 	        );
 
-	        pstmt.executeUpdate(); //runs the sql insert statement
+	        pstmt.setInt(
+	                8,
+	                currentUser.getUserID()
+	        );
+
+	        pstmt.executeUpdate();
 
 	        ResultSet generatedKeys =
-	                pstmt.getGeneratedKeys(); //returns the automatic generated booking
+	                pstmt.getGeneratedKeys();
 
 	        if (generatedKeys.next()) {
 
@@ -218,7 +451,7 @@ public class DataManager {
 	                    generatedKeys.getInt(1);
 
 	            booking.setBookingID(
-	                    bookingID //Assigns sql booking id back to object
+	                    bookingID
 	            );
 
 	            System.out.println(
@@ -232,18 +465,17 @@ public class DataManager {
 	    catch (SQLException e) {
 
 	        e.printStackTrace();
-
 	    }
 	}
 
+
 	/**
-	 * Retrieves a booking using booking ID
-	 * 
-	 * @param bookingID booking ID to search for
-	 * @return SQL ResultSet
+	 * Retrieves booking using booking ID
 	 */
 
-	public static ResultSet getBooking(int bookingID) {
+	public static ResultSet getBooking(
+	        int bookingID
+	) {
 
 	    String sql =
 	            "SELECT * FROM bookings WHERE bookingID = ?";
@@ -268,102 +500,161 @@ public class DataManager {
 	        return null;
 	    }
 	}
-	
-	
+
+
+	public static Booking getBookingByDisplayID(
+	        String displayID
+	) {
+
+	    try {
+
+	        String cleanedID =
+	                displayID.replace(
+	                        "ABS-",
+	                        ""
+	                );
+
+	        int bookingID =
+	                Integer.parseInt(cleanedID);
+
+	        ResultSet rs =
+	                getBooking(bookingID);
+
+	        if (rs.next()) {
+
+	            Booking booking =
+	                    new Booking(
+
+	                            rs.getString("airport"),
+	                            rs.getString("pickupLocation"),
+	                            rs.getString("bookingDate"),
+	                            rs.getString("bookingTime"),
+	                            rs.getInt("luggageAmount"),
+	                            rs.getInt("estimatedDuration"),
+	                            rs.getDouble("totalPrice")
+	                    );
+
+	            booking.setBookingID(
+	                    rs.getInt("bookingID")
+	            );
+
+	            booking.setConfirmed(
+	                    rs.getInt("confirmed") == 1
+	            );
+
+	            booking.setCancelled(
+	                    rs.getInt("cancelled") == 1
+	            );
+
+	            return booking;
+	        }
+
+	    }
+
+	    catch (Exception e) {
+
+	        e.printStackTrace();
+	    }
+
+	    return null;
+	}
+
+
 	/**
-	 * Returns the latest booking stored in the database
-	 * 
-	 * Used to restore bookings after the application restarted
-	 * 
-	 * @return latest booking object
+	 * Returns latest booking for logged in user
 	 */
 
 	public static Booking getLatestBooking() {
 
-        String sql =
+	    if (currentUser == null) {
 
-                "SELECT * FROM bookings "
-                + "ORDER BY bookingID DESC "
-                + "LIMIT 1";
+	        return null;
+	    }
 
-        try (
+	    String sql =
 
-                Connection conn = connect();
+	    		"SELECT * FROM bookings "
+	    				+ "WHERE cancelled = 0 "
+	    				+ "AND confirmed = 0 "
+	    				+ "AND userID = ? "
+	    				+ "ORDER BY bookingID DESC "
+	    				+ "LIMIT 1";
 
-                Statement stmt =
-                        conn.createStatement();
+	    try (
 
-                ResultSet rs =
-                        stmt.executeQuery(sql)
+	            Connection conn = connect();
 
-        ) {
+	            PreparedStatement pstmt =
+	                    conn.prepareStatement(sql)
 
-            if (rs.next()) {
+	    ) {
 
-                Booking booking =
-                        new Booking(
+	        pstmt.setInt(
+	                1,
+	                currentUser.getUserID()
+	        );
 
-                                rs.getString("airport"),
-                                rs.getString("pickupLocation"),
-                                rs.getString("bookingDate"),
-                                rs.getString("bookingTime"),
-                                rs.getInt("luggageAmount"),
-                                rs.getInt("estimatedDuration"),
-                                rs.getDouble("totalPrice")
+	        ResultSet rs =
+	                pstmt.executeQuery();
 
-                        );
+	        if (rs.next()) {
 
-                booking.setBookingID(
-                        rs.getInt("bookingID")
-                );
+	            Booking booking =
+	                    new Booking(
 
-                booking.setConfirmed(
-                        rs.getInt("confirmed") == 1
-                );
+	                            rs.getString("airport"),
+	                            rs.getString("pickupLocation"),
+	                            rs.getString("bookingDate"),
+	                            rs.getString("bookingTime"),
+	                            rs.getInt("luggageAmount"),
+	                            rs.getInt("estimatedDuration"),
+	                            rs.getDouble("totalPrice")
+	                    );
 
-                booking.setCancelled(
-                        rs.getInt("cancelled") == 1
-                );
+	            booking.setBookingID(
+	                    rs.getInt("bookingID")
+	            );
 
-                return booking;
-            }
+	            booking.setConfirmed(
+	                    rs.getInt("confirmed") == 1
+	            );
 
-        }
+	            booking.setCancelled(
+	                    rs.getInt("cancelled") == 1
+	            );
 
-        catch (SQLException e) {
+	            booking.setAmended(
+	                    rs.getInt("amended") == 1
+	            );
 
-            e.printStackTrace();
+	            return booking;
+	        }
 
-        }
+	    }
 
-        return null;
-    }
+	    catch (SQLException e) {
 
-	/** 
-	 * Updates booking details in SQL database.
-	 * 
-	 * Used when a booking is amended.
-	 * 
-	 * @param bookingID booking ID
-	 * @param airport updated airport
-	 * @param pickupLocation updated location
-	 * @param bookingDate updated date
-	 * @param bookingTime updated time
-	 * @param luggageAmount updated luggage amount
-	 * @param estimatedDuration updated duration
-	 * @param totalPrice updated price
+	        e.printStackTrace();
+	    }
+
+	    return null;
+	}
+
+
+	/**
+	 * Updates booking details
 	 */
 
 	public static void updateBooking(
 
-			int bookingID,
-			String airport,
-			String pickupLocation,
-			String bookingDate,
-			String bookingTime,
-			int luggageAmount,
-			int estimatedDuration,
-			double totalPrice
+	        int bookingID,
+	        String airport,
+	        String pickupLocation,
+	        String bookingDate,
+	        String bookingTime,
+	        int luggageAmount,
+	        int estimatedDuration,
+	        double totalPrice
 
 	) {
 
@@ -386,7 +677,8 @@ public class DataManager {
 
 				Connection conn = connect();
 
-				PreparedStatement pstmt = conn.prepareStatement(sql)
+				PreparedStatement pstmt =
+				        conn.prepareStatement(sql)
 
 		) {
 
@@ -415,29 +707,21 @@ public class DataManager {
 		catch (SQLException e) {
 
 			e.printStackTrace();
-
 		}
 	}
 
+
 	/**
-	 * Updates payment information for a booking.
-	 * 
-	 * Also marks the booking as paid.
-	 * 
-	 * @param bookingID booking ID to update
-	 * @param paymentType payment method used
-	 * @param cardNumber encrypted card number
-	 * @param billingAddress billing address
-	 * @param bookingFee booking fee amount
+	 * Updates payment information
 	 */
 
 	public static void updatePayment(
 
-			int bookingID,
-			String paymentType,
-			String cardNumber,
-			String billingAddress,
-			double bookingFee
+	        int bookingID,
+	        String paymentType,
+	        String cardNumber,
+	        String billingAddress,
+	        double bookingFee
 
 	) {
 
@@ -449,7 +733,8 @@ public class DataManager {
 						+ "cardNumber = ?,"
 						+ "billingAddress = ?,"
 						+ "bookingFee = ?,"
-						+ "paid = 1 "
+						+ "paid = 1,"
+						+ "confirmed = 1 "
 
 						+ "WHERE bookingID = ?";
 
@@ -457,7 +742,8 @@ public class DataManager {
 
 				Connection conn = connect();
 
-				PreparedStatement pstmt = conn.prepareStatement(sql)
+				PreparedStatement pstmt =
+				        conn.prepareStatement(sql)
 
 		) {
 
@@ -480,23 +766,19 @@ public class DataManager {
 		catch (SQLException e) {
 
 			e.printStackTrace();
-
 		}
 	}
 
-	/** 
-	 * Applies a discount code to a booking.
-	 * 
-	 * @param bookingID booking ID to update
-	 * @param discountCode discount code entered
-	 * @param discountPercentage discount percentage applied
+
+	/**
+	 * Applies discount code
 	 */
 
 	public static void applyDiscount(
 
-			int bookingID,
-			String discountCode,
-			double discountPercentage
+	        int bookingID,
+	        String discountCode,
+	        double discountPercentage
 
 	) {
 
@@ -513,7 +795,8 @@ public class DataManager {
 
 				Connection conn = connect();
 
-				PreparedStatement pstmt = conn.prepareStatement(sql)
+				PreparedStatement pstmt =
+				        conn.prepareStatement(sql)
 
 		) {
 
@@ -532,11 +815,13 @@ public class DataManager {
 		catch (SQLException e) {
 
 			e.printStackTrace();
-
 		}
 	}
 
-	public static void cancelBooking(int bookingID) {
+
+	public static void cancelBooking(
+	        int bookingID
+	) {
 
 		String sql =
 
@@ -550,7 +835,8 @@ public class DataManager {
 
 				Connection conn = connect();
 
-				PreparedStatement pstmt = conn.prepareStatement(sql)
+				PreparedStatement pstmt =
+				        conn.prepareStatement(sql)
 
 		) {
 
@@ -565,17 +851,13 @@ public class DataManager {
 		catch (SQLException e) {
 
 			e.printStackTrace();
-
 		}
 	}
 
-	/** 
-	 * Confirms a booking inside the database.
-	 * 
-	 * @param bookingID booking ID to confirm
-	 */
 
-	public static void confirmBooking(int bookingID) {
+	public static void confirmBooking(
+	        int bookingID
+	) {
 
 		String sql =
 
@@ -589,7 +871,8 @@ public class DataManager {
 
 				Connection conn = connect();
 
-				PreparedStatement pstmt = conn.prepareStatement(sql)
+				PreparedStatement pstmt =
+				        conn.prepareStatement(sql)
 
 		) {
 
@@ -604,17 +887,17 @@ public class DataManager {
 		catch (SQLException e) {
 
 			e.printStackTrace();
-
 		}
 	}
 
-	/** 
-	 * Deletes a booking completely from the database.
-	 * 
-	 * @param bookingID booking ID to delete
+
+	/**
+	 * Deletes booking completely
 	 */
 
-	public static void deleteBooking(int bookingID) {
+	public static void deleteBooking(
+	        int bookingID
+	) {
 
 		String sql =
 
@@ -624,7 +907,8 @@ public class DataManager {
 
 				Connection conn = connect();
 
-				PreparedStatement pstmt = conn.prepareStatement(sql)
+				PreparedStatement pstmt =
+				        conn.prepareStatement(sql)
 
 		) {
 
@@ -639,7 +923,6 @@ public class DataManager {
 		catch (SQLException e) {
 
 			e.printStackTrace();
-
 		}
 	}
 }

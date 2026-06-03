@@ -12,46 +12,52 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.WindowConstants;
 
+//creates the window for amend booking
+
 public class AmendBooking extends JFrame {
 
 	JComboBox<String> airportBox;
 	JSpinner luggageSpinner;
 	JTextField pickupField;
 	JTextField dateField;
-	JTextField timeField;
+	JTextField timeField;  //All the fields that are being used for this
 
 	JButton updateButton;
 	JButton cancelButton;
 
 	public AmendBooking() {
 
-		Booking booking = DataManager.getCurrentBooking();
+		Booking booking = DataManager.getCurrentBooking();  //Gets the current booking and return nothing if nothing is in the databse
 
 		if (booking == null) {
 
-			JOptionPane.showMessageDialog(
-					null,
-					"Please create a booking first."
-			);
+			
+					JOptionPane.showMessageDialog(
+					        null,
+					        "Booking amended successfully."  //The window that will show up after you amend your booking properly
+					);
 
-			new Home();
+					setVisible(false);
 
-			return;
+					new BookingSummary(booking);   //formats the raw data into a structured layout
+
+			return; //returns data to try and format it
+			
 		}
 
 		try {
 
 			DateTimeFormatter formatter =
-			        DateTimeFormatter.ofPattern("dd/MM/yyyy");
+			        DateTimeFormatter.ofPattern("dd/MM/yyyy");  //Ensures the date is in a day month year format otherwise not valid
 
 			LocalDate bookingDate =
 			        LocalDate.parse(
-			                booking.getBookingDate(),
+			                booking.getBookingDate(),  //ensures the today date is in the right format by breaking it down 
 			                formatter
 			        );
 
 			long daysUntilBooking =
-					ChronoUnit.DAYS.between(
+					ChronoUnit.DAYS.between(  //How many days is there between now until your travel
 							LocalDate.now(),
 							bookingDate
 					);
@@ -60,23 +66,25 @@ public class AmendBooking extends JFrame {
 
 				JOptionPane.showMessageDialog(
 						null,
-						"Bookings cannot be amended within 7 days of travel."
+						"Bookings cannot be amended within 7 days of travel." //Shows up if your trip is in 7 days or less
 				);
 
-				new BookingSummary(booking);
+				new Home(); //returns that frame otherwise
 
 				return;
 			}
 
-		} catch (Exception e) {
+		}
+
+		catch (Exception e) {
 
 			JOptionPane.showMessageDialog(
 					null,
-					"Date format issue detected."
+					"Date format issue detected."  //This will be the reason why you can amend your booking if it is 7 days or more
 			);
 		}
 
-		setTitle("Amend Booking");
+		setTitle("Amend Booking");  //This is the window pane for amend booking and this creates the windows and amends it
 
 		setSize(950, 700);
 
@@ -84,7 +92,7 @@ public class AmendBooking extends JFrame {
 
 		setLayout(new BorderLayout());
 
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);  //Closes on closing the application
 
 
 		//Main background panel
@@ -119,12 +127,12 @@ public class AmendBooking extends JFrame {
 
 
 		JLabel title =
-				new JLabel("Amend Existing Booking");
-		
-		ImageIcon amendIcon = new ImageIcon(
+				new JLabel("Amend Existing Booking"); //Formating a label that can be used later
+
+		ImageIcon amendIcon = new ImageIcon(  //Icon for amend booking
 				"src/icons/AmendBooking.png"
-				);
-		
+		);
+
 		Image amendImage =
 		        amendIcon.getImage().getScaledInstance(
 		                40,
@@ -135,7 +143,7 @@ public class AmendBooking extends JFrame {
 		title.setIcon(new ImageIcon(amendImage));
 
 		title.setIconTextGap(15);
-				
+
 
 		title.setFont(
 				new Font(
@@ -146,7 +154,7 @@ public class AmendBooking extends JFrame {
 		);
 
 		title.setForeground(
-				new Color(30, 30, 30)
+				new Color(30, 30, 30)  //Setting up the boarders of the panel and the size of the icon and setting the fonts
 		);
 
 
@@ -191,7 +199,7 @@ public class AmendBooking extends JFrame {
 		amendCard.setBackground(Color.WHITE);
 
 		amendCard.setBorder(
-				BorderFactory.createCompoundBorder(
+				BorderFactory.createCompoundBorder(  //setting the boarder
 
 						BorderFactory.createLineBorder(
 								new Color(220, 220, 220),
@@ -199,7 +207,7 @@ public class AmendBooking extends JFrame {
 								true
 						),
 
-						new EmptyBorder(35, 35, 35, 35)
+						new EmptyBorder(35, 35, 35, 35) //padding
 				)
 		);
 
@@ -219,7 +227,7 @@ public class AmendBooking extends JFrame {
 
 
 		GridBagConstraints gbc =
-				new GridBagConstraints();
+				new GridBagConstraints();  //ensuring all the text boxes aka grids are even and in the center
 
 		gbc.insets =
 				new Insets(15, 15, 15, 15);
@@ -251,7 +259,7 @@ public class AmendBooking extends JFrame {
 				"London City Airport - UK",
 				"Birmingham Airport - UK",
 				"Bristol Airport - UK",
-				"Liverpool John Lennon Airport - UK",
+				"Liverpool John Lennon Airport - UK",  //All the airports you can chose and amend on
 				"Leeds Bradford Airport - UK",
 				"Newcastle Airport - UK",
 				"East Midlands Airport - UK",
@@ -268,7 +276,7 @@ public class AmendBooking extends JFrame {
 		};
 
 		airportBox =
-				new JComboBox<>(airports);
+				new JComboBox<>(airports); //creates the dropdown menu for you to select
 
 		airportBox.setSelectedItem(
 				booking.getAirport()
@@ -552,7 +560,7 @@ public class AmendBooking extends JFrame {
 		buttonPanel.setBackground(Color.WHITE);
 
 		buttonPanel.add(updateButton);
-
+                                               //Add buttons for updating and cancel and home and summary
 		buttonPanel.add(cancelButton);
 
 		buttonPanel.add(homeButton);
@@ -577,13 +585,13 @@ public class AmendBooking extends JFrame {
 
 		backgroundPanel.add(
 				cardWrapper,
-				BorderLayout.CENTER
+				BorderLayout.CENTER  //makes sure evrything is centered
 		);
 
 		add(backgroundPanel);
 
 
-		updateButton.addActionListener(
+		updateButton.addActionListener(  //the button to use while catching empty fields or anuthing invalid.
 				new ActionListener() {
 
 					@Override
@@ -591,74 +599,131 @@ public class AmendBooking extends JFrame {
 							ActionEvent e
 					) {
 
-						booking.setAirport(
-								airportBox.getSelectedItem().toString()
-						);
+						try {
 
-						booking.setLuggageAmount(
-								(int) luggageSpinner.getValue()
-						);
+							if (pickupField.getText().trim().isEmpty()) {
 
-						booking.setPickupLocation(
-								pickupField.getText()
-						);
+								JOptionPane.showMessageDialog(
+										null,
+										"Pickup location cannot be empty."
+								);
 
-						booking.setBookingDate(
-								dateField.getText()
-						);
+								return;
+							}
 
-						booking.setBookingTime(
-								timeField.getText()
-						);
+							DateTimeFormatter formatter =
+									DateTimeFormatter.ofPattern(
+											"dd/MM/yyyy"
+									);
 
-						DataManager.updateBooking(
+							LocalDate amendedDate =
+									LocalDate.parse(
+											dateField.getText(),
+											formatter
+									);
 
-						        booking.getBookingID(),
-						        booking.getAirport(),
-						        booking.getPickupLocation(),
-						        booking.getBookingDate(),
-						        booking.getBookingTime(),
-						        booking.getLuggageAmount(),
-						        booking.getEstimatedDuration(),
-						        booking.getTotalPrice()
+							if (amendedDate.isBefore(LocalDate.now())) {
 
-						);
+								JOptionPane.showMessageDialog(
+										null,
+										"Date cannot be in the past."
+								);
 
-						JOptionPane.showMessageDialog(
-								null,
-								"Booking amended successfully."
-						);
+								return;
+							}
+
+							booking.setAirport(
+									airportBox.getSelectedItem().toString()
+							);
+
+							booking.setLuggageAmount(
+									(int) luggageSpinner.getValue()
+							);
+
+							booking.setPickupLocation(
+									pickupField.getText().trim()
+							);
+
+							booking.setBookingDate(
+									amendedDate.format(formatter)
+							);
+
+							booking.setBookingTime(
+									timeField.getText().trim()
+							);
+
+							booking.setAmended(true);
+
+							DataManager.updateBooking(
+
+									booking.getBookingID(),
+									booking.getAirport(),
+									booking.getPickupLocation(),
+									booking.getBookingDate(),
+									booking.getBookingTime(),  //Updates everything in the database and gets rid of the old data
+									booking.getLuggageAmount(),
+									booking.getEstimatedDuration(),
+									booking.getTotalPrice()
+
+							);
+
+							DataManager.setCurrentBooking(
+									booking
+							);
+
+							JOptionPane.showMessageDialog(
+									null,
+									"Booking amended successfully."  //Tells the user if successful
+							);
+
+							setVisible(false);
+
+							new Home(); //goes to a new from of this one
+
+						}
+
+						catch (Exception ex) {
+
+							JOptionPane.showMessageDialog(
+									null,
+									"Please enter a valid date using DD/MM/YYYY."  //if invalid it will show the user why.
+							);
+						}
 					}
 				});
 
 
-		summaryButton.addActionListener(e -> {
+				summaryButton.addActionListener(e -> {
 
-			setVisible(false);
+				    setVisible(false); //hdies window
 
-			new BookingSummary(DataManager.getCurrentBooking());
+				    new BookingSummary(
+				            DataManager.getCurrentBooking()  //saves for a later use
+				    );
 
-		});
+				});
+			
 
 
 		cancelButton.addActionListener(e -> {
 
-			setVisible(false);
-
-			new BookingSummary(DataManager.getCurrentBooking());
-
-		});
-
-
-		homeButton.addActionListener(e -> {
-
-			setVisible(false);
+			setVisible(false);  //the cancel button
 
 			new Home();
 
 		});
 
 
-		setVisible(true);
+		homeButton.addActionListener(e -> {
+
+			setVisible(false);  //doesnt allow the panel to be seen
+
+			new Home();
+
+		});
+
+
+		setVisible(true);  //allows the panel to be seen
 	}
 }
+

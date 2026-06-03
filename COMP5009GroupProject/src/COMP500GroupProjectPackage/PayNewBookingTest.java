@@ -12,18 +12,22 @@ import javax.swing.JTextField;
 import org.junit.jupiter.api.Test;
 
 public class PayNewBookingTest {
+	
 	private PayNewBooking myPayBooking = new PayNewBooking(null);
 	private LocalDate today = LocalDate.now();
 	private Integer month = today.getMonthValue();
 	private Integer year = today.getYear();
+	
 	JFrame payFrame = new JFrame();
 	String[] types = {"Visa", "Mastercard"};
 	JComboBox<String> cardType = new JComboBox(types);
 	JTextField cardNumber = new JTextField();
 	JTextField billAdd = new JTextField();
+	
 	JTextField expiryMonthInput = new JTextField();
 	JTextField expiryYearInput = new JTextField();
 	JTextField cvv = new JTextField();
+	
 	Booking booking = new Booking("London", "Canterbury", "11/07/2006", "20:30", 5, 120, 5.55);
 	JTextField name = new JTextField();
 	
@@ -94,6 +98,23 @@ public class PayNewBookingTest {
 		billAdd.setText("UOK");
 		expiryYearInput.setText("2028");
 		name.setText("Oliver");
+		
+		DataManager.createUser(
+		        "TestUser",
+		        "test@test.com",
+		        "password123",
+		        "Guest"
+		);
+
+		UserAccount user =
+		        DataManager.loginUser(
+		                "test@test.com",
+		                "password123"
+		        );
+
+		DataManager.setCurrentUser(user);
+
+		DataManager.insertBooking(booking);
 
 		DataManager.insertBooking(booking);
 

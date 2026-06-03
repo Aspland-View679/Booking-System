@@ -1,127 +1,163 @@
 package COMP500GroupProjectPackage;
 
-
 /**
- * Stores all data of the booking 
+ * Stores all data of the booking
  */
 
 public class Booking {
-    
-    
+
 	private String airport;
 	private String pickupLocation;
 	private String bookingDate;
 	private String bookingTime;
-	
+	private boolean amended;
+
 	private int luggageAmount;
 	private int estimatedDuration;
 	private int bookingID;
-	
+
 	private double totalPrice;
 	
+	private double discountedPrice;
+
 	private boolean confirmed;
 	private boolean cancelled;
 
-	
 	public Booking(
+			
 			String airport,
 			String pickupLocation,
-			String bookingDate,    // Saves the data you inputed on new Booking
-			String bookingTime,
+			String bookingDate,
+			String bookingTime,  // Saves the data you inputed on new Booking
 			int luggageAmount,
 			int estimatedDuration,
 			double totalPrice
+			
+			
+			
 	) {
+
 		this.airport = airport;
-		this.pickupLocation = pickupLocation;  // this section assign a function to a method or object to pass through
+		
+		this.pickupLocation = pickupLocation;
+		
 		this.bookingDate = bookingDate;
-		this.bookingTime = bookingTime;
 		
+		this.bookingTime = bookingTime;      // this section assign a function to a method or object to pass through
+
 		this.luggageAmount = luggageAmount;
-		this.estimatedDuration = estimatedDuration;
 		
+		this.estimatedDuration = estimatedDuration;
+
 		this.totalPrice = totalPrice;
 		
-		 confirmed = false; // Set to false as it isnt confirmed or payed
-		 cancelled = false;
+		this.discountedPrice = totalPrice;
+
+		confirmed = false;
+		
+		cancelled = false;  // Set to false as it isnt confirmed or payed or amend
+		
+		amended = false;
 	}
 	
-    public String getAirport() {
-        return airport;
-    }
+	public boolean isAmended() {
+	    return amended;
+	}
 
-    public String getPickupLocation() {
-        return pickupLocation;
-    }
+	public void setAmended(boolean amended) {
+	    this.amended = amended;
+	}
 
-    public String getBookingDate() {
-        return bookingDate;
-    }
+	public String getAirport() {
+		return airport;
+	}
 
-    public String getBookingTime() {
-        return bookingTime;
-    }
+	public String getPickupLocation() {
+		return pickupLocation;
+	}
 
-    public int getLuggageAmount() {
-        return luggageAmount;
-    }
+	public String getBookingDate() {
+		return bookingDate;
+	}
 
-    public int getEstimatedDuration() {
-        return estimatedDuration;
-    }
+	public String getBookingTime() {
+		return bookingTime;
+	}
 
-    public double getTotalPrice() {
-        return totalPrice;
-    }
+	public int getLuggageAmount() {
+		return luggageAmount;
+	}
 
-    public boolean isConfirmed() {
-        return confirmed;
-    }
+	public int getEstimatedDuration() {
+		return estimatedDuration;
+	}
 
-    public boolean isCancelled() {
-        return cancelled;
-    }
-    public void setAirport(String airport) {
-        this.airport = airport;
-    }
+	public double getTotalPrice() {
+		return totalPrice;
+	}
+	
+	public double getDiscountedPrice() {
+		return discountedPrice;
+	}
 
-    public void setPickupLocation(String pickupLocation) {
-        this.pickupLocation = pickupLocation;
-    }
+	public boolean isConfirmed() {
+		return confirmed;
+	}
 
-    public void setBookingDate(String bookingDate) {
-        this.bookingDate = bookingDate;
-    }
+	public boolean isCancelled() {
+		return cancelled;
+	}
 
-    public void setBookingTime(String bookingTime) {
-        this.bookingTime = bookingTime;
-    }
+	public void setAirport(String airport) {
+		this.airport = airport;
+	}
 
-    public void setLuggageAmount(int luggageAmount) {
-        this.luggageAmount = luggageAmount;
-    }
+	public void setPickupLocation(String pickupLocation) {
+		this.pickupLocation = pickupLocation;
+	}
 
-    public void setEstimatedDuration(int estimatedDuration) {
-        this.estimatedDuration = estimatedDuration;
-    }
+	public void setBookingDate(String bookingDate) {
+		this.bookingDate = bookingDate;
+	}
 
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
+	public void setBookingTime(String bookingTime) {
+		this.bookingTime = bookingTime;
+	}
 
-    public void setConfirmed(boolean confirmed) {
-        this.confirmed = confirmed;
-    }
+	public void setLuggageAmount(int luggageAmount) {
+		this.luggageAmount = luggageAmount;
+	}
 
-    public void setCancelled(boolean cancelled) {
-        this.cancelled = cancelled;
-    }
-    
+	public void setEstimatedDuration(int estimatedDuration) {
+		this.estimatedDuration = estimatedDuration;
+	}
+
+	public void setTotalPrice(double totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+	
+	public void setDiscountedPrice(double discountedPrice) {
+		this.discountedPrice = discountedPrice;
+	}
+
+	public void setConfirmed(boolean confirmed) {
+		this.confirmed = confirmed;
+	}
+
+	public void setCancelled(boolean cancelled) {
+		this.cancelled = cancelled;
+	}
+
 	public int getBookingID() {
-	    return bookingID;
+		return bookingID;
+	}
+	
+	public String getDisplayBookingID() {  //Unique booking Id
+
+		return "ABS-" + bookingID;
 	}
 
 	public void setBookingID(int bookingID) {
-	    this.bookingID = bookingID;
+		this.bookingID = bookingID;
 	}
-} //This section is getters and set to ensure all the fields are filled
+}  //This section is getters and set to ensure all the fields are filled

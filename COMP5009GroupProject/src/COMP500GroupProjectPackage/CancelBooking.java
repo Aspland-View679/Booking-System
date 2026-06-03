@@ -1,22 +1,26 @@
-
 package COMP500GroupProjectPackage;
 
+import com.formdev.flatlaf.FlatLightLaf;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+
 import java.util.ArrayList;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-public class CancelBooking {
+public class CancelBooking extends JFrame {
 
 	private Booking bookingToCancel;
 
@@ -30,10 +34,13 @@ public class CancelBooking {
 		return bookingToCancel;
 	}
 
+
 	public static void main(String[] args) {
-		CancelBooking c = new CancelBooking();
+
+		new CancelBooking();
 	}
-	
+
+
 	/**
 	 * setBookingToCancel - sets the booking which needs to be cancelled
 	 * @param - bookingToCancel - the booking needing to be cancelled
@@ -46,130 +53,522 @@ public class CancelBooking {
 		this.bookingToCancel = bookingToCancel;
 	}
 
+
 	public CancelBooking() {
-
-		JFrame mainCancelFrame =
-				new JFrame();
-
-		mainCancelFrame.setSize(500, 500);
-
-		mainCancelFrame.setLayout(null);
 
 		try {
 
-			String sql =
-					"SELECT bookingID FROM bookings";
+			FlatLightLaf.setup();
 
-			Connection myConn =
-					DataManager.connect();
+		}
 
-			PreparedStatement pst =
-					myConn.prepareStatement(sql);
+		catch (Exception e) {
 
-			ResultSet values =
-					pst.executeQuery();
+			e.printStackTrace();
+		}
+
+		setTitle("Cancel Booking");
+
+		setSize(900, 650);
+
+		setLocationRelativeTo(null);
+
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		setLayout(new BorderLayout());
 
 
-			ArrayList<Integer> ids =
-					new ArrayList<>();
+		//Main background panel
+
+		JPanel backgroundPanel =
+				new JPanel(new BorderLayout());
+
+		backgroundPanel.setBackground(
+				new Color(245, 245, 245)
+		);
 
 
-			while (values.next()) {
+		//Heading section
 
-				ids.add(
-						values.getInt("bookingID")
+		JPanel headingPanel =
+				new JPanel();
+
+		headingPanel.setBackground(
+				new Color(245, 245, 245)
+		);
+
+		headingPanel.setBorder(
+				new EmptyBorder(30, 40, 10, 40)
+		);
+
+		headingPanel.setLayout(
+				new BoxLayout(
+						headingPanel,
+						BoxLayout.Y_AXIS
+				)
+		);
+
+
+		JLabel titleLabel =
+				new JLabel("Cancel Booking");
+
+
+		ImageIcon cancelIcon =
+				new ImageIcon(
+						"src/icons/CancelBooking.png"
 				);
+
+		Image cancelImage =
+				cancelIcon.getImage().getScaledInstance(
+						55,
+						55,
+						Image.SCALE_SMOOTH
+				);
+
+		titleLabel.setIcon(
+				new ImageIcon(cancelImage)
+		);
+
+		titleLabel.setIconTextGap(15);
+
+
+		titleLabel.setFont(
+				new Font(
+						"SansSerif",
+						Font.BOLD,
+						34
+				)
+		);
+
+		titleLabel.setForeground(
+				new Color(30, 30, 30)
+		);
+
+
+		JLabel subtitle =
+				new JLabel(
+						"Search and cancel customer bookings"
+				);
+
+		subtitle.setFont(
+				new Font(
+						"SansSerif",
+						Font.PLAIN,
+						16
+				)
+		);
+
+		subtitle.setForeground(
+				new Color(90, 90, 90)
+		);
+
+
+		headingPanel.add(titleLabel);
+
+		headingPanel.add(
+				Box.createRigidArea(
+						new Dimension(0, 8)
+				)
+		);
+
+		headingPanel.add(subtitle);
+
+
+		//Main cancellation card
+
+		JPanel cancelCard =
+				new JPanel();
+
+		cancelCard.setLayout(
+				new GridBagLayout()
+		);
+
+		cancelCard.setBackground(Color.WHITE);
+
+		cancelCard.setBorder(
+				BorderFactory.createCompoundBorder(
+
+						BorderFactory.createLineBorder(
+								new Color(220, 220, 220),
+								1,
+								true
+						),
+
+						new EmptyBorder(35, 35, 35, 35)
+				)
+		);
+
+
+		JPanel cardWrapper =
+				new JPanel(new BorderLayout());
+
+		cardWrapper.setBackground(
+				new Color(245, 245, 245)
+		);
+
+		cardWrapper.setBorder(
+				new EmptyBorder(10, 40, 40, 40)
+		);
+
+		cardWrapper.add(cancelCard);
+
+
+		GridBagConstraints gbc =
+				new GridBagConstraints();
+
+		gbc.insets =
+				new Insets(15, 15, 15, 15);
+
+		gbc.fill =
+				GridBagConstraints.HORIZONTAL;
+
+
+		//Search booking section
+
+		JLabel searchLabel =
+				new JLabel("Search Booking");
+
+		searchLabel.setFont(
+				new Font(
+						"SansSerif",
+						Font.BOLD,
+						15
+				)
+		);
+
+
+		JTextField searchField =
+				new JTextField();
+
+		searchField.setPreferredSize(
+				new Dimension(350, 40)
+		);
+
+
+		JButton searchButton =
+				new JButton("Search");
+
+		searchButton.setFocusPainted(false);
+
+		searchButton.setBorderPainted(false);
+
+		searchButton.setBackground(
+				new Color(155, 109, 255)
+		);
+
+		searchButton.setForeground(Color.WHITE);
+
+		searchButton.setFont(
+				new Font(
+						"SansSerif",
+						Font.BOLD,
+						14
+				)
+		);
+
+
+		//Booking dropdown section
+
+		JLabel bookingLabel =
+				new JLabel("Select Booking");
+
+		bookingLabel.setFont(
+				new Font(
+						"SansSerif",
+						Font.BOLD,
+						15
+				)
+		);
+
+
+		JComboBox<String> bookingBox =
+				new JComboBox<>();
+
+		//This is going to be populated with all of booking ids
+
+		bookingBox.setPreferredSize(
+				new Dimension(350, 40)
+		);
+
+
+		JLabel warn =
+				new JLabel();
+
+		warn.setText(
+				"You cannot cancel 24hrs before travel"
+		);
+
+		warn.setForeground(
+				new Color(200, 70, 70)
+		);
+
+		warn.setFont(
+				new Font(
+						"SansSerif",
+						Font.PLAIN,
+						14
+				)
+		);
+
+
+		JButton cancelBtn =
+				new JButton("Cancel Booking");
+
+		cancelBtn.setPreferredSize(
+				new Dimension(220, 50)
+		);
+
+		cancelBtn.setFocusPainted(false);
+
+		cancelBtn.setBorderPainted(false);
+
+		cancelBtn.setBackground(
+				new Color(220, 70, 70)
+		);
+
+		cancelBtn.setForeground(Color.WHITE);
+
+		cancelBtn.setFont(
+				new Font(
+						"SansSerif",
+						Font.BOLD,
+						15
+				)
+		);
+
+
+		JButton homeButton =
+				new JButton("Return Home");
+
+		homeButton.setPreferredSize(
+				new Dimension(180, 50)
+		);
+
+		homeButton.setFocusPainted(false);
+
+		homeButton.setBorderPainted(false);
+
+		homeButton.setBackground(
+				new Color(230, 230, 230)
+		);
+
+		homeButton.setFont(
+				new Font(
+						"SansSerif",
+						Font.BOLD,
+						15
+				)
+		);
+
+
+		//Adds components to card
+
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+
+		cancelCard.add(searchLabel, gbc);
+
+
+		gbc.gridx = 1;
+
+		cancelCard.add(searchField, gbc);
+
+
+		gbc.gridx = 2;
+
+		cancelCard.add(searchButton, gbc);
+
+
+		gbc.gridx = 0;
+		gbc.gridy++;
+
+		cancelCard.add(bookingLabel, gbc);
+
+
+		gbc.gridx = 1;
+		gbc.gridwidth = 2;
+
+		cancelCard.add(bookingBox, gbc);
+
+
+		gbc.gridx = 0;
+		gbc.gridy++;
+
+		gbc.gridwidth = 3;
+
+		cancelCard.add(warn, gbc);
+
+
+		JPanel buttonPanel =
+				new JPanel(
+						new FlowLayout(
+								FlowLayout.CENTER,
+								20,
+								10
+						)
+				);
+
+		buttonPanel.setBackground(Color.WHITE);
+
+		buttonPanel.add(cancelBtn);
+
+		buttonPanel.add(homeButton);
+
+
+		gbc.gridx = 0;
+		gbc.gridy++;
+
+		cancelCard.add(buttonPanel, gbc);
+
+
+		//Adds everything to frame
+
+		backgroundPanel.add(
+				headingPanel,
+				BorderLayout.NORTH
+		);
+
+		backgroundPanel.add(
+				cardWrapper,
+				BorderLayout.CENTER
+		);
+
+		add(backgroundPanel);
+
+
+		//Search logic
+
+		searchButton.addActionListener(e -> {
+
+			try {
+
+				bookingBox.removeAllItems();
+
+				String search =
+						searchField.getText().trim();
+
+				String sql =
+
+						"SELECT * FROM bookings "
+
+						+ "WHERE "
+
+						+ "pickupLocation LIKE ? "
+
+						+ "OR bookingID LIKE ?";
+
+
+				Connection conn =
+						DataManager.connect();
+
+				PreparedStatement pstmt =
+						conn.prepareStatement(sql);
+
+				pstmt.setString(
+						1,
+						"%" + search + "%"
+				);
+				
+				search =
+				        search.replace(
+				                "ABS-",
+				                ""
+				        );
+
+				pstmt.setString(
+						2,
+						"%" + search + "%"
+				);
+
+
+				ResultSet rs =
+						pstmt.executeQuery();
+
+
+				while (rs.next()) {
+
+					String bookingDisplay =
+
+							"ABS-"
+							+ rs.getInt("bookingID")
+							+ " | "
+							+ rs.getString("pickupLocation")
+							+ " -> "
+							+ rs.getString("airport");
+
+
+					bookingBox.addItem(
+							bookingDisplay
+					);
+				}
+
 			}
 
+			catch (SQLException ex) {
 
-			Integer[] bookingIds =
-					ids.toArray(new Integer[0]);
-
-
-			JComboBox<Integer> bookingID =
-					new JComboBox<>(bookingIds);
-
-			//This is going to be populated with all of booking ids
-
-			bookingID.setBounds(
-					180,
-					180,
-					150,
-					30
-			);
-
-			mainCancelFrame.add(bookingID);
+				ex.printStackTrace();
+			}
+		});
 
 
-			JLabel label =
-					new JLabel();
+		cancelBtn.addActionListener(
+				new ActionListener() {
 
-			label.setBounds(
-					180,
-					150,
-					150,
-					30
-			);
+			@Override
+			public void actionPerformed(
+					ActionEvent e
+			) {
 
-			label.setText("Cancel Booking ID");
+				// TODO Auto-generated method stub
 
-			mainCancelFrame.add(label);
+				try {
 
+					String selected =
+							(String) bookingBox.getSelectedItem();
 
-			JButton cancelBtn =
-					new JButton();
-
-			cancelBtn.setBounds(
-					180,
-					240,
-					150,
-					40
-			);
-
-			cancelBtn.setText("Cancel Booking");
-
-			mainCancelFrame.add(cancelBtn);
-
-
-			JLabel warn =
-					new JLabel();
-
-			warn.setBounds(
-					110,
-					300,
-					300,
-					30
-			);
-
-			warn.setText(
-					"You cannot cancel 24hrs before travel"
-			);
-
-			mainCancelFrame.add(warn);
-
-
-			cancelBtn.addActionListener(
-					new ActionListener() {
-
-				@Override
-				public void actionPerformed(
-						ActionEvent e
-				) {
-
-					// TODO Auto-generated method stub
-
-					if (
-							mainLogic(
-									(int) bookingID.getSelectedItem()
-							)
-					) {
-
-						mainCancelFrame.setVisible(false);
+					if (selected == null) {
 
 						JOptionPane.showMessageDialog(
 								null,
-								"Cancelled!"
+								"No booking selected"
 						);
+
+						return;
+					}
+
+
+					String bookingIDText =
+
+							selected.substring(
+									4,
+									selected.indexOf("|")
+							).trim();
+
+
+					int bookingID =
+							Integer.parseInt(bookingIDText);
+
+
+					if (mainLogic(bookingID)) {
+
+					    JOptionPane.showMessageDialog(
+					            null,
+					            "Booking cancelled successfully!"
+					    );
+
+					    bookingBox.removeItem(selected);
+
+					    searchField.setText("");
+
+					    if (bookingBox.getItemCount() == 0) {
+
+					        searchButton.doClick();
+					    }
+					
+
+						setVisible(false);
+
+						new Home();
 					}
 
 					else {
@@ -179,18 +578,27 @@ public class CancelBooking {
 								"Booking could not be cancelled."
 						);
 					}
+
 				}
-			});
+
+				catch (Exception ex) {
+
+					ex.printStackTrace();
+				}
+			}
+		});
 
 
-			mainCancelFrame.setVisible(true);
+		homeButton.addActionListener(e -> {
 
-		}
+			setVisible(false);
 
-		catch (SQLException e) {
+			new Home();
 
-			e.printStackTrace();
-		}
+		});
+
+
+		setVisible(true);
 	}
 
 
@@ -200,8 +608,18 @@ public class CancelBooking {
 
 		try {
 
+			Connection conn =
+			        DataManager.connect();
+
+			PreparedStatement pstmt =
+			        conn.prepareStatement(
+			                "SELECT * FROM bookings WHERE bookingID = ?"
+			        );
+
+			pstmt.setInt(1, bookingID);
+
 			ResultSet bookingFound =
-					DataManager.getBooking(bookingID);
+			        pstmt.executeQuery();
 
 
 			if (!bookingFound.next()) {
@@ -222,6 +640,7 @@ public class CancelBooking {
 	                         bookingFound.getDouble("totalPrice")
 	                 );
 
+
 			setBookingToCancel(booking);
 
 
@@ -231,6 +650,13 @@ public class CancelBooking {
 			String airport =
 					booking.getAirport();
 			
+			bookingFound.close();
+
+			pstmt.close();
+
+			conn.close();
+
+
 			if (isCancellable(date)) {
 
 				DataManager.cancelBooking(bookingID);
@@ -267,71 +693,72 @@ public class CancelBooking {
 	 */
 
 	public boolean isCancellable(
-			String dateOfBooking
-	) {
+            String dateOfBooking
+    ) {
 
-		LocalDate today =
-				LocalDate.now();
+        LocalDate today =
+                LocalDate.now();
 
-		Integer dateOfMonth =
-				today.getDayOfMonth();
+        Integer dateOfMonth =
+                today.getDayOfMonth();
 
-		Integer month =
-				today.getMonthValue();
+        Integer month =
+                today.getMonthValue();
 
-		Integer year =
-				today.getYear();
+        Integer year =
+                today.getYear();
 
-		String[] splitDate =
-				dateOfBooking.split("/");
+        String[] splitDate =
+                dateOfBooking.split("/");
 
-		Integer bookingDate =
-				Integer.parseInt(splitDate[0]);
-
-
-		Integer bookingMonth =
-				Integer.parseInt(splitDate[1]);
+        Integer bookingDate =
+                Integer.parseInt(splitDate[0]);
 
 
-		//The below 2 if statements make the month and year x instead of 0x in line with month and year not starting with 0
-
-		if (
-				bookingDate.toString().startsWith("0")
-		) {
-
-			bookingDate =
-					Integer.parseInt(
-							bookingDate.toString()
-							.replaceFirst("0", "")
-					);
-		}
+        Integer bookingMonth =
+                Integer.parseInt(splitDate[1]);
 
 
-		if (
-				bookingMonth.toString().startsWith("0")
-		) {
+        //The below 2 if statements make the month and year x instead of 0x in line with month and year not starting with 0
 
-			bookingMonth =
-					Integer.parseInt(
-							bookingMonth.toString()
-							.replaceFirst("0", "")
-					);
-		}
+        if (
+                bookingDate.toString().startsWith("0")
+        ) {
 
-
-		Integer bookingYear =
-				Integer.parseInt(splitDate[2]);
+            bookingDate =
+                    Integer.parseInt(
+                            bookingDate.toString()
+                            .replaceFirst("0", "")
+                    );
+        }
 
 
-		if ((bookingYear >= year) && (bookingMonth >= month)) {
-			return true;
-		} else {
-			if ((bookingYear == year) && (bookingMonth == month) && (bookingDate-dateOfMonth)>=1) {
-				return true;
-			}
-			return false;
-		}
-	}
+        if (
+                bookingMonth.toString().startsWith("0")
+        ) {
+
+            bookingMonth =
+                    Integer.parseInt(
+                            bookingMonth.toString()
+                            .replaceFirst("0", "")
+                    );
+        }
+
+
+        Integer bookingYear =
+                Integer.parseInt(splitDate[2]);
+
+
+        if ((bookingYear >= year) && (bookingMonth >= month)) {
+            return true;
+        } else {
+            if ((bookingYear == year) && (bookingMonth == month) && (bookingDate-dateOfMonth)>=1) {
+                return true;
+            }
+            return false;
+        }
+    }
+
 	/**
 	* changeDuration - reduces duration for other user bookings due to this cancellation
 	* @param date - the date of the booking
@@ -346,7 +773,7 @@ public class CancelBooking {
 		try {
 
 			Connection con =
-					DataManager.connect();
+			        DataManager.connect();
 
 			String sql =
 					"SELECT * FROM bookings WHERE bookingDate = ? AND airport = ?";
@@ -390,7 +817,7 @@ public class CancelBooking {
 
 				bookings.add(bAdd);
 			}
-
+			
 
 			for (Booking booking : bookings) {
 
@@ -420,4 +847,3 @@ public class CancelBooking {
 		}
 	}
 }
-

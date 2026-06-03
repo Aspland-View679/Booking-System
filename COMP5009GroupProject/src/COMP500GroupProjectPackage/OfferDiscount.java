@@ -200,14 +200,14 @@ public class OfferDiscount extends JFrame {
                 double percentage =
                         Double.parseDouble(
                                 percentageField.getText()
-                        );			//As percentages can be like 19.93% instead of having to be rounded to 19 or 20%
+                        );
 
                 int duration =
                         Integer.parseInt(
                                 durationField.getText()
                         );
 
-                if (percentage <= 0 || percentage > 100) {	//Has to be a percentage which doesn't make the booking more than what the cost is or a negative number (ie negative percentages) 
+                if (percentage <= 0 || percentage > 100) {
 
                     JOptionPane.showMessageDialog(
                             null,
@@ -217,7 +217,7 @@ public class OfferDiscount extends JFrame {
                     return;
                 }
 
-                if (duration <= 0) {		//Is the duration set for any amount of time - as we must apply for a discount for a certain period of time
+                if (duration <= 0) {
 
                     JOptionPane.showMessageDialog(
                             null,
@@ -230,7 +230,7 @@ public class OfferDiscount extends JFrame {
                 DataManager.setGlobalDiscount(
                         percentage,
                         duration
-                );			//Allows us to actually store all the discount details in our database
+                );
 
                 JOptionPane.showMessageDialog(
                         null,
@@ -252,7 +252,7 @@ public class OfferDiscount extends JFrame {
 
             setVisible(false);
 
-            new Home();		//Closes the Frame and diverts user back to the home page
+            new Home();
 
         });
 
