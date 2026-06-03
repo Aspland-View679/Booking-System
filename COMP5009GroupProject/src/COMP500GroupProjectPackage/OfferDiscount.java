@@ -6,6 +6,9 @@ import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.Box;
+import javax.swing.JTextField;
+import javax.swing.JOptionPane;
+import javax.swing.JButton;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -22,8 +25,11 @@ public class OfferDiscount extends JFrame {
 	private int discountPercentage;
 	private int durationInDays;
 	private JButton applyButton;
+	private JButton homeButton;
+	private JTextField percentageField;
+	private JTextField durationField;
 	
-	public OfferDiscount {
+	public OfferDiscount() {
         setTitle("Offer Discount");
 
         setSize(950, 700);              
@@ -111,6 +117,146 @@ public class OfferDiscount extends JFrame {
 
         headingPanel.add(subtitle);
         
+        JPanel formPanel =
+                new JPanel();
+
+        formPanel.setBackground(Color.WHITE);
+
+        formPanel.setBorder(
+                new EmptyBorder(40, 40, 40, 40)
+        );
+
+        formPanel.setLayout(
+                new java.awt.GridLayout(
+                        3,
+                        2,
+                        20,
+                        20
+                )
+        );
+
+
+        JLabel percentageLabel =
+                new JLabel("Discount Percentage:");
+
+        percentageField =
+                new JTextField();
+
+
+        JLabel durationLabel =
+                new JLabel("Duration In Days:");
+
+        durationField =
+                new JTextField();
+
+
+        applyButton =
+                new JButton("Apply Discount");
+
+        applyButton.setBackground(
+                new Color(155, 109, 255)
+        );
+
+        applyButton.setForeground(Color.WHITE);
         
-	}
+        homeButton =
+                new JButton("Return Home");
+
+        homeButton.setBackground(
+                new Color(230, 230, 230)
+        );
+
+
+        formPanel.add(percentageLabel);
+
+        formPanel.add(percentageField);
+
+        formPanel.add(durationLabel);
+
+        formPanel.add(durationField);
+
+        formPanel.add(applyButton);
+
+        formPanel.add(homeButton);
+        
+        
+        backgroundPanel.add(
+                headingPanel,
+                BorderLayout.NORTH
+                
+        );
+        
+        backgroundPanel.add(
+                formPanel,
+                BorderLayout.CENTER
+        );
+
+        add(backgroundPanel);
+        
+        applyButton.addActionListener(e -> {
+
+            try {
+
+                double percentage =
+                        Double.parseDouble(
+                                percentageField.getText()
+                        );			//As percentages can be like 19.93% instead of having to be rounded to 19 or 20%
+
+                int duration =
+                        Integer.parseInt(
+                                durationField.getText()
+                        );
+
+                if (percentage <= 0 || percentage > 100) {	//Has to be a percentage which doesn't make the booking more than what the cost is or a negative number (ie negative percentages) 
+
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Discount must be between 1 and 100."
+                    );
+
+                    return;
+                }
+
+                if (duration <= 0) {		//Is the duration set for any amount of time - as we must apply for a discount for a certain period of time
+
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Duration must be above 0."
+                    );
+
+                    return;
+                }
+
+                DataManager.setGlobalDiscount(
+                        percentage,
+                        duration
+                );			//Allows us to actually store all the discount details in our database
+
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Global discount applied successfully."
+                );
+
+            }
+
+            catch (Exception ex) {
+
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Invalid input."
+                );
+            }
+        });
+        
+        homeButton.addActionListener(e -> {
+
+            setVisible(false);
+
+            new Home();		//Closes the Frame and diverts user back to the home page
+
+        });
+
+        setVisible(true);
+    }
 }
+	
