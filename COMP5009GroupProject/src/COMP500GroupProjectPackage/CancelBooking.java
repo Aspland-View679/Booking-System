@@ -222,7 +222,6 @@ public class CancelBooking {
 	                         bookingFound.getDouble("totalPrice")
 	                 );
 
-
 			setBookingToCancel(booking);
 
 
@@ -231,8 +230,7 @@ public class CancelBooking {
 
 			String airport =
 					booking.getAirport();
-
-
+			
 			if (isCancellable(date)) {
 
 				DataManager.cancelBooking(bookingID);
@@ -325,22 +323,15 @@ public class CancelBooking {
 				Integer.parseInt(splitDate[2]);
 
 
-		if (
-				((bookingDate - dateOfMonth) <= 1)
-				&& (bookingMonth == month)
-				&& (bookingYear == year)
-		) {
-
+		if ((bookingYear >= year) && (bookingMonth >= month)) {
+			return true;
+		} else {
+			if ((bookingYear == year) && (bookingMonth == month) && (bookingDate-dateOfMonth)>=1) {
+				return true;
+			}
 			return false;
 		}
-
-		else {
-
-			return true;
-		}
 	}
-
-
 	/**
 	* changeDuration - reduces duration for other user bookings due to this cancellation
 	* @param date - the date of the booking

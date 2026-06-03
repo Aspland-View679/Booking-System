@@ -3,6 +3,7 @@ package COMP500GroupProjectPackage;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.Before;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 public class CancelBookingTest {
@@ -18,14 +19,15 @@ public class CancelBookingTest {
 					45.45
 			);
 	
-	private Booking myBookingToCancelCanDo =  new Booking("London", "Canterbury", "11/07/2028", "12:30", 2, 3, 45.45);
-	private Booking myBookingToCancelCannotDo =  new Booking("London", "Canterbury", "11/07/2006", "12:30", 2, 3, 45.45);
+	private static Booking myBookingToCancelCanDo =  new Booking("London", "Canterbury", "11/07/2028", "12:30", 2, 3, 45.45);
+	private static Booking myBookingToCancelCannotDo =  new Booking("London", "Canterbury", "11/07/2006", "12:30", 2, 3, 45.45);
 
-	Booking goodBooking;
-	Booking badBooking;
+	static Booking goodBooking;
+	static Booking badBooking;
 
-	@Before
-	public void insert() {
+	@BeforeAll
+	public static void insert() {
+		DataManager.connect();
 		DataManager.insertBooking(myBookingToCancelCanDo);
 		goodBooking = DataManager.getLatestBooking();
 		DataManager.insertBooking(myBookingToCancelCannotDo);
@@ -72,6 +74,11 @@ public class CancelBookingTest {
 				)
 		);
 
+	}
+	
+	@Test
+	public void isNotCancellablePastDate() {
+		assertEquals(false, cancelledBooking.isCancellable("11/02/2003"));
 	}
 	
 	@Test 
