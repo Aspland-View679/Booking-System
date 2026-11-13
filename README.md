@@ -57,11 +57,9 @@ It also gave me valuable experience working with other developers, managing code
 
 Acknowledgements
 
-Developed collaboratively by Rosie Aspland, Oliver and Lexi as part of COMP5009 at the University of Kent.
+Developed collaboratively by Rosie Aspland, Oliver and Lexi while at the University of Kent.
 
-# COMP5009 Group Project
 
-The repo for both COMP5009 A1, A2, and A3
 
 ## Members 
 
