@@ -1,6 +1,3 @@
-
-COMP5009 — Booking System
-
 About the Project
 
 This project was developed during my second year of studying Computer Science with Artificial Intelligence at the University of Kent.
